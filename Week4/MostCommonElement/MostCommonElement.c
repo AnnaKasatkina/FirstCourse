@@ -4,65 +4,73 @@
 чтобы сортировка была в отдельном модуле и читала входные данные из файла.
 */
 
-#include "Sort.h"
+// #include "Sort.h"
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
+#include <malloc.h>
 
-void print(int* array, int length)
+void print(int const* const array, const size_t length)
 {
-	for (int i = 0; i < length; i++)
-		printf("%d ", array[i]);
-	printf("\n\n");
+    for (size_t i = 0; i < length; ++i)
+        printf("%d ", array[i]);
+    printf("\n\n");
 }
 
-int mostCommonElement(int* array, int length)
+int mostCommonElement(int* const array, const size_t length)
 {
-	int count = 1;
-	int max = 0;
-	int answer = 0;
-	for (int i = 1; i < length; ++i)
-	{
-		if (array[i] == array[i - 1])
-		{
-			count++;
-		}
-		else
-		{
-			if (count >= max)
-			{
-				answer = array[i - 1];
-				max = count;
-				count = 1;
-			}
-			count = 1;
-		}
-	}
-	return answer;
+    int count = 1;
+    int max = 0;
+    int answer = 0;
+    for (size_t i = 1; i < length; ++i)
+    {
+        if (array[i] == array[i - 1])
+        {
+            count++;
+        }
+        else
+        {
+            if (count >= max)
+            {
+                answer = array[i - 1];
+                max = count;
+                count = 1;
+            }
+            count = 1;
+        }
+    }
+    return answer;
 }
 
 int main(void)
 {
-	FILE* file = fopen("Array.txt", "r");
+    FILE* file = fopen("Array.txt", "r");
 
-	int array[100] = { 0 };
-	int length = 0;
+    size_t length = 0;
+    int value = 0;
+    while (!feof(file))
+    {
+        if (fscanf(file, "%d ", &value) > 0)
+        {
+            length++;
+        }
+    }
+    int* array = (int*)calloc(length, sizeof(int));
 
-	while (!feof(file)) 
-	{
-		const int readBytes = fscanf(file, "%d ", &array[length]);
-		if (readBytes < 0) 
-		{
-			break;
-		}
-		++length;
-	}
-	fclose(file);
+    for (size_t i = 0; i < length; ++i)
+    {
+        if (fscanf(file, "%d ", &array[length]) != 1)
+        {
+            printf("Error!");
+        }
+    }
 
-	insertionSort(array, 0, length - 1);
+    fclose(file);
 
-	printf("%d the most common element in the array: ", mostCommonElement(array, length));
-	print(array, length);
+    insertionSort(array, 0, length - 1);
 
-	return 0;
+    printf("%d the most common element in the array: ", mostCommonElement(array, length));
+    print(array, length);
+
+    return 0;
 }
