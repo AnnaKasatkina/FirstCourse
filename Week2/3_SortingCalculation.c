@@ -15,14 +15,17 @@
 #include <time.h>
 #include <stdbool.h>
 
+#define LEN 100000
+#define RANGE 100000
+
 typedef void (*SortMethod)(int *const, const size_t);
 
 void randomFilling(int *const array, const size_t length)
 {
     srand(time(NULL));
-    for (size_t i = 0; i < length; i++)
+    for (size_t i = 0; i < length; ++i)
     {
-        array[i] = rand();
+        array[i] = rand() % RANGE;
     }
 }
 
@@ -41,16 +44,16 @@ int searchMaximum(int const *const array, const size_t length)
 
 void printArray(int const *const array, const size_t length)
 {
-    for (size_t i = 0; i < length; i++)
+    for (size_t i = 0; i < length; ++i)
         printf("%d ", array[i]);
     printf("\n\n");
 }
 
 void bubbleSort(int *const array, const size_t length)
 {
-    for (size_t i = 1; i < length; i++)
+    for (size_t i = 1; i < length; ++i)
     {
-        for (size_t j = 1; j < length; j++)
+        for (size_t j = 1; j < length - i + 1; ++j)
         {
             if (array[j] < array[j - 1])
             {
@@ -86,83 +89,60 @@ void countSort(int *const array, const size_t length)
     free(sortedMask);
 }
 
-bool compareArrays(int const *const rightTestingArray, int const *const testingArray, const size_t length)
+bool compareArrays(int const *const array1, int const *const rightArray, const size_t length)
 {
-    bool identical = true;
     for (size_t i = 0; i < length; ++i)
     {
-        if (rightTestingArray[i] != testingArray[i])
+        if (array1[i] != rightArray[i])
         {
-            identical = false;
+            return false;
         }
     }
-    return identical;
+    return true;
+}
+
+void printRezult(const bool rezult, const char *const nameTest, const char *const method)
+{
+    if (rezult)
+    {
+        printf("Test %s with %s is OK\n", nameTest, method);
+    }
+    else
+    {
+        printf("Test %s with %s failed with an error\n", nameTest, method);
+    }
 }
 
 void testReverseArray()
 {
     const size_t length = 5;
-    int testingArrayOne[] = {5, 4, 3, 2, 1};
-    int testingArrayTwo[] = {5, 4, 3, 2, 1};
-    int rightTestingArray[] = {1, 2, 3, 4, 5};
-    int max = searchMaximum(testingArrayOne, length);
-    int lenghtMask = max + 1;
-    int *sortedMask = (int *)calloc(lenghtMask, sizeof(int));
+    int array1[] = {5, 4, 3, 2, 1};
+    int array2[] = {5, 4, 3, 2, 1};
+    int rightArray[] = {1, 2, 3, 4, 5};
 
-    bubbleSort(testingArrayOne, length);
-    if (compareArrays(rightTestingArray, testingArrayOne, length))
-    {
-        printf("Test Reverse Array with bubbleSort is OK\n");
-    }
-    else
-    {
-        printf("Test Reverse Array with bubbleSort failed with an error\n");
-    }
+    bubbleSort(array1, length);
+    const bool rezult1 = compareArrays(array1, rightArray, length);
+    printRezult(rezult1, "ReverseArray", "bubbleSort");
 
-    countSort(testingArrayTwo, length);
-    if (compareArrays(rightTestingArray, testingArrayTwo, length))
-    {
-        printf("Test Reverse Array with countSort is OK\n\n");
-    }
-    else
-    {
-        printf("Test Reverse Array with countSort failed with an error\n\n");
-    }
-
-    free(sortedMask);
+    countSort(array2, length);
+    const bool rezult2 = compareArrays(array2, rightArray, length);
+    printRezult(rezult1, "ReverseArray", "countSort");
 }
 
 void testIdenticalElements()
 {
     const size_t length = 5;
-    int testingArrayOne[] = {2, 2, 2, 2, 2};
-    int testingArrayTwo[] = {2, 2, 2, 2, 2};
-    int rightTestingArray[] = {2, 2, 2, 2, 2};
-    int max = searchMaximum(testingArrayOne, length);
-    int lenghtMask = max + 1;
-    int *sortedMask = (int *)calloc(lenghtMask, sizeof(int));
+    int array1[] = {2, 2, 2, 2, 2};
+    int array2[] = {2, 2, 2, 2, 2};
+    int rightArray[] = {2, 2, 2, 2, 2};
 
-    bubbleSort(testingArrayOne, length);
-    if (compareArrays(rightTestingArray, testingArrayOne, length))
-    {
-        printf("Test Identical Elements with bubbleSort is OK\n");
-    }
-    else
-    {
-        printf("Test Identical Elements with bubbleSort failed with an error\n");
-    }
+    bubbleSort(array1, length);
+    const bool rezult1 = compareArrays(array1, rightArray, length);
+    printRezult(rezult1, "IdenticalElements", "bubbleSort");
 
-    countSort(testingArrayTwo, length);
-    if (compareArrays(rightTestingArray, testingArrayTwo, length))
-    {
-        printf("Test Identical Elements with countSort is OK\n\n");
-    }
-    else
-    {
-        printf("Test Identical Elements with countSort failed with an error\n\n");
-    }
-
-    free(sortedMask);
+    countSort(array2, length);
+    const bool rezult2 = compareArrays(array2, rightArray, length);
+    printRezult(rezult1, "IdenticalElements", "countSort");
 }
 
 double calcDuration(SortMethod method, int *const array, const size_t length)
@@ -180,16 +160,16 @@ int main(void)
     testReverseArray();
     testIdenticalElements();
 
-    printf("Select the operating mode:\n"
+    printf("\nSelect the operating mode:\n"
            "1. Measuring the running time on an array of 100,000 elements\n"
            "2. User input\n"
            "Your choice: ");
-    const size_t choice = 0;
-    scanf("%d", &choice);
+    size_t choice = 0;
+    scanf("%lu", &choice);
 
     if (choice == 1)
     {
-        const size_t length = 100000;
+        const size_t length = LEN;
         int *array = (int *)calloc(length, sizeof(int));
         randomFilling(array, length);
 
@@ -206,7 +186,7 @@ int main(void)
     {
         printf("Enter the length of the array: ");
         const size_t length = 0;
-        scanf("%d", &length);
+        scanf("%lu", &length);
 
         int *array = (int *)calloc(length, sizeof(int));
         randomFilling(array, length);
@@ -221,6 +201,8 @@ int main(void)
         printf("BubbleSort array:\n");
         bubbleSort(array, length);
         printArray(array, length);
+
+        free(array);
     }
     else
     {
