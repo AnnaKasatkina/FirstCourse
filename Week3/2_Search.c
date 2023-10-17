@@ -27,15 +27,15 @@ int compare(const void *i, const void *j)
     return *(int *)i - *(int *)j;
 }
 
-void binarySearch(const size_t number, int const *const array, const size_t length)
+void binarySearch(const int number, int const *const array, const size_t length)
 {
-    int left = 0;
-    int right = length - 1;
+    size_t left = 0;
+    size_t right = length - 1;
     bool find = false;
 
     while (left <= right)
     {
-        int middle = (left + right) / 2;
+        const size_t middle = (left + right) / 2;
         if (number < array[middle])
         {
             right = middle - 1;
@@ -59,14 +59,14 @@ void binarySearch(const size_t number, int const *const array, const size_t leng
 
 int main(void)
 {
-    const size_t number = 0;
-    const size_t length = 0;
+    int number = 0;
+    size_t length = 0;
 
     printf("Enter length of array and number of numbers: ");
-    scanf("%d %d", &length, &number);
+    scanf("%lu %d", &length, &number);
 
-    int *array = (int *)calloc(length, sizeof(int));
-    int *numbersArray = (int *)calloc(number, sizeof(int));
+    int *array = (int *)malloc(length * sizeof(int));
+    int *numbersArray = (int *)malloc(length * sizeof(int));
 
     randomFilling(array, length);
     randomFilling(numbersArray, number);
