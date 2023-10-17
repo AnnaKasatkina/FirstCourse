@@ -14,20 +14,22 @@
 #include <time.h>
 #include <stdbool.h>
 
+#define RANGE 10000
+
 void randomFilling(int *const array, const size_t length)
 {
     srand(time(NULL));
-    for (size_t i = 0; i < length; i++)
+    for (size_t i = 0; i < length; ++i)
     {
-        array[i] = rand();
+        array[i] = rand() % RANGE;
     }
 }
 
-void swap(int *const array, size_t i, size_t j)
+void swap(int *const array, const size_t i, const size_t j)
 {
     int intermediate = array[j];
-    array[j] = array[i + 1];
-    array[i + 1] = intermediate;
+    array[j] = array[i];
+    array[i] = intermediate;
 }
 
 void halfQSort(int *const array, const size_t length)
@@ -39,98 +41,90 @@ void halfQSort(int *const array, const size_t length)
     {
         if (array[i] > array[i + 1])
         {
-            swap(array, i, i);
-            i++;
+            swap(array, i + 1, i);
+            ++i;
         }
         else
         {
-            swap(array, i, j);
-            j--;
+            swap(array, i + 1, j);
+            --j;
         }
     }
 }
 
-bool compareArrays(int const *const rightTestingArray, int const *const testingArray, const size_t length)
+bool compareArrays(int const *const array1, int const *const array2, const size_t length)
 {
-    bool identical = true;
     for (size_t i = 0; i < length; ++i)
     {
-        if (rightTestingArray[i] != testingArray[i])
+        if (array1[i] != array2[i])
         {
-            identical = false;
+            return false;
         }
     }
-    return identical;
+    return true;
+}
+
+void printRezult(const bool rezult, const char *const nameTest)
+{
+    if (rezult)
+    {
+        printf("Test %s is OK\n", nameTest);
+    }
+    else
+    {
+        printf("Test %s failed with an error\n", nameTest);
+    }
 }
 
 void testIncreasingArray()
 {
     const size_t length = 5;
-    int testingArray[] = {0, 1, 2, 3, 4};
-    int rightTestingArray[] = {0, 2, 3, 4, 1};
+    int array1[] = {0, 1, 2, 3, 4};
+    int array2[] = {0, 2, 3, 4, 1};
 
-    halfQSort(testingArray, length);
-    if (compareArrays(rightTestingArray, testingArray, length))
-    {
-        printf("Test Increasing Array is OK\n");
-    }
-    else
-    {
-        printf("Test Increasing Array failed with an error\n");
-    }
+    halfQSort(array1, length);
+    const bool rezult = compareArrays(array1, array2, length);
+    printRezult(rezult, "Increasing Array");
 }
 
 void testDecreasingArray()
 {
     const size_t length = 10;
-    int testingArray[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-    int rightTestingArray[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 10};
+    int array1[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int array2[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 10};
 
-    halfQSort(testingArray, length);
-    if (compareArrays(rightTestingArray, testingArray, length))
-    {
-        printf("Test Decreasing Array is OK\n");
-    }
-    else
-    {
-        printf("Test Decreasing Array failed with an error\n");
-    }
+    halfQSort(array1, length);
+    const bool rezult = compareArrays(array1, array2, length);
+    printRezult(rezult, "Decreasing Array");
 }
 
 void testIdenticalCharacters()
 {
     const size_t length = 15;
-    int testingArray[] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
-    int rightTestingArray[] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+    int array1[] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+    int array2[] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
 
-    halfQSort(testingArray, length);
-    if (compareArrays(rightTestingArray, testingArray, length))
-    {
-        printf("Test Identical Characters is OK\n");
-    }
-    else
-    {
-        printf("Test Identical Characters failed with an error\n");
-    }
+    halfQSort(array1, length);
+    const bool rezult = compareArrays(array1, array2, length);
+    printRezult(rezult, "Identical Characters");
 }
 
 void printArray(int const *const array, const size_t length)
 {
-    for (size_t i = 0; i < length; i++)
+    for (size_t i = 0; i < length; ++i)
         printf("%d ", array[i]);
     printf("\n\n");
 }
 
 int main()
 {
-
     testIncreasingArray();
     testDecreasingArray();
     testIdenticalCharacters();
 
     printf("Enter the length of the array: ");
     const size_t length = 0;
-    scanf("%d", &length);
+    scanf("%lu", &length);
 
     int *array = (int *)calloc(length, sizeof(int));
     randomFilling(array, length);
@@ -141,6 +135,8 @@ int main()
     halfQSort(array, length);
     printf("\nSorting array: ");
     printArray(array, length);
+
+    free(array);
 
     return 0;
 }
