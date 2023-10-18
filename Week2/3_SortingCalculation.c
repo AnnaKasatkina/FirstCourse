@@ -8,8 +8,6 @@
 */
 
 #include <stdio.h>
-#include <malloc.h>
-#include <conio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
@@ -73,16 +71,16 @@ void countSort(int *const array, const size_t length)
 
     for (size_t i = 0; i < length; ++i)
     {
-        sortedMask[array[i]]++;
+        ++sortedMask[array[i]];
     }
 
     int index = 0;
     for (size_t i = 0; i < lenghtMask; ++i)
     {
-        for (size_t j = sortedMask[i]; j > 0; j--)
+        for (size_t j = sortedMask[i]; j > 0; --j)
         {
             array[index] = i;
-            index++;
+            ++index;
         }
     }
 
@@ -126,7 +124,7 @@ void testReverseArray()
 
     countSort(array2, length);
     const bool rezult2 = compareArrays(array2, rightArray, length);
-    printRezult(rezult1, "ReverseArray", "countSort");
+    printRezult(rezult2, "ReverseArray", "countSort");
 }
 
 void testIdenticalElements()
@@ -142,7 +140,7 @@ void testIdenticalElements()
 
     countSort(array2, length);
     const bool rezult2 = compareArrays(array2, rightArray, length);
-    printRezult(rezult1, "IdenticalElements", "countSort");
+    printRezult(rezult2, "IdenticalElements", "countSort");
 }
 
 double calcDuration(SortMethod method, int *const array, const size_t length)
@@ -185,7 +183,7 @@ int main(void)
     else if (choice == 2)
     {
         printf("Enter the length of the array: ");
-        const size_t length = 0;
+        size_t length = 0;
         scanf("%lu", &length);
 
         int *array = (int *)calloc(length, sizeof(int));
