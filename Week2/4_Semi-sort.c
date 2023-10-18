@@ -123,7 +123,7 @@ int main()
     testIdenticalCharacters();
 
     printf("Enter the length of the array: ");
-    const size_t length = 0;
+    size_t length = 0;
     scanf("%lu", &length);
 
     int *array = (int *)calloc(length, sizeof(int));
