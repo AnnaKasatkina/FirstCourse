@@ -23,17 +23,19 @@ ErrorCode push(struct Stack** head, const int value())
 	return ok;
 }
 
-ErrorCode pop(struct Stack** head)
+int pop(struct Stack** head)
 {
 	if (*head == NULL)
 	{
 		return 404;
 	}
+
 	struct Stack* trash = *head;
+	int value = trash->value;
 	*head = (*head)->previous;
 	free(trash);
 
-	return 0;
+	return value;
 }
 
 ErrorCode freeStack(struct Stack** head)
