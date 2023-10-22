@@ -30,19 +30,21 @@ int main(void)
         }
         else
         {
+            int second = pop(&digits);
+            int first = pop(&digits);
             switch (*character)
             {
             case '+':
-                push(&digits, pop(&digits) + pop(&digits));
+                push(&digits, first + second);
                 break;
             case '/':
-                push(&digits, pop(&digits) / pop(&digits));
+                push(&digits, first / second);
                 break;
             case '*':
-                push(&digits, pop(&digits) * pop(&digits));
+                push(&digits, first * second);
                 break;
             case '-':
-                push(&digits, pop(&digits) - pop(&digits));
+                push(&digits, first - second);
                 break;
             default:
                 break;
