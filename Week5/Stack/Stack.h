@@ -13,8 +13,8 @@ typedef struct Stack Stack;
 //Функция добавления элемента в Стек
 ErrorCode push(Stack** head, const int value());
 
-//Функция удаления элемента из Стека
-ErrorCode pop(Stack** head);
+//Функция удаления и вывода элемента из Стека
+int pop(Stack** head);
 
 //Функция удаления Стека
 ErrorCode freeStack(Stack** head);
