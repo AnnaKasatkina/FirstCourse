@@ -26,30 +26,30 @@ int main(void)
     {
         if (isdigit(*character))
         {
-            push(digits, (int)*character - '0');
+            push(&digits, (int)*character - '0');
         }
         else
         {
             switch (*character)
             {
             case '+':
-                push(digits, pop(digits) + pop(digits));
+                push(&digits, pop(&digits) + pop(&digits));
                 break;
             case '/':
-                push(digits, pop(digits) / pop(digits));
+                push(&digits, pop(&digits) / pop(&digits));
                 break;
             case '*':
-                push(digits, pop(digits) * pop(digits));
+                push(&digits, pop(&digits) * pop(&digits));
                 break;
             case '-':
-                push(digits, pop(digits) - pop(digits));
+                push(&digits, pop(&digits) - pop(&digits));
                 break;
             default:
                 break;
             }
         }
     }
-    printf("%d", pop(digits));
+    printf("%d", pop(&digits));
 
     return 0;
 }
