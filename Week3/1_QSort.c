@@ -10,10 +10,13 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <assert.h>
+#include <stdbool.h>
 
-void scanfArray(int *array, int lenght)
+#define LEN 10
+
+void scanfArray(int* array, size_t length)
 {
-    for (int i = 0; i < lenght; i++)
+    for (size_t i = 0; i < length; ++i)
     {
         if (scanf("%d", &array[i]) != 1)
         {
@@ -23,106 +26,127 @@ void scanfArray(int *array, int lenght)
     }
 }
 
-void printing(int *array, int lenght)
+void printArray(int* array, size_t length)
 {
-    for (int i = 0; i < lenght; i++)
+    for (size_t i = 0; i < length; ++i)
         printf("%d ", array[i]);
     printf("\n\n");
 }
 
-int movementOfSigns(int *array, int left, int right)
+void insertionSort(int* start, int* end)
 {
-    int pivot = array[(left + right) / 2];
-    while (left <= right)
+    int* index = start + 1;
+    for (index; index != end; ++index)
     {
-        while (array[left] < pivot)
+        int newElement = *index;
+        int* location = index - 1;
+        while (location >= start && *location > newElement)
         {
-            left++;
+            *(location + 1) = *location;
+            --location;
         }
-
-        while (array[right] > pivot)
-        {
-            right--;
-        }
-
-        int temp = array[left];
-        array[left] = array[right];
-        array[right] = temp;
-
-        left++;
-        right--;
-    }
-
-    return left;
-}
-
-void insertionSort(int *array, int start, int end)
-{
-    for (start + 1; start < end; start++)
-    {
-        int sorted = start;
-        while (sorted > -1 && array[sorted] > array[sorted + 1])
-        {
-            int temp = array[sorted];
-            array[sorted] = array[sorted + 1];
-            array[sorted + 1] = temp;
-            sorted--;
-        }
+        *(location + 1) = newElement;
     }
 }
 
-void quickSort(int *array, int start, int end)
+void swap(int* number1, int* number2)
 {
-    if (end - start < 10)
+    int tmp = *number1;
+    *number1 = *number2;
+    *number2 = tmp;
+}
+
+void quickSort(int* begin, int* end)
+{
+    if (end - begin <= 1)
     {
-        insertionSort(array, start, end);
         return;
     }
-    int rightStart = movementOfSigns(array, start, end);
 
-    quickSort(array, start, rightStart - 1);
-    quickSort(array, rightStart, end);
+    if (end - begin <= 10)
+    {
+        insertionSort(begin, end);
+        return;
+    }
+
+    int* swapMarker = begin - 1;
+    int* pivot = end - 1;
+    int* pivotPos = NULL;
+    for (int* currentIndex = begin; currentIndex != end; currentIndex++)
+    {
+        if (*currentIndex <= *pivot)
+        {
+            swapMarker++;
+            if (currentIndex > swapMarker)
+            {
+                swap(currentIndex, swapMarker);
+            }
+
+            if (currentIndex == pivot)
+            {
+                pivotPos = swapMarker;
+            }
+        }
+    }
+    quickSort(begin, pivotPos);
+    quickSort(pivotPos + 1, end);
 }
 
-void testArray(int *rightTestingArray, int *testingArray, int lenght)
+bool compareArrays(int const* const array1, int const* const array2, const size_t length)
 {
-    for (int i = 0; i < lenght; ++i)
+    for (size_t i = 0; i < length; ++i)
     {
-        assert(rightTestingArray[i] == testingArray[i]);
+        if (array1[i] != array2[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void printRezult(const bool rezult, const char* const nameTest)
+{
+    if (rezult)
+    {
+        printf("Test %s is OK\n", nameTest);
+    }
+    else
+    {
+        printf("Test %s failed with an error\n", nameTest);
     }
 }
 
 void testIncreasingArray()
 {
-    int lenght = 15;
-    int testingArray[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
-    int rightTestingArray[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+    const size_t length = 5;
+    int array1[] = { 0, 1, 2, 3, 4 };
+    int array2[] = { 0, 1, 2, 3, 4 };
 
-    quickSort(testingArray, 0, lenght);
-    testArray(rightTestingArray, testingArray, lenght);
-    printf("Test Increasing Array is OK\n");
+    quickSort(array1, array1 + length);
+    const bool rezult = compareArrays(array1, array2, length);
+    printRezult(rezult, "Increasing Array");
 }
 
 void testDecreasingArray()
 {
-    int lenght = 10;
-    int testingArray[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-    int rightTestingArray[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    const size_t length = 10;
+    int array1[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    int array2[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-    quickSort(testingArray, 0, lenght);
-    testArray(rightTestingArray, testingArray, lenght);
-    printf("Test Decreasing Array is OK\n");
+    quickSort(array1, array1 + length);
+    const bool rezult = compareArrays(array1, array2, length);
+    printRezult(rezult, "Decreasing Array");
 }
 
 void testIdenticalCharacters()
 {
-    int lenght = 15;
-    int testingArray[] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
-    int rightTestingArray[] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+    const size_t length = 15;
+    int array1[] = { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+    int array2[] = { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
 
-    quickSort(testingArray, 0, lenght);
-    testArray(rightTestingArray, testingArray, lenght);
-    printf("Test Identical Characters is OK\n");
+    quickSort(array1, array1 + length);
+    const bool rezult = compareArrays(array1, array2, length);
+    printRezult(rezult, "Identical Characters");
 }
 
 int main(void)
@@ -131,19 +155,19 @@ int main(void)
     testDecreasingArray();
     testIdenticalCharacters();
 
-    int lenght = 0;
-    printf("Enter lenght of array: ");
-    if (scanf("%d", &lenght) != 1)
+    size_t length = 0;
+    printf("Enter length of array: ");
+    if (scanf("%lu", &length) != 1)
     {
         printf("Input error");
         return 1;
     }
 
-    int *array = calloc(lenght, sizeof(int));
-    scanfArray(array, lenght);
+    int* array = (int*)calloc(length, sizeof(int));
+    scanfArray(array, length);
 
-    quickSort(array, 0, lenght - 1);
-    printing(array, lenght);
+    quickSort(array, array + length);
+    printArray(array, length);
 
     free(array);
     return 0;
