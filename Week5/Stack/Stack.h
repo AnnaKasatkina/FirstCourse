@@ -11,7 +11,7 @@ typedef enum ErrorCode
 typedef struct Stack Stack;
 
 //Add element in Stack
-ErrorCode push(Stack** head, const int value());
+ErrorCode push(Stack** head, int value);
 
 //Delete and return top element from Stack
 int pop(Stack** head);

@@ -1,8 +1,49 @@
 #include "Stack.h"
-#include <string.h>
-#include <stdio.h>
+#include "PostfixCalculator.h"
 
-#define LEN 256
+#include <stdlib.h>
+
+char* getString(ErrorCode *errorCode)
+{
+    int length = 0;
+    int capacity = 1;
+
+    char* string = (char*)malloc(sizeof(char));
+    if (string == NULL)
+    {
+        *errorCode = outOfMemory;
+        return 0;
+    }
+
+    char character = getchar();
+
+    while (character != '\n')
+    {
+        string[length++] = character;
+
+        if (length >= capacity)
+        {
+            capacity *= 2;
+            char* tmp = (char*)realloc(string, capacity * sizeof(char));
+            if (tmp != NULL)
+            {
+                string = tmp;
+            }
+            else
+            {
+                *errorCode = outOfMemory;
+                return 0;
+            }
+        }
+
+        character = getchar();
+
+    }
+
+    string[length] = '\0';
+
+    return string;
+}
 
 void removeSpaces(char* string)
 {
@@ -13,15 +54,12 @@ void removeSpaces(char* string)
         {
             ++character;
         }
-    } while (*string++ = *character++);
+    } while (*string++ = *(character++));
 }
 
-int main(void)
+int postfixCalculator(char* string)
 {
     Stack* digits = NULL;
-    char string[LEN] = "";
-    gets(string);
-    removeSpaces(string);
     for (char* character = string; *character != '\0'; ++character)
     {
         if (isdigit(*character))
@@ -51,7 +89,5 @@ int main(void)
             }
         }
     }
-    printf("%d", pop(&digits));
-
-    return 0;
+    return pop(&digits);
 }
