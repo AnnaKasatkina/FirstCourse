@@ -1,57 +1,29 @@
 #include "Stack.h"
-#include <string.h>
+
 #include <stdio.h>
 
-#define LEN 256
-
-void removeSpaces(char* string)
-{
-    char* character = string;
-    do
-    {
-        while (*character == ' ')
-        {
-            ++character;
-        }
-    } while (*string++ = *character++);
-}
 
 int main(void)
 {
-    Stack* digits = NULL;
-    char string[LEN] = "";
-    gets(string);
-    removeSpaces(string);
-    for (char* character = string; *character != '\0'; ++character)
-    {
-        if (isdigit(*character))
-        {
-            push(&digits, (int)*character - '0');
-        }
-        else
-        {
-            int second = pop(&digits);
-            int first = pop(&digits);
-            switch (*character)
-            {
-            case '+':
-                push(&digits, first + second);
-                break;
-            case '/':
-                push(&digits, first / second);
-                break;
-            case '*':
-                push(&digits, first * second);
-                break;
-            case '-':
-                push(&digits, first - second);
-                break;
-            default:
-                break;
-            }
-        }
-    }
-    printf("%d", pop(&digits));
+	Stack* digits = NULL;
+	push(&digits, 0);
+	push(&digits, 15);
+	push(&digits, 23);
 
-    return 0;
+	ErrorCode error = ok;
+
+	printf("%d", top(digits, &error));
+
+	if (freeStack(&digits) != ok)
+	{
+		printf("error");
+	}
+
+	int value = top(digits, &error);
+	if (error == ok)
+	{
+		printf("%d", value);
+	}
+
+	return 0;
 }
