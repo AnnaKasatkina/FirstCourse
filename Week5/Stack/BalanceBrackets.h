@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Stack.h"
+
 #include <stdbool.h>
 
 //Getting a string of arbitrary length
-char* getString(ErrorCode* errorCode);
+char* getString(ErrorCode *errorCode);
 
 //Checking the bracket sequence
 bool isBracketsCorrect(char* string);

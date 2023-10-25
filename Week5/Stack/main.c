@@ -1,5 +1,6 @@
 #include "Stack.h"
 #include "BalanceBrackets.h"
+#include "Tests.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +10,13 @@
 
 int main(void)
 {
+    if (!resultTests())
+    {
+        printf("Error!");
+        return -1;
+    }
+
+    printf("Enter the text: ");
     ErrorCode errorCode = ok;
     char* string = getString(&errorCode);
     if (errorCode == outOfMemory)
