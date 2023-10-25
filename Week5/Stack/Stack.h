@@ -2,22 +2,22 @@
 
 typedef enum ErrorCode
 {
-	ok,
-	stackIsEmpty,
-	outOfMemory
+    ok,
+    stackIsEmpty,
+    outOfMemory
 }ErrorCode;
 
-//Объявление структуры Стека
+//Defeninition struct Stack
 typedef struct Stack Stack;
 
-//Функция добавления элемента в Стек
-ErrorCode push(Stack** head, const int value());
+//Add element in Stack
+ErrorCode push(Stack** head, int value);
 
-//Функция удаления и вывода элемента из Стека
+//Delete and return top element from Stack
 int pop(Stack** head);
 
-//Функция удаления Стека
+//Delete Stack
 ErrorCode freeStack(Stack** head);
 
-//Функция вывода верхнего элемента Стека
+//Return top element in Stack
 int top(Stack* head, ErrorCode* errorCode);
