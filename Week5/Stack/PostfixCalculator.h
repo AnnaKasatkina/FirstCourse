@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Stack.h"
+
 //Getting a string of arbitrary length
 char* getString(ErrorCode* errorCode);
 
@@ -7,4 +9,4 @@ char* getString(ErrorCode* errorCode);
 void removeSpaces(char* string);
 
 //Postfix Calculator function
-int postfixCalculator(char* string);
+int postfixCalculator(char* string, ErrorCode* errorCode);

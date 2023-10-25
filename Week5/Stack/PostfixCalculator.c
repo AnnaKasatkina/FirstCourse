@@ -2,6 +2,8 @@
 #include "PostfixCalculator.h"
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 
 char* getString(ErrorCode *errorCode)
 {
@@ -54,10 +56,10 @@ void removeSpaces(char* string)
         {
             ++character;
         }
-    } while (*string++ = *(character++));
+    } while (*(string++) = *(character++));
 }
 
-int postfixCalculator(char* string)
+int postfixCalculator(char* string, ErrorCode* errorCode)
 {
     Stack* digits = NULL;
     for (char* character = string; *character != '\0'; ++character)
@@ -68,8 +70,20 @@ int postfixCalculator(char* string)
         }
         else
         {
-            int second = pop(&digits);
-            int first = pop(&digits);
+            int second = top(digits, errorCode);
+            if (*errorCode != ok || pop(&digits) != ok)
+            {
+                *errorCode = stackIsEmpty;
+                return 0;
+            }
+
+            int first = top(digits, errorCode);
+            if (*errorCode != ok || pop(&digits) != ok)
+            {
+                *errorCode = stackIsEmpty;
+                return 0;
+            }
+
             switch (*character)
             {
             case '+':
@@ -89,5 +103,9 @@ int postfixCalculator(char* string)
             }
         }
     }
-    return pop(&digits);
+
+    int answer = top(digits, errorCode);
+    pop(&digits);
+
+    return answer;
 }
