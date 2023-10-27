@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-void printResultTest(const bool rezult, const char* const nameTest)
+static void printResultTest(const bool rezult, const char* const nameTest)
 {
     if (rezult)
     {
@@ -16,53 +16,39 @@ void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-bool testCorrectSequence()
+static bool testCorrectSequence()
 {
     char *testString = "[{(This is a test)}]";
-    bool answer = true;
 
-    bool result = isBracketsCorrect(testString);
-    if (result != answer)
-    {
-        return false;
-    }
-    return true;
+    return isBracketsCorrect(testString);
 }
 
-bool testIncorrectSequence()
+static bool testIncorrectSequence()
 {
     char* testString = "This is a test )( }{ []";
-    bool answer = false;
 
-    bool result = isBracketsCorrect(testString);
-    if (result != answer)
-    {
-        return false;
-    }
-    return true;
+    return (!isBracketsCorrect(testString));
 }
 
-bool testWithoutBrackets()
+static bool testWithoutBrackets()
 {
     char* testString = "This is a test";
-    bool answer = true;
 
-    bool result = isBracketsCorrect(testString);
-    if (result != answer)
-    {
-        return false;
-    }
-    return true;
+    return isBracketsCorrect(testString);
 }
 
 bool resultTests()
 {
-    printResultTest(testCorrectSequence(), "Correct Sequence");
-    printResultTest(testIncorrectSequence(), "Incorrect Sequence");
-    printResultTest(testWithoutBrackets(), "Sequence Without Brackets");
+    bool answerOne = testCorrectSequence();
+    bool answerTwo = testIncorrectSequence();
+    bool answerThree = testWithoutBrackets();
+
+    printResultTest(answerOne, "Correct Sequence");
+    printResultTest(answerTwo, "Incorrect Sequence");
+    printResultTest(answerThree, "Sequence Without Brackets");
     printf("\n");
 
-    if (testCorrectSequence() && testIncorrectSequence() && testWithoutBrackets())
+    if (answerOne && answerTwo && answerThree)
     {
         return true;
     }

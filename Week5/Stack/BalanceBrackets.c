@@ -1,8 +1,6 @@
-#include "Stack.h"
 #include "BalanceBrackets.h"
 
 #include <string.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -15,7 +13,7 @@ char* getString(ErrorCode* errorCode)
     if (string == NULL)
     {
         *errorCode = outOfMemory;
-        return 0;
+        return NULL;
     }
 
     char character = getchar();
@@ -35,7 +33,7 @@ char* getString(ErrorCode* errorCode)
             else
             {
                 *errorCode = outOfMemory;
-                return 0;
+                return NULL;
             }
         }
         character = getchar();
@@ -68,16 +66,4 @@ bool isBracketsCorrect(char* string)
         }
     }
     return true;
-}
-
-void printResult(bool result)
-{
-    if (result)
-    {
-        printf("Correct");
-    }
-    else
-    {
-        printf("Incorrect");
-    }
 }

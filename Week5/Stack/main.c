@@ -6,14 +6,27 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define LEN 256
+#define ERROR -1
+
+void printResult(bool result)
+{
+    if (result)
+    {
+        printf("Correct");
+    }
+    else
+    {
+        printf("Incorrect");
+    }
+    printf("\n");
+}
 
 int main(void)
 {
     if (!resultTests())
     {
         printf("Error!");
-        return -1;
+        return ERROR;
     }
 
     printf("Enter the text: ");
@@ -22,11 +35,13 @@ int main(void)
     if (errorCode == outOfMemory)
     {
         printf("Out of memory");
-        return -1;
+        return ERROR;
     }
 
     bool result = isBracketsCorrect(string);
     printResult(result);
+
+    free(string);
 
     return 0;
 }
