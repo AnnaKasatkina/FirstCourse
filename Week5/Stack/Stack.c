@@ -43,9 +43,7 @@ ErrorCode freeStack(Stack** head)
 	free(*head);
 	while (next != NULL)
 	{
-		Stack* temp = next;
-		next = next->previous;
-		free(temp);
+		pop(&next);
 	}
 	*head = next;
 
