@@ -1,29 +1,46 @@
-#include "Stack.h"
+#include "ShuntingYard.h"
 
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
-
-int main(void)
+int getString(ErrorCode* errorCode, char **string)
 {
-	Stack* digits = NULL;
-	push(&digits, 0);
-	push(&digits, 15);
-	push(&digits, 23);
+    int capacity = 1;
+    int length = 0;
 
-	ErrorCode error = ok;
+    if (*string == NULL)
+    {
+        *errorCode = outOfMemory;
+        return NULL;
+    }
 
-	printf("%d", top(digits, &error));
+    char character = getchar();
 
-	if (freeStack(&digits) != ok)
-	{
-		printf("error");
-	}
+    while (character != '\n')
+    {
+        if (character != ' ')
+        {
+            (*string)[length++] = character;
 
-	int value = top(digits, &error);
-	if (error == ok)
-	{
-		printf("%d", value);
-	}
+            if (length >= capacity)
+            {
+                capacity *= 2;
+                char* tmp = (char*)realloc(*string, capacity * sizeof(char));
+                if (tmp != NULL)
+                {
+                    *string = tmp;
+                }
+                else
+                {
+                    *errorCode = outOfMemory;
+                    return NULL;
+                }
+            }
+        }
+        character = getchar();
+    }
+    (*string)[length] = '\0';
 
-	return 0;
+    return length;
 }
