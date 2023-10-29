@@ -2,16 +2,28 @@
 
 #include <stdio.h>
 
+
 int main(void)
 {
-	struct Stack* head = NULL;
+	Stack* digits = NULL;
+	push(&digits, 0);
+	push(&digits, 15);
+	push(&digits, 23);
 
-	ErrorCode rezult = push(&head, 5);
-	if (rezult != ok)
+	ErrorCode error = ok;
+
+	printf("%d", top(digits, &error));
+
+	if (freeStack(&digits) != ok)
 	{
-		printf("Stack if empty!");
+		printf("error");
 	}
-	printf("%d ", top(head, &rezult));
-	return 0;
 
+	int value = top(digits, &error);
+	if (error == ok)
+	{
+		printf("%d", value);
+	}
+
+	return 0;
 }

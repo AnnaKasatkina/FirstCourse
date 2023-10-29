@@ -6,15 +6,15 @@
 struct Stack
 {
 	int value;
-	struct Stack* previous;
+	Stack* previous;
 };
 
-ErrorCode push(struct Stack** head, const int value())
+ErrorCode push(Stack** head, int value)
 {
-	struct Stack* next = malloc(sizeof(struct Stack));
+	Stack* next = (int *)malloc(sizeof(Stack));
 	if (next == NULL)
 	{
-		return stackIsEmpty;
+		return outOfMemory;
 	}
 	next->value = value;
 	next->previous = *head;
@@ -23,33 +23,31 @@ ErrorCode push(struct Stack** head, const int value())
 	return ok;
 }
 
-ErrorCode pop(struct Stack** head)
+ErrorCode pop(Stack** head)
 {
 	if (*head == NULL)
 	{
-		return 404;
+		return stackIsEmpty;
 	}
-	struct Stack* trash = *head;
+
+	Stack* trash = *head;
 	*head = (*head)->previous;
 	free(trash);
 
-	return 0;
+	return ok;
 }
 
-ErrorCode freeStack(struct Stack** head)
+ErrorCode freeStack(Stack** head)
 {
-	if (head == NULL || *head == 0)
-	{
-		return 0;
-	}
-	struct Stack* next = (*head)->previous;
+	Stack* next = (*head)->previous;
 	free(*head);
 	while (next != NULL)
 	{
-		struct Stack* temp = next;
-		next = next->previous;
-		free(temp);
+		pop(&next);
 	}
+	*head = next;
+
+	return ok;
 }
 
 int top(Stack* head, ErrorCode* errorCode)

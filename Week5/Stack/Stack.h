@@ -7,17 +7,17 @@ typedef enum ErrorCode
 	outOfMemory
 }ErrorCode;
 
-//Объявление структуры Стека
+// Defeninition struct Stack
 typedef struct Stack Stack;
 
-//Функция добавления элемента в Стек
-ErrorCode push(Stack** head, const int value());
+// Add element in Stack
+ErrorCode push(Stack** head, int value);
 
-//Функция удаления элемента из Стека
+// Delete top element from Stack
 ErrorCode pop(Stack** head);
 
-//Функция удаления Стека
+// Delete Stack
 ErrorCode freeStack(Stack** head);
 
-//Функция вывода верхнего элемента Стека
+// Return top element in Stack
 int top(Stack* head, ErrorCode* errorCode);
