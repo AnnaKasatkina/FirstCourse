@@ -15,7 +15,7 @@ void printList(List* list)
     }
 }
 
-int main()
+int main(void)
 {
     if (!resultTests())
     {

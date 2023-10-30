@@ -4,4 +4,4 @@
 
 #include <stdbool.h>
 
-bool resultTests();
+bool resultTests(void);

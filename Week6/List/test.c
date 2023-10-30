@@ -27,7 +27,7 @@ static bool compareLists(List* list1, List* list2)
     return true;
 }
 
-static bool testIdenticalNames()
+static bool testIdenticalNames(void)
 {
     List* listTest = 0;
     initList(&listTest);
@@ -43,7 +43,7 @@ static bool testIdenticalNames()
     return compareLists(listAnswer, listTest);
 }
 
-static bool testIdenticalNumber()
+static bool testIdenticalNumber(void)
 {
     List* listTest = 0;
     initList(&listTest);
@@ -59,7 +59,7 @@ static bool testIdenticalNumber()
     return compareLists(listAnswer, listTest);
 }
 
-static bool testOneEntry()
+static bool testOneEntry(void)
 {
     List* listTest = 0;
     initList(&listTest);
@@ -75,7 +75,7 @@ static bool testOneEntry()
     return compareLists(listAnswer, listTest);
 }
 
-bool resultTests()
+bool resultTests(void)
 {
     bool answerOne = testIdenticalNames();
     bool answerTwo = testIdenticalNumber();
