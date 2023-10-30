@@ -1,18 +1,5 @@
 ﻿#include "List.h"
 
-struct List
-{
-    ListElement* begin;
-    ListElement* end;
-    size_t size;
-};
-
-struct ListElement
-{
-    int value;
-    ListElement* next;
-};
-
 void initList(List** list)
 {
     *list = (List*)malloc(sizeof(List));
@@ -41,10 +28,11 @@ void erase(List* list, size_t index)
 
     ListElement* erasedElement = currentElement->next;
     currentElement->next = erasedElement->next;
+    free(erasedElement->value);
     free(erasedElement);
 }
 
-void setAt(List* list, size_t index, int value)
+void setAt(List* list, size_t index, char* value)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -59,7 +47,7 @@ void setAt(List* list, size_t index, int value)
     currentElement->value = value;
 }
 
-int getAt(List* list, size_t index)
+char* getAt(List* list, size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -67,14 +55,29 @@ int getAt(List* list, size_t index)
         if (currentElement == list->end->next)
         {
             printf("Out of List");
-            return -1;
+            break;
         }
         currentElement = currentElement->next;
     }
     return currentElement->value;
 }
 
-void pushBack(List* list, int value)
+ListElement* getElement(List* list, size_t index)
+{
+    ListElement* currentElement = list->begin;
+    for (size_t i = 0; i < index; i++)
+    {
+        if (currentElement == list->end->next)
+        {
+            printf("Out of List");
+            break;
+        }
+        currentElement = currentElement->next;
+    }
+    return currentElement;
+}
+
+void pushBack(List* list, char* value)
 {
     ListElement* newElement = (ListElement*)malloc(sizeof(ListElement));
     newElement->value = value;
@@ -99,6 +102,7 @@ void freeList(List* list)
     while (currentElement != nextAfterEnd)
     {
         ListElement* nextElement = currentElement->next;
+        free(currentElement->value);
         free(currentElement);
         currentElement = nextElement;
     }
