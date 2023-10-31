@@ -8,46 +8,50 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
+#include <time.h>
 
-#define LEN 20
+#define INTERVAL 20
+#define ERROR -1
 
-void randomFilling(int *array)
+void randomFilling(int *const array, const size_t length)
 {
-    for (int i = 0; i < LEN; i++)
+    srand(time(NULL));
+    for (size_t i = 0; i < length; ++i)
     {
-        array[i] = 80 + rand() % 20;
+        array[i] = rand() % INTERVAL;
     }
 }
 
-void printing(int *array)
+void printArray(const int *const array, size_t length)
 {
-    for (int i = 0; i < LEN; i++)
+    for (size_t i = 0; i < length; ++i)
         printf("%d ", array[i]);
     printf("\n\n");
 }
 
 int compare(const void *i, const void *j)
 {
-    return *(int *)i - *(int *)j;
+    return *(size_t *)i - *(size_t *)j;
 }
 
-int mostCommonElement(int *array)
+int mostCommonElement(const int *const array, size_t length)
 {
-    int count = 1;
-    int max = 0;
+    size_t count = 1;
+    size_t maxCount = 0;
     int answer = 0;
-    for (int i = 1; i < LEN; ++i)
+    for (size_t i = 1; i <= length; ++i)
     {
         if (array[i] == array[i - 1])
         {
-            count++;
+            ++count;
         }
         else
         {
-            if (count >= max)
+            if (count >= maxCount)
             {
                 answer = array[i - 1];
-                max = count;
+                maxCount = count;
                 count = 1;
             }
             count = 1;
@@ -56,43 +60,71 @@ int mostCommonElement(int *array)
     return answer;
 }
 
-void testMostCommonElement()
+void printResultTest(const bool rezult, const char *const nameTest)
 {
-    int testingArray[] = {5, 4, 3, 2, 1, 5, 4, 3, 5};
-    int lenght = 9;
-    int answer = 5;
-
-    qsort(testingArray, lenght, sizeof(int), compare);
-    int rezult = mostCommonElement(testingArray);
-    assert(rezult == answer);
-
-    printf("Test Most Common Element is OK\n");
+    if (rezult)
+    {
+        printf("Test %s is OK\n", nameTest);
+    }
+    else
+    {
+        printf("Test %s failed with an error\n", nameTest);
+    }
 }
 
-void testIdenticalElements()
+bool testCase(int *testingArray, size_t length, const int answer)
+{
+    qsort(testingArray, length, sizeof(int), compare);
+    int rezult = mostCommonElement(testingArray, length);
+
+    return rezult == answer;
+}
+
+bool testMostCommonElement(void)
+{
+    int testingArray[] = {5, 4, 3, 2, 1, 5, 4, 3, 5};
+    return testCase(testingArray, 9, 5);
+}
+
+bool testIdenticalElements(void)
 {
     int testingArray[] = {1, 1, 1, 2, 2, 2, 3, 3, 3};
-    int lenght = 9;
-    int answer = 3;
+    return testCase(testingArray, 9, 3);
+}
 
-    qsort(testingArray, lenght, sizeof(int), compare);
-    int rezult = mostCommonElement(testingArray);
-    assert(rezult == answer);
+bool resultTests(void)
+{
+    const bool answerOne = testMostCommonElement();
+    const bool answerTwo = testIdenticalElements();
 
-    printf("Test Most Common Element with Identical Elements is OK\n\n");
+    printResultTest(answerOne, "Most Common Element");
+    printResultTest(answerTwo, "Identical Elements");
+    printf("\n");
+
+    return (answerOne && answerTwo);
 }
 
 int main(void)
 {
-    testMostCommonElement();
-    testIdenticalElements();
+    if (!resultTests())
+    {
+        printf("Error!");
+        return ERROR;
+    }
 
-    int *array = calloc(LEN, sizeof(int));
-    randomFilling(array);
-    qsort(array, LEN, sizeof(int), compare);
+    size_t length = 0;
+    printf("Enter the length of array: ");
+    if (scanf("%d", &length) != 1)
+    {
+        printf("Input error!");
+    }
 
-    printf("%d the most common element in the array: ", mostCommonElement(array));
-    printing(array);
+    int *array = (int *)calloc(length, sizeof(int));
+    randomFilling(array, length);
+    qsort(array, length, sizeof(int), compare);
+
+    printf("%d the most common element in the array: ", mostCommonElement(array, length));
+    printArray(array, length);
 
     free(array);
     return 0;
