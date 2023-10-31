@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define BUFFERSIZE 30
+
 // List element
 typedef struct ListElement
 {
@@ -17,6 +19,12 @@ typedef struct List
     ListElement* end;
     size_t size;
 } List;
+
+// Print value of List
+void printList(List* list);
+
+// Read info from file to List
+void readFromFile(char* nameFile, List* list);
 
 // Return the size of the List
 size_t getSize(List* list);

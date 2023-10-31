@@ -7,14 +7,6 @@
 
 #define ERROR -1
 
-void printList(List* list)
-{
-    for (size_t i = 0; i < getSize(list); i++)
-    {
-        printf("%s - %s\n", getAt(list, i), getAt(list, i) + BUFFERSIZE);
-    }
-}
-
 int main(void)
 {
     if (!resultTests())
@@ -28,7 +20,7 @@ int main(void)
 
     readFromFile("file.txt", list);
 
-    int choice = 0;
+    Criteria choice = 0;
     printf("Select mode:\n"
         "0. Sort by name\n"
         "1. Sorting by phone\n"
@@ -40,7 +32,7 @@ int main(void)
         return ERROR;
     }
 
-    if (choice != 1 && choice != 0)
+    if (choice != byName && choice != byNumber)
     {
         printf("Wrong input!");
         return ERROR;
@@ -48,6 +40,8 @@ int main(void)
 
     list = mergeSort(list, choice);
     printList(list);
+
+    freeList(list);
 
     return 0;
 }

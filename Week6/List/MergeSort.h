@@ -2,12 +2,15 @@
 
 #include "List.h"
 
-#define BUFFERSIZE 30
-
-void readFromFile(char* nameFile, List* list);
+// Creteria for sort
+typedef enum Criteria 
+{
+    byName, 
+    byNumber
+} Criteria;
 
 // Merging two Lists
-List* merge(List* first, List* second, int criteria);
+List* merge(List* first, List* second, Criteria criteria);
 
 // Recursive function for Merge Sort
-List* mergeSort(List* list, int criteria);
+List* mergeSort(List* list, Criteria criteria);

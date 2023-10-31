@@ -27,7 +27,7 @@ static bool compareLists(List* list1, List* list2)
     return true;
 }
 
-static bool testIdenticalNames(void)
+static bool testCase(Criteria criteria, char* fileTest, char* fileAnswer)
 {
     List* listTest = 0;
     initList(&listTest);
@@ -35,44 +35,32 @@ static bool testIdenticalNames(void)
     List* listAnswer = 0;
     initList(&listAnswer);
 
-    readFromFile("tests/testIdenticalNames.txt", listTest);
-    readFromFile("tests/answerIdenticalNames.txt", listAnswer);
+    readFromFile(fileTest, listTest);
+    readFromFile(fileAnswer, listAnswer);
 
-    listTest = mergeSort(listTest, 0);
+    listTest = mergeSort(listTest, criteria);
 
-    return compareLists(listAnswer, listTest);
+    bool result = compareLists(listAnswer, listTest);
+
+    freeList(listAnswer);
+    freeList(listTest);
+
+    return result;
+}
+
+static bool testIdenticalNames(void)
+{
+    return testCase(byName, "tests/testIdenticalNames.txt", "tests/answerIdenticalNames.txt");
 }
 
 static bool testIdenticalNumber(void)
 {
-    List* listTest = 0;
-    initList(&listTest);
-
-    List* listAnswer = 0;
-    initList(&listAnswer);
-
-    readFromFile("tests/testIdenticalNumber.txt", listTest);
-    readFromFile("tests/answerIdenticalNumber.txt", listAnswer);
-
-    listTest = mergeSort(listTest, 1);
-
-    return compareLists(listAnswer, listTest);
+    return testCase(byNumber, "tests/testIdenticalNumber.txt", "tests/answerIdenticalNumber.txt");
 }
 
 static bool testOneEntry(void)
 {
-    List* listTest = 0;
-    initList(&listTest);
-
-    List* listAnswer = 0;
-    initList(&listAnswer);
-
-    readFromFile("tests/testOneEntry.txt", listTest);
-    readFromFile("tests/answerOneEntry.txt", listAnswer);
-
-    listTest = mergeSort(listTest, 1);
-
-    return compareLists(listAnswer, listTest);
+    return testCase(byNumber, "tests/testOneEntry.txt", "tests/answerOneEntry.txt");
 }
 
 bool resultTests(void)

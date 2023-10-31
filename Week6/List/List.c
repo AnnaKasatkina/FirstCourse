@@ -1,5 +1,31 @@
 ﻿#include "List.h"
 
+void printList(List* list)
+{
+    for (size_t i = 0; i < getSize(list); i++)
+    {
+        printf("%s - %s\n", getAt(list, i), getAt(list, i) + BUFFERSIZE);
+    }
+}
+
+void readFromFile(char* nameFile, List* list)
+{
+    FILE* file = fopen(nameFile, "r");
+    if (file == NULL)
+    {
+        printf("File is not open\n");
+        return;
+    }
+
+    while (!feof(file))
+    {
+        char* newEntry = (char*)malloc(sizeof(char) * BUFFERSIZE * 2);
+        fscanf(file, "%s - %s", newEntry, newEntry + BUFFERSIZE);
+        pushBack(list, newEntry);
+    }
+    fclose(file);
+}
+
 void initList(List** list)
 {
     *list = (List*)malloc(sizeof(List));

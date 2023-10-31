@@ -4,25 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void readFromFile(char* nameFile, List* list)
-{
-    FILE* file = fopen(nameFile, "r");
-    if (file == NULL)
-    {
-        printf("File is not open\n");
-        return;
-    }
-
-    while (!feof(file))
-    {
-        char* newEntry = (char*)malloc(sizeof(char) * BUFFERSIZE * 2);
-        fscanf(file, "%s - %s", newEntry, newEntry + BUFFERSIZE);
-        pushBack(list, newEntry);
-    }
-    fclose(file);
-}
-
-List* merge(List* first, List* second, int criteria)
+List* merge(List* first, List* second, Criteria criteria)
 {
     List* third;
     initList(&third);
@@ -58,7 +40,7 @@ List* merge(List* first, List* second, int criteria)
     return third;
 }
 
-List* mergeSort(List* list, int criteria)
+List* mergeSort(List* list, Criteria criteria)
 {
     if (getSize(list) <= 1)
     {
