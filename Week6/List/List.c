@@ -1,6 +1,6 @@
 ﻿#include "List.h"
 
-void printList(List* list)
+void printList(const List* const list)
 {
     for (size_t i = 0; i < getSize(list); i++)
     {
@@ -8,7 +8,7 @@ void printList(List* list)
     }
 }
 
-void readFromFile(char* nameFile, List* list)
+void readFromFile(const char* const nameFile, List* const list)
 {
     FILE* file = fopen(nameFile, "r");
     if (file == NULL)
@@ -26,7 +26,7 @@ void readFromFile(char* nameFile, List* list)
     fclose(file);
 }
 
-void initList(List** list)
+void initList(List** const list)
 {
     *list = (List*)malloc(sizeof(List));
     (*list)->begin = NULL;
@@ -34,12 +34,12 @@ void initList(List** list)
     (*list)->size = 0;
 }
 
-size_t getSize(List* list)
+size_t getSize(const List* const list)
 {
     return list->size;
 }
 
-void erase(List* list, size_t index)
+void erase(List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index - 1; i++)
@@ -58,7 +58,7 @@ void erase(List* list, size_t index)
     free(erasedElement);
 }
 
-void setAt(List* list, size_t index, char* value)
+void setAt(List* const list, const size_t index, const char* const value)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -73,7 +73,7 @@ void setAt(List* list, size_t index, char* value)
     currentElement->value = value;
 }
 
-char* getAt(List* list, size_t index)
+char* getAt(const List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -88,7 +88,7 @@ char* getAt(List* list, size_t index)
     return currentElement->value;
 }
 
-ListElement* getElement(List* list, size_t index)
+ListElement* getElement(const List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -103,7 +103,7 @@ ListElement* getElement(List* list, size_t index)
     return currentElement;
 }
 
-void pushBack(List* list, char* value)
+void pushBack(List* const list, const char* const value)
 {
     ListElement* newElement = (ListElement*)malloc(sizeof(ListElement));
     newElement->value = value;

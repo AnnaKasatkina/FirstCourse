@@ -10,7 +10,7 @@ typedef enum Criteria
 } Criteria;
 
 // Merging two Lists
-List* merge(List* first, List* second, Criteria criteria);
+List* merge(List* const first, List* const second, const Criteria criteria);
 
 // Recursive function for Merge Sort
-List* mergeSort(List* list, Criteria criteria);
+List* mergeSort(List* const list, const Criteria criteria);

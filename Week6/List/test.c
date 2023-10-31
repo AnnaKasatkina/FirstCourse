@@ -27,7 +27,7 @@ static bool compareLists(List* list1, List* list2)
     return true;
 }
 
-static bool testCase(Criteria criteria, char* fileTest, char* fileAnswer)
+static bool testCase(const Criteria criteria, const char* const fileTest, const char* const fileAnswer)
 {
     List* listTest = 0;
     initList(&listTest);
@@ -65,9 +65,9 @@ static bool testOneEntry(void)
 
 bool resultTests(void)
 {
-    bool answerOne = testIdenticalNames();
-    bool answerTwo = testIdenticalNumber();
-    bool answerThree = testOneEntry();
+    const bool answerOne = testIdenticalNames();
+    const bool answerTwo = testIdenticalNumber();
+    const bool answerThree = testOneEntry();
 
     printResultTest(answerOne, "Identical Names");
     printResultTest(answerTwo, "Identical Number");

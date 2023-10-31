@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-List* merge(List* first, List* second, Criteria criteria)
+List* merge(List* const first, List* const second, const Criteria criteria)
 {
     List* third;
     initList(&third);
@@ -40,7 +40,7 @@ List* merge(List* first, List* second, Criteria criteria)
     return third;
 }
 
-List* mergeSort(List* list, Criteria criteria)
+List* mergeSort(List* const list, const Criteria criteria)
 {
     if (getSize(list) <= 1)
     {
