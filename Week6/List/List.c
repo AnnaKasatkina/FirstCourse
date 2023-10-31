@@ -13,10 +13,21 @@ size_t getSize(List* list)
     return list->size;
 }
 
-void erase(List* list, size_t index)
+static ListElement* cycle(List* list, size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index - 1; i++)
+    {
+        currentElement = currentElement->next;
+    }
+
+    return currentElement;
+}
+
+void erase(List* list, size_t index)
+{
+    ListElement* currentElement = list->begin;
+    for (size_t i = 0; i < index; i++)
     {
         currentElement = currentElement->next;
     }
