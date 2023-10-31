@@ -1,6 +1,6 @@
 ﻿#include "List.h"
 
-void initList(List** list)
+void initList(List** const list)
 {
     *list = (List*)malloc(sizeof(List));
     (*list)->begin = NULL;
@@ -8,12 +8,12 @@ void initList(List** list)
     (*list)->size = 0;
 }
 
-size_t getSize(List* list)
+size_t getSize(const List* const list)
 {
     return list->size;
 }
 
-static ListElement* cycle(List* list, size_t index)
+static ListElement* cycle(const List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index - 1; i++)
@@ -24,7 +24,7 @@ static ListElement* cycle(List* list, size_t index)
     return currentElement;
 }
 
-void erase(List* list, size_t index)
+void erase(List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -39,7 +39,7 @@ void erase(List* list, size_t index)
     list->size--;
 }
 
-void setAt(List* list, size_t index, int value)
+void setAt(List* const list, const size_t index, const int value)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -49,7 +49,7 @@ void setAt(List* list, size_t index, int value)
     currentElement->value = value;
 }
 
-int getAt(List* list, size_t index)
+int getAt(const List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -59,7 +59,7 @@ int getAt(List* list, size_t index)
     return currentElement->value;
 }
 
-ListElement* getElement(List* list, size_t index)
+ListElement* getElement(const List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -69,7 +69,7 @@ ListElement* getElement(List* list, size_t index)
     return currentElement;
 }
 
-void pushBack(List* list, int value)
+void pushBack(List* const list, const int value)
 {
     ListElement* newElement = (ListElement*)malloc(sizeof(ListElement));
     newElement->value = value;

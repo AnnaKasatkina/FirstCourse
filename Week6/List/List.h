@@ -19,25 +19,25 @@ typedef struct List
 } List;
 
 // Return the size of the List
-size_t getSize(List* list);
+size_t getSize(const List* const list);
 
 // List initialization
-void initList(List** list);
+void initList(List** const list);
 
 // Delete element of List at index
-void erase(List* list, size_t index);
+void erase(List* const list, const size_t index);
 
 // Change the value at index
-void setAt(List* list, size_t index, int value);
+void setAt(List* const list, const size_t index, const int value);
 
 // Return the value at index
-int getAt(List* list, size_t index);
+int getAt(const List* const list, const size_t index);
 
 // Return the element at index
-ListElement* getElement(List* list, size_t index);
+ListElement* getElement(const List* const list, const size_t index);
 
 // Delete the List
 void freeList(List* list);
 
 // Add the element to the end
-void pushBack(List* list, int value);
+void pushBack(List* const list, const int value);

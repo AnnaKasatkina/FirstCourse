@@ -1,15 +1,22 @@
 #include "List.h"
 #include "CyclicList.h"
+#include "test.h"
 
 #define ERROR -1
 
 int main() 
 {
-    printf("Enter the number of wars and kill rate: ");
-    int gap = 0;
-    int amount = 0;
+    if (!resultTests())
+    {
+        printf("Error!");
+        return ERROR;
+    }
 
-    if (scanf("%d %d", &amount, &gap) != 2) {
+    printf("Enter the number of wars and kill rate: ");
+    size_t gap = 0;
+    size_t amount = 0;
+
+    if (scanf("%zu %zu", &amount, &gap) != 2) {
         printf("Input Error");
         return ERROR;
     }
@@ -20,6 +27,8 @@ int main()
     fillList(amount, list);
     count(amount, gap, list);
     printResult(list);
+
+    freeList(list);
 
     return 0;
 }
