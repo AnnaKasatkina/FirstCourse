@@ -10,25 +10,34 @@
 #include <windows.h>
 #include <math.h>
 #include <assert.h>
+#include <stdbool.h>
+#include <locale.h>
 
-void testArray(int *rightTestingArray, int *testingArray)
+#define LEN 8
+#define ERROR -1
+
+bool compareArrays(int const *const array1, int const *const array2)
 {
-    for (int i = 0; i < 8; ++i)
+    for (size_t i = 0; i < LEN; ++i)
     {
-        assert(rightTestingArray[i] == testingArray[i]);
+        if (array1[i] != array2[i])
+        {
+            return false;
+        }
     }
+    return true;
 }
 
-void printing(int *array)
+void printArray(int const *const array)
 {
-    for (int i = 0; i < 8; i++)
+    for (size_t i = 0; i < LEN; ++i)
         printf("%d ", array[i]);
     printf("\n");
 }
 
-void binarySum(int *array1, int *array2, int *rezult)
+void binarySum(int *const array1, int *const array2, int *const rezult)
 {
-    for (int i = 7; i >= 0; i--)
+    for (size_t i = 7; i >= 0; --i)
     {
         if (array1[i] + array2[i] <= 1)
         {
@@ -50,7 +59,7 @@ void binarySum(int *array1, int *array2, int *rezult)
     }
 }
 
-void testBinarySum()
+bool testBinarySum(void)
 {
     int testingArrayOne[] = {0, 0, 1, 1, 1, 1, 1, 1};
     int testingArrayTwo[] = {0, 0, 0, 1, 1, 1, 1, 1};
@@ -58,34 +67,32 @@ void testBinarySum()
     int rightTestingArray[] = {0, 1, 0, 1, 1, 1, 1, 0};
 
     binarySum(testingArrayOne, testingArrayTwo, testingArrayRezult);
-    testArray(rightTestingArray, testingArrayRezult);
-    printf("Тест Сумма двоичных чисел прошел успешно.\n");
+    return compareArrays(rightTestingArray, testingArrayRezult);
 }
 
-void conversionToBinary(int *array, int number)
+void conversionToBinary(int *const array, int number)
 {
     number = fabs(number);
-    for (int i = 7; i >= 1; i--)
+    for (size_t i = 7; i >= 1; --i)
     {
         array[i] = number % 2;
         number = number / 2;
     }
 }
 
-void testConversionToBinary()
+bool testConversionToBinary(void)
 {
     int testingNumber = 63;
     int testingArray[] = {0, 0, 0, 0, 0, 0, 0, 0};
     int rightTestingArray[] = {0, 0, 1, 1, 1, 1, 1, 1};
 
     conversionToBinary(testingArray, testingNumber);
-    testArray(rightTestingArray, testingArray);
-    printf("Тест Перевод в двоичную систему прошел успешно.\n");
+    return compareArrays(rightTestingArray, testingArray);
 }
 
-void reverse(int *array)
+void reverse(int *const array)
 {
-    for (int i = 0; i < 8; i++)
+    for (size_t i = 0; i < LEN; ++i)
     {
         if (array[i] == 0)
         {
@@ -98,17 +105,16 @@ void reverse(int *array)
     }
 }
 
-void testReverse()
+bool testReverse(void)
 {
     int testingArray[] = {0, 1, 1, 1, 0, 0, 1, 0};
     int rightTestingArray[] = {1, 0, 0, 0, 1, 1, 0, 1};
 
     reverse(testingArray);
-    testArray(rightTestingArray, testingArray);
-    printf("Тест Инверсия массива прошел успешно.\n");
+    return compareArrays(rightTestingArray, testingArray);
 }
 
-void twosComplement(int *array, int number)
+void twosComplement(int *const array, int number)
 {
     conversionToBinary(array, number);
     if (number < 0)
@@ -119,18 +125,17 @@ void twosComplement(int *array, int number)
     }
 }
 
-void testTwosComplement()
+bool testTwosComplement(void)
 {
     int testingNumber = -3;
     int testingArray[] = {0, 0, 0, 0, 0, 0, 0, 0};
     int rightTestingArray[] = {1, 1, 1, 1, 1, 1, 0, 1};
 
     twosComplement(testingArray, testingNumber);
-    testArray(rightTestingArray, testingArray);
-    printf("Тест Дополнительный код прошел успешно.\n");
+    return compareArrays(rightTestingArray, testingArray);
 }
 
-int conversionToDecimal(int *array)
+int conversionToDecimal(int *const array)
 {
     int number = 0;
     int sign = 1;
@@ -142,31 +147,60 @@ int conversionToDecimal(int *array)
         reverse(array);
     }
 
-    for (int i = 1; i < 8; i++)
+    for (size_t i = 1; i < LEN; ++i)
     {
         number += array[i] * pow(2, 7 - i);
     }
     return number *= sign;
 }
 
-void testConversionToDecimal()
+bool testConversionToDecimal(void)
 {
     int testingArray[] = {1, 1, 1, 1, 0, 0, 0, 1};
     int rightTestingNumber = -15;
 
-    assert(rightTestingNumber == conversionToDecimal(testingArray));
-    printf("Тест Перевод в десятичную систему прошел успешно.\n\n");
+    return rightTestingNumber == conversionToDecimal(testingArray);
 }
 
-int main()
+void printResultTest(const bool rezult, const char *const nameTest)
 {
-    system("chcp 65001");
+    if (rezult)
+    {
+        printf("Тест %s прошел успешно.\n", nameTest);
+    }
+    else
+    {
+        printf("Тест %s завершился с ошибкой.\n", nameTest);
+    }
+}
 
-    testBinarySum();
-    testConversionToBinary();
-    testReverse();
-    testTwosComplement();
-    testConversionToDecimal();
+bool resultTests(void)
+{
+    const bool answerOne = testBinarySum();
+    const bool answerTwo = testConversionToBinary();
+    const bool answerThree = testReverse();
+    const bool answerFour = testTwosComplement();
+    const bool answerFive = testConversionToDecimal();
+
+    printResultTest(answerOne, "Сумма двоичных чисел");
+    printResultTest(answerTwo, "Перевод в двоичную систему");
+    printResultTest(answerThree, "Инверсия массива");
+    printResultTest(answerFour, "Дополнительный код");
+    printResultTest(answerFive, "Перевод в десятичную систему");
+    printf("\n");
+
+    return (answerOne && answerTwo && answerThree && answerFour && answerFive);
+}
+
+int main(void)
+{
+    setlocale(LC_ALL, "Rus");
+
+    if (!resultTests())
+    {
+        printf("Error!");
+        return ERROR;
+    }
 
     printf("Введите 2 числа, которые в сумме не превышают 127: ");
 
@@ -191,13 +225,13 @@ int main()
     printf("Числа в двоичном представлении в дополнительном коде: \n");
     twosComplement(array1, num1);
     twosComplement(array2, num2);
-    printing(array1);
-    printing(array2);
+    printArray(array1);
+    printArray(array2);
 
     printf("Сумма чисел в двоичной системе: \n");
     int rezult[] = {0, 0, 0, 0, 0, 0, 0, 0};
     binarySum(array1, array2, rezult);
-    printing(rezult);
+    printArray(rezult);
 
     printf("Сумма чисел в десятичной системе: \n");
     int rezultSum = conversionToDecimal(rezult);
