@@ -2,6 +2,7 @@
 #include "test.h"
 #include "CyclicList.h"
 
+#include <stdio.h>
 
 static void printResultTest(const bool rezult, const char* const nameTest)
 {
@@ -27,7 +28,20 @@ static bool compareArrays(int const* const array1, int const* const array2, cons
     return true;
 }
 
-static bool testCase(const size_t amount, const size_t gap, int* const answer)
+static List* arrayToList(const int* const array, const size_t length)
+{
+    List* answer = 0;
+    initList(&answer);
+
+    for (size_t i = 0; i < length; ++i)
+    {
+        pushBack(answer, array[i]);
+    }
+
+    return answer;
+}
+
+static bool testCase(const size_t amount, const size_t gap, List* const answer)
 {
     List* list = 0;
     initList(&list);
@@ -35,30 +49,30 @@ static bool testCase(const size_t amount, const size_t gap, int* const answer)
     fillList(amount, list);
     count(amount, gap, list);
 
-    int* array = listToArray(list, gap);
+    bool result = compareLists(list, answer);
     freeList(list);
-
-    bool result = compareArrays(array, answer, gap - 1);
-    free(array);
 
     return result;
 }
 
 static bool testOne(void)
 {
-    int answer[] = { 16, 31 };
+    int data[] = { 16, 31 };
+    List* answer = arrayToList(data, 2);
     return testCase(41, 3, answer);
 }
 
 static bool testTwo(void)
 {
-    int answer[] = { 1, 3, 4, 13, 14, 15, 20, 21 };
+    int data[] = { 1, 3, 4, 13, 14, 15, 20, 21 };
+    List* answer = arrayToList(data, 8);
     return testCase(30, 9, answer);
 }
 
 static bool testThree(void)
 {
-    int answer[] = { 19 };
+    int data[] = { 19 };
+    List* answer = arrayToList(data, 1);
     return testCase(41, 2, answer);
 }
 

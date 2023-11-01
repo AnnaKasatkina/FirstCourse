@@ -1,7 +1,6 @@
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdbool.h>
 
 // List element
 typedef struct ListElement
@@ -24,6 +23,9 @@ size_t getSize(const List* const list);
 // List initialization
 void initList(List** const list);
 
+// Compare Lists
+bool compareLists(const List* const list1, const List* const list2);
+
 // Delete element of List at index
 void erase(List* const list, const size_t index);
 
@@ -34,7 +36,7 @@ void setAt(List* const list, const size_t index, const int value);
 int getAt(const List* const list, const size_t index);
 
 // Return the element at index
-ListElement* getElement(const List* const list, const size_t index);
+ListElement* getElement(const List* const list, size_t index);
 
 // Delete the List
 void freeList(List* list);

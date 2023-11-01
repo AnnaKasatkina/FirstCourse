@@ -2,9 +2,11 @@
 #include "CyclicList.h"
 #include "test.h"
 
+#include <stdio.h>
+
 #define ERROR -1
 
-int main() 
+int main(void) 
 {
     if (!resultTests())
     {
