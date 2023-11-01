@@ -30,9 +30,9 @@ void printArray(const int *const array, size_t length)
     printf("\n\n");
 }
 
-int compare(const void *i, const void *j)
+int compare(const void *const i, const void *const j)
 {
-    return *(size_t *)i - *(size_t *)j;
+    return *(const int *const)i - *(const int *const)j;
 }
 
 int mostCommonElement(const int *const array, size_t length)
@@ -46,16 +46,12 @@ int mostCommonElement(const int *const array, size_t length)
         {
             ++count;
         }
-        else
+        else if (count >= maxCount)
         {
-            if (count >= maxCount)
-            {
-                answer = array[i - 1];
-                maxCount = count;
-                count = 1;
-            }
-            count = 1;
+            answer = array[i - 1];
+            maxCount = count;
         }
+        count = 1;
     }
     return answer;
 }
@@ -72,7 +68,7 @@ void printResultTest(const bool rezult, const char *const nameTest)
     }
 }
 
-bool testCase(int *testingArray, size_t length, const int answer)
+bool testCase(int * const testingArray, size_t length, const int answer)
 {
     qsort(testingArray, length, sizeof(int), compare);
     int rezult = mostCommonElement(testingArray, length);
