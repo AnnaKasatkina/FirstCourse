@@ -1,15 +1,36 @@
 #include "List.h"
+#include "SortingList.h"
 
-int main() {
-    List* list = 0;
+#include <locale.h>
+#include <stdbool.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "Russian");
+    printf("Добро пожаловать в сортированный список!\n\n");
+
+    List* list = NULL;
     initList(&list);
-    pushBack(list, 5);
-    pushBack(list, 7);
-    pushBack(list, 8);
-    pushBack(list, 9);
-    for (size_t i = 0; i < getSize(list); i++)
+
+    while (true)
     {
-        printf("%d", getAt(list, i));
+        printf("Доступны следующие операции:\n"
+            "0 - выйти\n1 - добавить значение в сортированный список\n"
+            "2 - удалить значение из списка\n3 - распечатать список\nВаш выбор: ");
+
+        size_t choice = 0;
+
+        if (scanf("%zd", &choice) != 1)
+        {
+            printf("Ошибка ввода!");
+            return 1;
+        }
+
+        printf("\n");
+        choose(choice, list);
     }
+
     freeList(list);
+
+    return 0;
 }

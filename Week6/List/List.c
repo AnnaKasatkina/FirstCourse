@@ -1,18 +1,5 @@
 ﻿#include "List.h"
 
-struct List
-{
-    ListElement* begin;
-    ListElement* end;
-    size_t size;
-};
-
-struct ListElement
-{
-    int value;
-    ListElement* next;
-};
-
 void initList(List** list)
 {
     *list = (List*)malloc(sizeof(List));
@@ -21,23 +8,14 @@ void initList(List** list)
     (*list)->size = 0;
 }
 
-size_t getSize(List* list)
+size_t getSize(const List* const list)
 {
     return list->size;
 }
 
 void erase(List* list, size_t index)
 {
-    ListElement* currentElement = list->begin;
-    for (size_t i = 0; i < index - 1; i++)
-    {
-        if (currentElement == list->end->next)
-        {
-            printf("Out of List");
-            return;
-        }
-        currentElement = currentElement->next;
-    }
+    ListElement* currentElement = getElement(list, index - 1);
 
     ListElement* erasedElement = currentElement->next;
     currentElement->next = erasedElement->next;
@@ -46,20 +24,17 @@ void erase(List* list, size_t index)
 
 void setAt(List* list, size_t index, int value)
 {
-    ListElement* currentElement = list->begin;
-    for (size_t i = 0; i < index; i++)
-    {
-        if (currentElement == list->end->next)
-        {
-            printf("Out of List");
-            return;
-        }
-        currentElement = currentElement->next;
-    }
+    ListElement * currentElement = getElement(list, index);
     currentElement->value = value;
 }
 
 int getAt(List* list, size_t index)
+{
+    ListElement* currentElement = getElement(list, index);
+    return currentElement->value;
+}
+
+ListElement* getElement(const List* const list, const size_t index)
 {
     ListElement* currentElement = list->begin;
     for (size_t i = 0; i < index; i++)
@@ -67,11 +42,11 @@ int getAt(List* list, size_t index)
         if (currentElement == list->end->next)
         {
             printf("Out of List");
-            return -1;
+            break;
         }
         currentElement = currentElement->next;
     }
-    return currentElement->value;
+    return currentElement;
 }
 
 void pushBack(List* list, int value)
@@ -103,4 +78,14 @@ void freeList(List* list)
         currentElement = nextElement;
     }
     free(list);
+}
+
+void addAt(List* const list, const size_t index, const int number)
+{
+    ListElement* newElement = (ListElement*)malloc(sizeof(ListElement));
+    newElement->value = number;
+    ListElement* previousElement = getElement(list, index - 1);
+    newElement->next = previousElement->next;
+    previousElement->next = newElement;
+    list->size++;
 }
