@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#define LEN 30
 typedef struct
 {
-    char name[30];
-    char phone[30];
+    char name[LEN];
+    char phone[LEN];
 } PhoneBookEntry;
 
 void addEntry(PhoneBookEntry* buffer, int length);

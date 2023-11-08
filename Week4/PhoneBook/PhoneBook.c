@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "PhoneBook.h"
 
@@ -24,7 +25,7 @@ void addEntry(PhoneBookEntry* buffer, int length)
 
 void printAllEntry(PhoneBookEntry* buffer, int length)
 {
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         printf("%s - %s\n", buffer[i].name, buffer[i].phone);
     }
@@ -34,15 +35,15 @@ void printAllEntry(PhoneBookEntry* buffer, int length)
 void searchPhone(PhoneBookEntry* buffer, int length)
 {
     printf("Введите искомый номер: ");
-    const char phone[30] = "";
-    if (scanf("%s", &phone) != 1)
+    const char phone[LEN] = "";
+    if (scanf("%s", phone) != 1)
     {
         printf("Ошибка!");
         return;
     }
 
     bool flag = TRUE;
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         if (!strcmp(buffer[i].phone, phone))
         {
@@ -57,15 +58,15 @@ void searchPhone(PhoneBookEntry* buffer, int length)
 void searchName(PhoneBookEntry* buffer, int length)
 {
     printf("Введите искомое имя: ");
-    const char name[30] = "";
-    if (scanf("%s", &name) != 1)
+    const char name[LEN] = "";
+    if (scanf("%s", name) != 1)
     {
         printf("Ошибка!");
         return;
     }
 
     bool flag = TRUE;
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         if (!strcmp(buffer[i].name, name))
         {
@@ -81,7 +82,7 @@ void saveFile(PhoneBookEntry* buffer, int length)
 {
     FILE* file = fopen("PhoneBook.txt", "w");
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length; ++i)
     {
         fprintf(file, "%s - %s", buffer[i].name, buffer[i].phone);
         fprintf(file, "\n");
@@ -120,7 +121,7 @@ void choose(int choice, PhoneBookEntry* buffer, int length)
         break;
 
     default:
-        printf("Введено неверное значение.");
+        printf("Введено неверное значение.\n");
         break;
     }
 }

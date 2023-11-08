@@ -5,8 +5,25 @@
 
 #include "PhoneBook.h"
 
-int print(size_t length, PhoneBookEntry *buffer)
+#define SIZE 100
+
+int main(void)
 {
+    setlocale(LC_ALL, "Russian");
+    printf("Добро пожаловать в телефонный справочник!\n\n");
+
+
+    FILE* file = fopen("PhoneBook.txt", "a+");
+    PhoneBookEntry buffer[SIZE] = { 0 };
+
+    int length = 0;
+    while (fscanf(file, "%s - %[^\n]", buffer[length].name, buffer[length].phone) == 2)
+    {
+        ++length;
+    }
+
+    fclose(file);
+
     while (true)
     {
         printf("Доступны следующие операции:\n"
@@ -17,47 +34,14 @@ int print(size_t length, PhoneBookEntry *buffer)
 
         if (scanf("%d", &choice) != 1)
         {
+            printf("Ошибка ввода!");
             return 1;
         }
 
         printf("\n");
         choose(choice, buffer, length);
         if (choice == 1)
-        {
-            length++;
-        }
-    }
-    return 0;
-}
-
-size_t openFile(PhoneBookEntry* buffer)
-{
-    FILE* file = fopen("PhoneBook.txt", "a+");
-
-    size_t length = 0;
-    while (fscanf(file, "%s - %[^\n]", buffer[length].name, buffer[length].phone) == 2)
-    {
-        length++;
-    }
-
-    fclose(file);
-
-    return length;
-}
-
-int main()
-{
-    setlocale(LC_ALL, "Russian");
-    printf("Добро пожаловать в телефонный справочник!\n\n");
-
-
-    PhoneBookEntry buffer[100] = { 0 };
-    size_t length = openFile(buffer);
-
-    if (print(length, buffer) != 0)
-    {
-        printf("Ошибка ввода!");
-        return 1;
+            ++length;
     }
 
     return 0;
