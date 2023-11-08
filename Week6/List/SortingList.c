@@ -1,4 +1,4 @@
-#include "SortingList.h"
+п»ї#include "SortingList.h"
 
 #include <stdio.h>
 
@@ -7,11 +7,11 @@ void addElement(List* const list)
     ListElement* currentElement = list->begin;
     size_t size = getSize(list);
 
-    printf("Введите число: ");
+    printf("Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ: ");
     int number = 0;
     if (scanf("%d", &number) != 1)
     {
-        printf("Ошибка ввода!");
+        printf("РћС€РёР±РєР° РІРІРѕРґР°!");
         return;
     }
 
@@ -44,7 +44,7 @@ void addElement(List* const list)
 
 void printList(const List* const list)
 {
-    printf("Результат: ");
+    printf("Р РµР·СѓР»СЊС‚Р°С‚: ");
     ListElement* currentElement = list->begin;
     size_t size = getSize(list);
     for (size_t i = 0; i < size; i++)
@@ -59,11 +59,11 @@ void deleteElement(List* const list)
     ListElement* currentElement = list->begin;
     size_t size = getSize(list);
 
-    printf("Введите число: ");
+    printf("Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ: ");
     int number = 0;
     if (scanf("%d", &number) != 1)
     {
-        printf("Ошибка ввода!");
+        printf("РћС€РёР±РєР° РІРІРѕРґР°!");
         return;
     }
 
@@ -86,7 +86,7 @@ void deleteElement(List* const list)
         }
         currentElement = currentElement->next;
     }
-    printf("Элемент не найден");
+    printf("Р­Р»РµРјРµРЅС‚ РЅРµ РЅР°Р№РґРµРЅ");
 }
 
 void choose(const size_t choice, List* const list)
@@ -113,7 +113,7 @@ void choose(const size_t choice, List* const list)
         break;
 
     default:
-        printf("Введено неверное значение.\n");
+        printf("Р’РІРµРґРµРЅРѕ РЅРµРІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ.\n");
         break;
     }
 }
