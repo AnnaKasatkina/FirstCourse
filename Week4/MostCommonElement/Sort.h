@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
-//Функция, выполняющая сортировку вставками
-void insertionSort(int* array, int start, int end);
+//Р¤СѓРЅРєС†РёСЏ, РІС‹РїРѕР»РЅСЏСЋС‰Р°СЏ Р±С‹СЃС‚СЂСѓСЋ СЃРѕСЂС‚РёСЂРѕРІРєСѓ
+void quickSort(int* const begin, int* const end);

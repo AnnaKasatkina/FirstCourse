@@ -1,17 +1,39 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include "Sort.h"
 
-void insertionSort(int* array, int start, int end)
+static void swap(int* const number1, int* const number2)
 {
-    for (start + 1; start < end; start++)
+    const int tmp = *number1;
+    *number1 = *number2;
+    *number2 = tmp;
+}
+
+void quickSort(int* const begin, int* const end)
+{
+    if (end - begin <= 1)
     {
-        int sorted = start;
-        while (sorted > -1 && array[sorted] > array[sorted + 1])
+        return;
+    }
+
+    int* swapMarker = begin - 1;
+    int* pivot = end - 1;
+    int* pivotPos = NULL;
+    for (int* currentIndex = begin; currentIndex != end; ++currentIndex)
+    {
+        if (*currentIndex <= *pivot)
         {
-            int temp = array[sorted];
-            array[sorted] = array[sorted + 1];
-            array[sorted + 1] = temp;
-            sorted--;
+            ++swapMarker;
+            if (currentIndex > swapMarker)
+            {
+                swap(currentIndex, swapMarker);
+            }
+
+            if (currentIndex == pivot)
+            {
+                pivotPos = swapMarker;
+            }
         }
     }
+    quickSort(begin, pivotPos);
+    quickSort(pivotPos + 1, end);
 }
