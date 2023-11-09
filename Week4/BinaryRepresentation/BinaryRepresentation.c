@@ -4,15 +4,20 @@
 
 void binarySum(int* const array1, const int* const array2, int* const rezult, const size_t length)
 {
+    int tmp = 0;
     int index = (int)(length - 1);
-    for (int i = index; i >= 0; --i)
+    for (int i = index; i > 0; --i)
     {
-        rezult[i] = (array1[i] + array2[i]) % 2;
-        int sum = array1[i] + array2[i];
+        int sum = array1[i] + array2[i] + tmp;
+        rezult[i] = (sum) % 2;
 
-        if (sum >= 1 && i != 0)
+        if (sum >= 2 && i != 0)
         {
-            array1[i - 1] += 1;
+            tmp = 1;
+        }
+        else
+        {
+            tmp = 0;
         }
     }
 }
