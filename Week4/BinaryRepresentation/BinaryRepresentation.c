@@ -10,14 +10,7 @@ static void plusOne(char* const array, const size_t length)
         int sum = array[i] + tmp;
         array[i] = (sum) % 2;
 
-        if (sum >= 2 && i != 0)
-        {
-            tmp = 1;
-        }
-        else
-        {
-            tmp = 0;
-        }
+        tmp = sum == 2 ? 1 : 0;
     }
 }
 
@@ -29,14 +22,7 @@ void binarySum(const char* const array1, const char* const array2, char* const r
         int sum = array1[i] + array2[i] + tmp;
         result[i] = (sum) % 2;
 
-        if (sum >= 2 && i != 0)
-        {
-            tmp = 1;
-        }
-        else
-        {
-            tmp = 0;
-        }
+        tmp = sum >= 2 ? 1 : 0;
     }
 }
 
@@ -76,14 +62,7 @@ static void minusOne(char* const array, const size_t length)
         int sum = array[i] + 1 + tmp;
         array[i] = (sum) % 2;
 
-        if (sum >= 2 && i != 0)
-        {
-            tmp = 1;
-        }
-        else
-        {
-            tmp = 0;
-        }
+        tmp = sum >= 2 ? 1 : 0;
     }
 }
 

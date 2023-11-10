@@ -33,7 +33,7 @@ int main(void)
     if (scanf("%d %d", &num1, &num2) != 2)
     {
         printf("Ошибка ввода");
-        return 1;
+        return ERROR;
     }
     
     const int maxNumber = max(abs(num1), abs(num2));
@@ -44,6 +44,8 @@ int main(void)
 
     if (array1 == NULL || array2 == NULL)
     {
+        free(array1);
+        free(array2);
         printf("Memory error");
         return ERROR;
     }
@@ -58,6 +60,9 @@ int main(void)
     char* result = (char*)calloc(length, sizeof(char));
     if (result == NULL)
     {
+        free(array1);
+        free(array2);
+        free(result);
         printf("Memory error");
         return ERROR;
     }
