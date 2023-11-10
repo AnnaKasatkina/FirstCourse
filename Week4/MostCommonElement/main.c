@@ -1,11 +1,13 @@
 #include "Sort.h"
 #include "MostCommonElement.h"
-#include "tests.h"
+#include "Tests.h"
+#include "ReadFromFile.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define ERROR -1
+#define NAME "Array.txt"
 
 void printArray(int const* const array, const size_t length)
 {
@@ -23,18 +25,15 @@ int main(void)
     }
 
     size_t length = 0;
-    bool error = false;
-    int* array = openFile(&length, &error);
+    int* array = openFile(&length, NAME);
 
-    if (error == true)
+    if (array == NULL)
     {
         printf("Error!");
         return ERROR;
     }
 
-    quickSort(array, array + length);
-
-    printf("%d the most common element in the array: ", isTheMostCommon(array, length));
+    printf("%d the most common element in the array: ", findTheMostCommon(array, length));
     printArray(array, length);
 
     free(array);

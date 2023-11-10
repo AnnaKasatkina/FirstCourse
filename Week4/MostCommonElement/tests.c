@@ -1,5 +1,4 @@
-#include "tests.h"
-#include "Sort.h"
+Ôªø#include "Tests.h"
 #include "MostCommonElement.h"
 
 #include <stdio.h>
@@ -22,9 +21,7 @@ static bool oneElement(void)
     int array[] = { 52 };
     const answer = 52;
 
-    quickSort(array, array + length);
-    isTheMostCommon(array, length);
-    return answer == isTheMostCommon(array, length);
+    return answer == findTheMostCommon(array, length);
 }
 
 static bool identicalElement(void)
@@ -33,27 +30,23 @@ static bool identicalElement(void)
     int array[] = { 52, 52, 52, 52, 52 };
     const answer = 52;
 
-    quickSort(array, array + length);
-    isTheMostCommon(array, length);
-    return answer == isTheMostCommon(array, length);
+    return answer == findTheMostCommon(array, length);
 }
 
-static bool same¿requency(void)
+static bool same–êrequency(void)
 {
     const size_t length = 5;
     int array[] = { 52, 45, 1, 1, 45 };
     const answer = 45;
 
-    quickSort(array, array + length);
-    isTheMostCommon(array, length);
-    return answer == isTheMostCommon(array, length);
+    return answer == findTheMostCommon(array, length);
 }
 
 bool resultTests(void)
 {
     const bool answerOne = oneElement();
     const bool answerTwo = identicalElement();
-    const bool answerThree = same¿requency();
+    const bool answerThree = same–êrequency();
 
     printResultTest(answerOne, "One Element");
     printResultTest(answerTwo, "Identical Element");

@@ -1,4 +1,5 @@
 ﻿#include <stdio.h>
+
 #include "Sort.h"
 
 static void swap(int* const number1, int* const number2)
