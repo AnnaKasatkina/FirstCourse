@@ -5,7 +5,7 @@
 
 #define LEN 8
 
-const bool compareArrays(int const* const array1, int const* const array2)
+const bool compareArrays(char const* const array1, char const* const array2)
 {
     for (size_t i = 0; i < LEN; ++i)
     {
@@ -19,20 +19,20 @@ const bool compareArrays(int const* const array1, int const* const array2)
 
 const bool testBinarySum(void)
 {
-    int testingArrayOne[] = { 0, 0, 1, 1, 1, 1, 1, 1 };
-    const int testingArrayTwo[] = { 0, 0, 0, 1, 1, 1, 1, 1 };
-    int testingArrayRezult[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    const int rightTestingArray[] = { 0, 1, 0, 1, 1, 1, 1, 0 };
+    char testingArrayOne[] = { 0, 0, 1, 1, 1, 1, 1, 1 };
+    const char testingArrayTwo[] = { 0, 0, 0, 1, 1, 1, 1, 1 };
+    char testingArrayresult[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    const char rightTestingArray[] = { 0, 1, 0, 1, 1, 1, 1, 0 };
 
-    binarySum(testingArrayOne, testingArrayTwo, testingArrayRezult, LEN);
-    return compareArrays(rightTestingArray, testingArrayRezult);
+    binarySum(testingArrayOne, testingArrayTwo, testingArrayresult, LEN);
+    return compareArrays(rightTestingArray, testingArrayresult);
 }
 
 const bool testConversionToBinary(void)
 {
     const int testingNumber = -3;
-    int testingArray[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    const int rightTestingArray[] = { 1, 1, 1, 1, 1, 1, 0, 1 };
+    char testingArray[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    const char rightTestingArray[] = { 1, 1, 1, 1, 1, 1, 0, 1 };
 
     conversionToBinary(testingArray, testingNumber, LEN);
     return compareArrays(rightTestingArray, testingArray);
@@ -40,16 +40,16 @@ const bool testConversionToBinary(void)
 
 static bool testconversionToDecimal()
 {
-    int testingArray[] = { 1, 1, 1, 1, 0, 0, 0, 1 };
+    char testingArray[] = { 1, 1, 1, 1, 0, 0, 0, 1 };
     int rightNumber = -15;
 
     int answer = conversionToDecimal(testingArray, LEN);
     return answer == rightNumber;
 }
 
-const void printResultTest(const bool rezult, const char* const nameTest)
+const void printResultTest(const bool result, const char* const nameTest)
 {
-    if (rezult)
+    if (result)
     {
         printf("Тест %s прошел успешно.\n", nameTest);
     }

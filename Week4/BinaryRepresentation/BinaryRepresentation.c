@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-static void plusOne(int* const array, const size_t length)
+static void plusOne(char* const array, const size_t length)
 {
     int tmp = 1;
     for (size_t i = length; i-- > 0;)
@@ -21,13 +21,13 @@ static void plusOne(int* const array, const size_t length)
     }
 }
 
-void binarySum(const int* const array1, const int* const array2, int* const rezult, const size_t length)
+void binarySum(const char* const array1, const char* const array2, char* const result, const size_t length)
 {
     int tmp = 0;
     for (size_t i = length; i-- > 0;)
     {
         int sum = array1[i] + array2[i] + tmp;
-        rezult[i] = (sum) % 2;
+        result[i] = (sum) % 2;
 
         if (sum >= 2 && i != 0)
         {
@@ -40,7 +40,7 @@ void binarySum(const int* const array1, const int* const array2, int* const rezu
     }
 }
 
-static void reverse(int* const array, const size_t length)
+static void reverse(char* const array, const size_t length)
 {
     for (size_t i = 0; i < length; ++i)
     {
@@ -48,7 +48,7 @@ static void reverse(int* const array, const size_t length)
     }
 }
 
-static void twosComplement(int* const array, const int number, const size_t length)
+static void twosComplement(char* const array, const int number, const size_t length)
 {
     if (number < 0)
     {
@@ -57,7 +57,7 @@ static void twosComplement(int* const array, const int number, const size_t leng
     }
 }
 
-void conversionToBinary(int* const array, int number, const size_t length)
+void conversionToBinary(char* const array, int number, const size_t length)
 {
     int tmp = abs(number);
     for (size_t i = length; i-- > 0;)
@@ -68,7 +68,7 @@ void conversionToBinary(int* const array, int number, const size_t length)
     twosComplement(array, number, length);
 }
 
-static void minusOne(int* const array, const size_t length)
+static void minusOne(char* const array, const size_t length)
 {
     int tmp = 0;
     for (size_t i = length; i-- > 0;)
@@ -87,7 +87,7 @@ static void minusOne(int* const array, const size_t length)
     }
 }
 
-int conversionToDecimal(int* const array, const size_t length)
+int conversionToDecimal(char* const array, const size_t length)
 {
     int number = 0;
     int sign = 1;

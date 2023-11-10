@@ -8,7 +8,7 @@
 
 #define ERROR -1
 
-void printArray(int const* const array, size_t length)
+void printArray(char const* const array, size_t length)
 {
     for (size_t i = 0; i < length; ++i)
         printf("%d ", array[i]);
@@ -39,8 +39,14 @@ int main(void)
     const int maxNumber = max(abs(num1), abs(num2));
     const size_t length = (size_t)(log2(max(abs(num1 + num2), maxNumber)) + 2);
 
-    int* const array1 = (int*)calloc(length, sizeof(int));
-    int* const array2 = (int*)calloc(length, sizeof(int));
+    char* const array1 = (char*)calloc(length, sizeof(char));
+    char* const array2 = (char*)calloc(length, sizeof(char));
+
+    if (array1 == NULL || array2 == NULL)
+    {
+        printf("Memory error");
+        return ERROR;
+    }
 
     printf("Числа в двоичном представлении в дополнительном коде: \n");
     conversionToBinary(array1, num1, length);
@@ -49,15 +55,22 @@ int main(void)
     printArray(array2, length);
 
     printf("Сумма чисел в двоичной системе: \n");
-    int* rezult = (int*)calloc(length, sizeof(int));
-    binarySum(array1, array2, rezult, length);
-    printArray(rezult, length);
+    char* result = (char*)calloc(length, sizeof(char));
+    if (result == NULL)
+    {
+        printf("Memory error");
+        return ERROR;
+    }
+
+    binarySum(array1, array2, result, length);
+    printArray(result, length);
 
     printf("Сумма чисел в десятичной системе: \n");
-    int rezultSum = conversionToDecimal(rezult, length);
-    printf("%d", rezultSum);
+    int resultSum = conversionToDecimal(result, length);
+    printf("%d", resultSum);
 
     free(array1);
     free(array2);
+    free(result);
     return 0;
 }
