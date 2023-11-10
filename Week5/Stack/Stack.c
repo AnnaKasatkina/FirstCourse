@@ -39,16 +39,10 @@ ErrorCode pop(Stack** head)
 
 ErrorCode freeStack(Stack** head)
 {
-	Stack* next = (*head)->previous;
-	free(*head);
-	while (next != NULL)
+	while (*head != NULL)
 	{
-		Stack* temp = next;
-		next = next->previous;
-		free(temp);
+		pop(head);
 	}
-	*head = next;
-
 	return ok;
 }
 

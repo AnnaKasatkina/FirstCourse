@@ -4,8 +4,8 @@
 
 void printResultTest(const bool rezult, const char* const nameTest);
 
-bool testCorrectSequence();
+bool testCorrectSequence(void);
 
-bool testIncorrectSequence();
+bool testIncorrectSequence(void);
 
-bool resultTests();
+bool resultTests(void);

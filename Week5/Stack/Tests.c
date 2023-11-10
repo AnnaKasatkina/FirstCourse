@@ -16,7 +16,7 @@ void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-bool testCorrectSequence()
+bool testCorrectSequence(void)
 {
     char* testString = "96-12+*";
     ErrorCode errorCode = ok;
@@ -29,14 +29,10 @@ bool testCorrectSequence()
         return false;
     }
 
-    if (answer != result)
-    {
-        return false;
-    }
-    return true;
+    return answer == result;
 }
 
-bool testIncorrectSequence()
+bool testIncorrectSequence(void)
 {
     char* testString = "96-12+*";
     ErrorCode errorCode = ok;
@@ -49,22 +45,14 @@ bool testIncorrectSequence()
         return false;
     }
 
-    if (answer == result)
-    {
-        return false;
-    }
-    return true;
+    return answer == result;
 }
 
-bool resultTests()
+bool resultTests(void)
 {
     printResultTest(testCorrectSequence(), "Correct Sequence");
     printResultTest(testIncorrectSequence(), "Incorrect Sequence");
     printf("\n");
 
-    if (testCorrectSequence() && testIncorrectSequence())
-    {
-        return true;
-    }
-    return false;
+    return testCorrectSequence() && testIncorrectSequence();
 }
