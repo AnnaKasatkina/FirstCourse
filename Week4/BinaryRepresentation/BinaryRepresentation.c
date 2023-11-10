@@ -2,11 +2,29 @@
 
 #include <math.h>
 
-void binarySum(int* const array1, const int* const array2, int* const rezult, const size_t length)
+static void plusOne(int* const array, const size_t length)
+{
+    int tmp = 1;
+    for (size_t i = length; i-- > 0;)
+    {
+        int sum = array[i] + tmp;
+        array[i] = (sum) % 2;
+
+        if (sum >= 2 && i != 0)
+        {
+            tmp = 1;
+        }
+        else
+        {
+            tmp = 0;
+        }
+    }
+}
+
+void binarySum(const int* const array1, const int* const array2, int* const rezult, const size_t length)
 {
     int tmp = 0;
-    int index = (int)(length - 1);
-    for (int i = index; i > 0; --i)
+    for (size_t i = length; i-- > 0;)
     {
         int sum = array1[i] + array2[i] + tmp;
         rezult[i] = (sum) % 2;
@@ -22,16 +40,6 @@ void binarySum(int* const array1, const int* const array2, int* const rezult, co
     }
 }
 
-void conversionToBinary(int* const array, int number, const size_t length)
-{
-    number = abs(number);
-    for (int i = (int)(length - 1); i >= 0; --i)
-    {
-        array[i] = number % 2;
-        number /= 2;
-    }
-}
-
 static void reverse(int* const array, const size_t length)
 {
     for (size_t i = 0; i < length; ++i)
@@ -40,33 +48,43 @@ static void reverse(int* const array, const size_t length)
     }
 }
 
-static int* fillArrayOne(const size_t length)
+static void twosComplement(int* const array, const int number, const size_t length)
 {
-    int* one = (int*)calloc(length, sizeof(int));
-    one[length - 1] = 1;
-    return one;
-}
-
-void twosComplement(int* const array, const int number, const size_t length)
-{
-    conversionToBinary(array, number, length);
     if (number < 0)
     {
         reverse(array, length);
-        int* one = fillArrayOne(length);
-        binarySum(array, one, array, length);
-        free(one);
+        plusOne(array, length);
     }
 }
 
-static int* fillArrayMinusOne(const size_t length)
+void conversionToBinary(int* const array, int number, const size_t length)
 {
-    int* minusOne = (int*)calloc(length, sizeof(int));
-    for (size_t i = 0; i < length; ++i)
+    int tmp = abs(number);
+    for (size_t i = length; i-- > 0;)
     {
-        minusOne[i] = 1;
+        array[i] = tmp % 2;
+        tmp /= 2;
     }
-    return minusOne;
+    twosComplement(array, number, length);
+}
+
+static void minusOne(int* const array, const size_t length)
+{
+    int tmp = 0;
+    for (size_t i = length; i-- > 0;)
+    {
+        int sum = array[i] + 1 + tmp;
+        array[i] = (sum) % 2;
+
+        if (sum >= 2 && i != 0)
+        {
+            tmp = 1;
+        }
+        else
+        {
+            tmp = 0;
+        }
+    }
 }
 
 int conversionToDecimal(int* const array, const size_t length)
@@ -76,8 +94,7 @@ int conversionToDecimal(int* const array, const size_t length)
     if (array[0] == 1)
     {
         sign = -1;
-        int* minusOne = fillArrayMinusOne(length);
-        binarySum(array, minusOne, array, length);
+        minusOne(array, length);
         reverse(array, length);
     }
 
@@ -86,5 +103,5 @@ int conversionToDecimal(int* const array, const size_t length)
     {
         number += array[i] * (int)pow(2, (double)(index - i));
     }
-    return number *= sign;
+    return number * sign;
 }

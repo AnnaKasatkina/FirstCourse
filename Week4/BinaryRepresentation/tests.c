@@ -30,22 +30,21 @@ const bool testBinarySum(void)
 
 const bool testConversionToBinary(void)
 {
-    const int testingNumber = 63;
+    const int testingNumber = -3;
     int testingArray[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    const int rightTestingArray[] = { 0, 0, 1, 1, 1, 1, 1, 1 };
+    const int rightTestingArray[] = { 1, 1, 1, 1, 1, 1, 0, 1 };
 
     conversionToBinary(testingArray, testingNumber, LEN);
     return compareArrays(rightTestingArray, testingArray);
 }
 
-const bool testTwosComplement(void)
+static bool testconversionToDecimal()
 {
-    const int testingNumber = -3;
-    int testingArray[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    const int rightTestingArray[] = { 1, 1, 1, 1, 1, 1, 0, 1 };
+    int testingArray[] = { 1, 1, 1, 1, 0, 0, 0, 1 };
+    int rightNumber = -15;
 
-    twosComplement(testingArray, testingNumber, LEN);
-    return compareArrays(rightTestingArray, testingArray);
+    int answer = conversionToDecimal(testingArray, LEN);
+    return answer == rightNumber;
 }
 
 const void printResultTest(const bool rezult, const char* const nameTest)
@@ -64,12 +63,12 @@ bool resultTests(void)
 {
     const bool answerOne = testBinarySum();
     const bool answerTwo = testConversionToBinary();
-    const bool answerFour = testTwosComplement();
+    const bool answerFour = testconversionToDecimal();
 
     printResultTest(answerOne, "Сумма двоичных чисел");
     printResultTest(answerTwo, "Перевод в двоичную систему");
-    printResultTest(answerFour, "Дополнительный код");
+    printResultTest(answerFour, "Перевод в десятичную систему");
     printf("\n");
 
-    return (answerOne && answerTwo && answerFour);
+    return answerOne && answerTwo && answerFour;
 }

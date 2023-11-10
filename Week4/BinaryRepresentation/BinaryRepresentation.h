@@ -3,10 +3,7 @@
 #include <stdlib.h>
 
 // Подсчет суммы двух числе в двоичной системе
-void binarySum(int* const array1, const int* const array2, int* const rezult, const size_t length);
-
-// Перевод числа в двоичное представление в дополнительном коде
-void twosComplement(int* const array, const int number, const size_t length);
+void binarySum(const int* const array1, const int* const array2, int* const rezult, const size_t length);
 
 // Перевод числа в двоичное представление
 void conversionToBinary(int* const array, int number, const size_t length);

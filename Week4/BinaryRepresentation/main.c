@@ -21,7 +21,7 @@ int main(void)
 
     if (!resultTests())
     {
-        printf("Error!");
+        printf("Test error!");
         return ERROR;
     }
 
@@ -36,15 +36,15 @@ int main(void)
         return 1;
     }
     
-    int maxNumber = max(abs(num1), abs(num2));
-    size_t length = (size_t)(log2(max(abs(num1 + num2), maxNumber)) + 2);
+    const int maxNumber = max(abs(num1), abs(num2));
+    const size_t length = (size_t)(log2(max(abs(num1 + num2), maxNumber)) + 2);
 
-    int* array1 = (int*)calloc(length, sizeof(int));
-    int* array2 = (int*)calloc(length, sizeof(int));
+    int* const array1 = (int*)calloc(length, sizeof(int));
+    int* const array2 = (int*)calloc(length, sizeof(int));
 
     printf("Числа в двоичном представлении в дополнительном коде: \n");
-    twosComplement(array1, num1, length);
-    twosComplement(array2, num2, length);
+    conversionToBinary(array1, num1, length);
+    conversionToBinary(array2, num2, length);
     printArray(array1, length);
     printArray(array2, length);
 
@@ -57,5 +57,7 @@ int main(void)
     int rezultSum = conversionToDecimal(rezult, length);
     printf("%d", rezultSum);
 
+    free(array1);
+    free(array2);
     return 0;
 }
