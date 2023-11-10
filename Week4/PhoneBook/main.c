@@ -12,16 +12,14 @@ int main(void)
     setlocale(LC_ALL, "Russian");
     printf("Добро пожаловать в телефонный справочник!\n\n");
 
-
     FILE* file = fopen("PhoneBook.txt", "a+");
     PhoneBookEntry buffer[SIZE] = { 0 };
 
-    int length = 0;
+    size_t length = 0;
     while (fscanf(file, "%s - %[^\n]", buffer[length].name, buffer[length].phone) == 2)
     {
         ++length;
     }
-
     fclose(file);
 
     while (true)

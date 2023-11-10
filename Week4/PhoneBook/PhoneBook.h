@@ -7,14 +7,14 @@ typedef struct
     char phone[LEN];
 } PhoneBookEntry;
 
-void addEntry(PhoneBookEntry* buffer, int length);
+void addEntry(PhoneBookEntry* buffer, size_t length);
 
-void printAllEntry(PhoneBookEntry* buffer, int length);
+void printAllEntry(PhoneBookEntry* buffer, size_t length);
 
-void searchPhone(PhoneBookEntry* buffer, int length);
+void searchPhone(PhoneBookEntry* buffer, size_t length);
 
-void searchName(PhoneBookEntry* buffer, int length);
+void searchName(PhoneBookEntry* buffer, size_t length);
 
-void saveFile(PhoneBookEntry* buffer, int length);
+void saveFile(PhoneBookEntry* buffer, size_t length);
 
-void choose(int choice, PhoneBookEntry* buffer, int length);
+void choose(int choice, PhoneBookEntry* buffer, size_t length);
