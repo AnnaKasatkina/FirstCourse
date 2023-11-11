@@ -1,4 +1,4 @@
-#include "Stack.h"
+﻿#include "Stack.h"
 
 #include <stdio.h>
 
@@ -14,10 +14,7 @@ int main(void)
 
 	printf("%d", top(digits, &error));
 
-	if (freeStack(&digits) != ok)
-	{
-		printf("error");
-	}
+	freeStack(&digits);
 
 	int value = top(digits, &error);
 	if (error == ok)

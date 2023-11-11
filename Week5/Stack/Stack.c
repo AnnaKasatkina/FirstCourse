@@ -5,59 +5,47 @@
 
 struct Stack
 {
-	int value;
-	Stack* previous;
+    int value;
+    Stack* previous;
 };
 
-ErrorCode push(Stack** head, int value)
+ErrorCode push(Stack** const head, const int value)
 {
-	Stack* next = (int *)malloc(sizeof(Stack));
-	if (next == NULL)
-	{
-		return outOfMemory;
-	}
-	next->value = value;
-	next->previous = *head;
-	*head = next;
+    Stack* next = (Stack*)malloc(sizeof(Stack));
+    if (next == NULL)
+    {
+        return outOfMemory;
+    }
+    next->value = value;
+    next->previous = *head;
+    *head = next;
 
-	return ok;
+    return ok;
 }
 
-ErrorCode pop(Stack** head)
+void pop(Stack** const head)
 {
-	if (*head == NULL)
-	{
-		return stackIsEmpty;
-	}
-
-	Stack* trash = *head;
-	*head = (*head)->previous;
-	free(trash);
-
-	return ok;
+    Stack* trash = *head;
+    *head = (*head)->previous;
+    free(trash);
 }
 
-ErrorCode freeStack(Stack** head)
+void freeStack(Stack** head)
 {
-	Stack* next = (*head)->previous;
-	free(*head);
-	while (next != NULL)
-	{
-		pop(&next);
-	}
-	*head = next;
-
-	return ok;
+    while (*head != NULL)
+    {
+        pop(head);
+    }
 }
 
-int top(Stack* head, ErrorCode* errorCode)
+int top(const Stack* const head, ErrorCode* const errorCode)
 {
-	if (head == NULL)
-	{
-		*errorCode = stackIsEmpty;
-		return 0;
-	}
+    if (head == NULL)
+    {
+        *errorCode = stackIsEmpty;
+        return 0;
+    }
 
-	*errorCode = ok;
-	return head->value;
+    *errorCode = ok;
+    return head->value;
 }

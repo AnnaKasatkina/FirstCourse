@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 typedef enum ErrorCode
 {
@@ -11,13 +11,13 @@ typedef enum ErrorCode
 typedef struct Stack Stack;
 
 // Add element in Stack
-ErrorCode push(Stack** head, int value);
+ErrorCode push(Stack** const head, const int value);
 
 // Delete top element from Stack
-ErrorCode pop(Stack** head);
+void pop(Stack** const head);
 
 // Delete Stack
-ErrorCode freeStack(Stack** head);
+void freeStack(Stack** head);
 
 // Return top element in Stack
-int top(Stack* head, ErrorCode* errorCode);
+int top(const Stack* const head, ErrorCode* const errorCode);
