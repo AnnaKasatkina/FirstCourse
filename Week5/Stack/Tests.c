@@ -16,7 +16,7 @@ void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-bool testCorrectSequence(void)
+static bool testCorrectSequence(void)
 {
     char* testString = "96-12+*";
     ErrorCode errorCode = ok;
@@ -32,7 +32,7 @@ bool testCorrectSequence(void)
     return answer == result;
 }
 
-bool testIncorrectSequence(void)
+static bool testIncorrectSequence(void)
 {
     char* testString = "96-12+*";
     ErrorCode errorCode = ok;
