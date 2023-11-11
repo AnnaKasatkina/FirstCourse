@@ -45,7 +45,7 @@ bool testIncorrectSequence(void)
         return false;
     }
 
-    return answer == result;
+    return answer != result;
 }
 
 bool resultTests(void)

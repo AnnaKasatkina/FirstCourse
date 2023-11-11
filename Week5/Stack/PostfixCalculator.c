@@ -5,7 +5,19 @@
 #include <stdio.h>
 #include <ctype.h>
 
-char* getString(ErrorCode *errorCode)
+static void removeSpaces(char* string)
+{
+    char* character = string;
+    do
+    {
+        while (*character == ' ')
+        {
+            ++character;
+        }
+    } while (*(string++) = *(character++));
+}
+
+char* getString(ErrorCode* const errorCode)
 {
     int length = 0;
     int capacity = 1;
@@ -43,25 +55,15 @@ char* getString(ErrorCode *errorCode)
     }
 
     string[length] = '\0';
+    removeSpaces(string);
 
     return string;
-}
-
-void removeSpaces(char* string)
-{
-    char* character = string;
-    do
-    {
-        while (*character == ' ')
-        {
-            ++character;
-        }
-    } while (*(string++) = *(character++));
 }
 
 int postfixCalculator(char* string, ErrorCode* errorCode)
 {
     Stack* digits = NULL;
+
     for (char* character = string; *character != '\0'; ++character)
     {
         if (isdigit(*character))
@@ -71,18 +73,10 @@ int postfixCalculator(char* string, ErrorCode* errorCode)
         else
         {
             int second = top(digits, errorCode);
-            if (*errorCode != ok || pop(&digits) != ok)
-            {
-                *errorCode = stackIsEmpty;
-                return 0;
-            }
+            pop(&digits);
 
             int first = top(digits, errorCode);
-            if (*errorCode != ok || pop(&digits) != ok)
-            {
-                *errorCode = stackIsEmpty;
-                return 0;
-            }
+            pop(&digits);
 
             switch (*character)
             {

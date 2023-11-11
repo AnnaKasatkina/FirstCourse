@@ -6,28 +6,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ERROR -1
+
 int main(void)
 {
     if (!resultTests())
     {
         printf("Error!");
-        return -1;
+        return ERROR;
     }
+
+    printf("Enter an arithmetic expression: ");
 
     ErrorCode errorCode = ok;
     char* string = getString(&errorCode);
     if (errorCode == outOfMemory)
     {
         printf("Out of memory");
-        return -1;
+        return ERROR;
     }
 
-    removeSpaces(string);
     int result = postfixCalculator(string, &errorCode);
     if (errorCode != ok)
     {
         printf("Incorrect input data!");
-        return -1;
+        free(string);
+        return ERROR;
     }
     printf("Result: %d", result);
 
