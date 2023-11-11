@@ -1,4 +1,4 @@
-#include "ReadFromFile.h"
+﻿#include "ReadFromFile.h"
 
 #include <stdio.h>
 
@@ -17,6 +17,7 @@ int* openFile(size_t* const length, const char * const nameFile)
     {
         if (fscanf(file, "%d ", &array[i]) != 1)
         {
+            fclose(file);
             free(array);
             return NULL;
         }

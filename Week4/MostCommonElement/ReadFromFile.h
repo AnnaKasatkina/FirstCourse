@@ -1,6 +1,6 @@
-#pragma once
+п»ї#pragma once
 
 #include <stdlib.h>
 
-// Считывание массива из файла
+// РЎС‡РёС‚С‹РІР°РЅРёРµ РјР°СЃСЃРёРІР° РёР· С„Р°Р№Р»Р°
 int* openFile(size_t* const length, const char* const nameFile);
