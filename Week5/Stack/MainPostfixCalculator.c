@@ -1,6 +1,7 @@
 #include "Stack.h"
 #include "PostfixCalculator.h"
 #include "Tests.h"
+#include "Utility.h"
 
 #include <string.h>
 #include <stdio.h>

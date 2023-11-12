@@ -4,7 +4,9 @@
 
 #include <stdio.h>
 
-void printResultTest(const bool rezult, const char* const nameTest)
+#define ERROR_STR "Error!\n"
+
+static void printResultTest(const bool rezult, const char* const nameTest)
 {
     if (rezult)
     {
@@ -18,41 +20,41 @@ void printResultTest(const bool rezult, const char* const nameTest)
 
 static bool testCorrectSequence(void)
 {
-    char* testString = "96-12+*";
+    char* testString = "9 6 - 1 2 + *";
     ErrorCode errorCode = ok;
     const int answer = 9;
 
     int result = postfixCalculator(testString, &errorCode);
     if (errorCode != ok)
     {
-        printf("Error! ");
+        printf(ERROR_STR);
         return false;
     }
 
     return answer == result;
 }
 
-static bool testIncorrectSequence(void)
+static bool testMultiplication(void)
 {
-    char* testString = "96-12+*";
+    char* testString = "5 3 *";
     ErrorCode errorCode = ok;
-    const int answer = 8;
+    const int answer = 15;
 
     int result = postfixCalculator(testString, &errorCode);
     if (errorCode != ok)
     {
-        printf("Error! ");
+        printf(ERROR_STR);
         return false;
     }
 
-    return answer != result;
+    return answer == result;
 }
 
 bool resultTests(void)
 {
     printResultTest(testCorrectSequence(), "Correct Sequence");
-    printResultTest(testIncorrectSequence(), "Incorrect Sequence");
+    printResultTest(testMultiplication(), "Incorrect Sequence");
     printf("\n");
 
-    return testCorrectSequence() && testIncorrectSequence();
+    return testCorrectSequence() && testMultiplication();
 }

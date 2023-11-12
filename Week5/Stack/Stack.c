@@ -35,7 +35,7 @@ void pop(Stack** const head)
     free(trash);
 }
 
-void freeStack(Stack** head)
+void freeStack(Stack** const head)
 {
     while (*head != NULL)
     {
@@ -53,4 +53,9 @@ int top(const Stack* const head, ErrorCode* const errorCode)
 
     *errorCode = ok;
     return head->value;
+}
+
+bool isEmpty(const Stack* const head)
+{
+    return head == NULL;
 }
