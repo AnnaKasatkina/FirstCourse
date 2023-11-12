@@ -1,6 +1,7 @@
 #include "Stack.h"
 #include "BalanceBrackets.h"
 #include "Tests.h"
+#include "Utility.h"
 
 #include <stdio.h>
 #include <string.h>
