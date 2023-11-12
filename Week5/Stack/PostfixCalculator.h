@@ -3,4 +3,4 @@
 #include "Stack.h"
 
 //Postfix Calculator function
-int postfixCalculator(char* string, ErrorCode* errorCode);
+int postfixCalculator(char* const string, ErrorCode* const errorCode);

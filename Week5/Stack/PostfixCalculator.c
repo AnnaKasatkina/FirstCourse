@@ -6,7 +6,17 @@
 #include <stdio.h>
 #include <ctype.h>
 
-int postfixCalculator(char* string, ErrorCode* errorCode)
+#define ERROR -1
+#define STACK_ERROR(X)\
+    if ((X) != ok)\
+    {\
+        free(digits);\
+        *errorCode = error;\
+        return ERROR;\
+    }
+
+
+int postfixCalculator(char* const string, ErrorCode* const errorCode)
 {
     Stack* digits = NULL;
 
@@ -18,29 +28,31 @@ int postfixCalculator(char* string, ErrorCode* errorCode)
         }
         if (isdigit(*character))
         {
-            push(&digits, (int)*character - '0');
+            STACK_ERROR(push(&digits, (int)*character - '0'));
         }
         else
         {
             int second = top(digits, errorCode);
+            STACK_ERROR(*errorCode);
             pop(&digits);
 
             int first = top(digits, errorCode);
+            STACK_ERROR(*errorCode);
             pop(&digits);
 
             switch (*character)
             {
             case '+':
-                push(&digits, first + second);
+                STACK_ERROR(push(&digits, first + second));
                 break;
             case '/':
-                push(&digits, first / second);
+                STACK_ERROR(push(&digits, first / second));
                 break;
             case '*':
-                push(&digits, first * second);
+                STACK_ERROR(push(&digits, first * second))
                 break;
             case '-':
-                push(&digits, first - second);
+                STACK_ERROR(push(&digits, first - second));
                 break;
             default:
                 break;

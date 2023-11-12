@@ -18,11 +18,9 @@ static void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-static bool testCorrectSequence(void)
+static bool testCase(char* testString, const int answer)
 {
-    char* testString = "9 6 - 1 2 + *";
     ErrorCode errorCode = ok;
-    const int answer = 9;
 
     int result = postfixCalculator(testString, &errorCode);
     if (errorCode != ok)
@@ -32,29 +30,62 @@ static bool testCorrectSequence(void)
     }
 
     return answer == result;
+}
+
+static bool testSequence(void)
+{
+    char* testString = "9 6 - 1 2 + * 3 /";
+    const int answer = 3;
+
+    return testCase(testString, answer);
 }
 
 static bool testMultiplication(void)
 {
     char* testString = "5 3 *";
-    ErrorCode errorCode = ok;
     const int answer = 15;
 
-    int result = postfixCalculator(testString, &errorCode);
-    if (errorCode != ok)
-    {
-        printf(ERROR_STR);
-        return false;
-    }
+    return testCase(testString, answer);
+}
 
-    return answer == result;
+static bool testDivision(void)
+{
+    char* testString = "8 2 /";
+    const int answer = 4;
+
+    return testCase(testString, answer);
+}
+
+static bool testSubtraction(void)
+{
+    char* testString = "6 1 -";
+    const int answer = 5;
+
+    return testCase(testString, answer);
+}
+
+static bool testAddition(void)
+{
+    char* testString = "2 2 +";
+    const int answer = 4;
+
+    return testCase(testString, answer);
 }
 
 bool resultTests(void)
 {
-    printResultTest(testCorrectSequence(), "Correct Sequence");
-    printResultTest(testMultiplication(), "Incorrect Sequence");
+    const bool answerOne = testSequence();
+    const bool answerTwo = testMultiplication();
+    const bool answerThree = testDivision();
+    const bool answerFour = testSubtraction();
+    const bool answerFive = testAddition();
+
+    printResultTest(answerOne, "Sequence");
+    printResultTest(answerTwo, "Multiplication");
+    printResultTest(answerThree, "Division");
+    printResultTest(answerFour, "Subtraction");
+    printResultTest(answerFive, "Addition");
     printf("\n");
 
-    return testCorrectSequence() && testMultiplication();
+    return answerOne && answerTwo && answerThree && answerFour && answerFive;
 }
