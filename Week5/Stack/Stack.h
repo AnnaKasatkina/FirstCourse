@@ -17,7 +17,7 @@ ErrorCode push(Stack** const head, const int value);
 void pop(Stack** const head);
 
 // Delete Stack
-void freeStack(Stack** head);
+void freeStack(Stack** const head);
 
 // Return top element in Stack
 int top(const Stack* const head, ErrorCode* const errorCode);

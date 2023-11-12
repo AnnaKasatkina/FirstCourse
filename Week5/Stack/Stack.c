@@ -35,7 +35,7 @@ void pop(Stack** const head)
     free(trash);
 }
 
-void freeStack(Stack** head)
+void freeStack(Stack** const head)
 {
     while (*head != NULL)
     {
