@@ -5,7 +5,7 @@
 #define ERROR -1
 
 // Getting a string of arbitrary length
-int getString(ErrorCode* errorCode, char** string);
+char* getString(ErrorCode* const errorCode, size_t* length);
 
 // Conversion from infix form to postfix form
-ErrorCode shuntingYard(char* string, char* output);
+ErrorCode shuntingYard(const char* const string, char* output);

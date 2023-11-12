@@ -5,48 +5,55 @@
 #include <stdio.h>
 #include <ctype.h> 
 
-int getString(ErrorCode* errorCode, char **string)
+char* getString(ErrorCode* const errorCode, size_t* length)
 {
-    int capacity = 1;
-    int length = 0;
+    size_t capacity = 1;
+    size_t countCharIgnor = 0;
+    const* charIgnor = "( )";
 
-    if (*string == NULL)
+    char* string = (char*)malloc(sizeof(char));
+    if (string == NULL)
     {
         *errorCode = outOfMemory;
-        return ERROR;
+        return 0;
     }
 
     char character = getchar();
 
     while (character != '\n')
     {
-        if (character != ' ')
+        string[(*length)++] = character;
+        if (strchr(charIgnor, character))
         {
-            (*string)[length++] = character;
+            ++countCharIgnor;
+        }
 
-            if (length >= capacity)
+        if (*length >= capacity)
+        {
+            capacity *= 2;
+            char* tmp = (char*)realloc(string, capacity * sizeof(char));
+            if (tmp != NULL)
             {
-                capacity *= 2;
-                char* tmp = (char*)realloc(*string, capacity * sizeof(char));
-                if (tmp != NULL)
-                {
-                    *string = tmp;
-                }
-                else
-                {
-                    *errorCode = outOfMemory;
-                    return ERROR;
-                }
+                string = tmp;
+            }
+            else
+            {
+                *errorCode = outOfMemory;
+                return 0;
             }
         }
-        character = getchar();
-    }
-    (*string)[length] = '\0';
 
-    return length;
+        character = getchar();
+
+    }
+
+    string[(*length)] = '\0';
+    *length -= countCharIgnor;
+
+    return string;
 }
 
-ErrorCode shuntingYard(char* string, char* output)
+ErrorCode shuntingYard(const char* const string, char* const output)
 {
     ErrorCode errorCode = ok;
     size_t index = 0;
@@ -54,8 +61,9 @@ ErrorCode shuntingYard(char* string, char* output)
 
     char* upper = "*/";
     char* lower = "+-";
+    char* allOperations = "*/+-";
 
-    for (char* character = string; *character != '\0'; ++character)
+    for (const char* character = string; *character != '\0'; ++character)
     {
         if (isdigit(*character))
         {
@@ -64,7 +72,7 @@ ErrorCode shuntingYard(char* string, char* output)
         }
         else if (strchr(lower, *character))
         {
-            while (operations != NULL && (strchr(lower, (char)top(operations, &errorCode)) || strchr(upper, (char)top(operations, &errorCode))))
+            while (operations != NULL && strchr(allOperations, (char)top(operations, &errorCode)))
             {
                 output[index] = (char)top(operations, &errorCode);
                 pop(&operations);
