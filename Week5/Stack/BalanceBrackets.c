@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char* getString(ErrorCode* errorCode)
+#define ERROR_STR "Error!\n"
+
+char* getString(ErrorCode* const errorCode)
 {
     int length = 0;
     int capacity = 1;
@@ -43,23 +45,32 @@ char* getString(ErrorCode* errorCode)
     return string;
 }
 
-bool isBracketsCorrect(char* string)
+bool isBracketsCorrect(const char* const string)
 {
     ErrorCode errorCode = ok;
     Stack* brackets = NULL;
     char open[] = "{([";
     char close[] = "})]";
-    for (char* character = string; *character != '\0'; ++character) {
-        if (strchr(open, *character) != NULL) {
-            push(&brackets, *character);
+    for (const char* character = string; *character != '\0'; ++character) 
+    {
+        if (strchr(open, *character) != NULL) 
+        {
+            if (push(&brackets, *character) != ok)
+            {
+                free(brackets);
+                printf(ERROR_STR);
+                return false;
+            }
         }
         else if (strchr(close, *character) != NULL)
         {
             char element = top(brackets, &errorCode);
-            if (errorCode != ok || pop(&brackets) != ok)
+            if (errorCode != ok)
             {
+                free(brackets);
                 return false;
             }
+            pop(&brackets);
 
             if ((strchr(close, *character) - close) != (strchr(open, element) - open))
                 return false;

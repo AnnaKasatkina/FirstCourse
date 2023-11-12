@@ -3,4 +3,4 @@
 #include <stdbool.h>
 
 // Combining results
-bool resultTests();
+bool resultTests(void);

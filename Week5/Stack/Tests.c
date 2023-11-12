@@ -16,28 +16,28 @@ static void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-static bool testCorrectSequence()
+static bool testCorrectSequence(void)
 {
     char *testString = "[{(This is a test)}]";
 
     return isBracketsCorrect(testString);
 }
 
-static bool testIncorrectSequence()
+static bool testIncorrectSequence(void)
 {
     char* testString = "This is a test )( }{ []";
 
     return (!isBracketsCorrect(testString));
 }
 
-static bool testWithoutBrackets()
+static bool testWithoutBrackets(void)
 {
     char* testString = "This is a test";
 
     return isBracketsCorrect(testString);
 }
 
-bool resultTests()
+bool resultTests(void)
 {
     bool answerOne = testCorrectSequence();
     bool answerTwo = testIncorrectSequence();
@@ -48,9 +48,5 @@ bool resultTests()
     printResultTest(answerThree, "Sequence Without Brackets");
     printf("\n");
 
-    if (answerOne && answerTwo && answerThree)
-    {
-        return true;
-    }
-    return false;
+    return answerOne && answerTwo && answerThree;
 }

@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 // Getting a string of arbitrary length
-char* getString(ErrorCode *errorCode);
+char* getString(ErrorCode * const errorCode);
 
 // Checking the bracket sequence
-bool isBracketsCorrect(char* string);
+bool isBracketsCorrect(const char* const string);
