@@ -2,4 +2,5 @@
 
 #include <stdbool.h>
 
+// Result tests
 bool resultTests(void);

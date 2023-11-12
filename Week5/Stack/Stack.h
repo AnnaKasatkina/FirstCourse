@@ -25,4 +25,5 @@ void freeStack(Stack** const head);
 // Return top element in Stack
 int top(const Stack* const head, ErrorCode* const errorCode);
 
+// Check the stack for emptiness
 bool isEmpty(const Stack* const head);

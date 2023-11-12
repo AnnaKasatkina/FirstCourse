@@ -2,5 +2,5 @@
 
 #include "Stack.h"
 
-//Postfix Calculator function
+// Postfix Calculator function
 int postfixCalculator(char* const string, ErrorCode* const errorCode);
