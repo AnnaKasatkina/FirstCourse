@@ -83,6 +83,13 @@ static Node* findNextElement(const Node* const tree)
     return nextElement;
 }
 
+static void freeNode(Node** const tree, bool* const flag)
+{
+    free(*tree);
+    *tree = NULL;
+    *flag = true;
+}
+
 void deleteElement(Node** const tree, const int key, bool* const flag)
 {
     if (*tree == NULL)
@@ -106,25 +113,19 @@ void deleteElement(Node** const tree, const int key, bool* const flag)
         }
         if ((*tree)->leftChild == NULL && (*tree)->rightChild == NULL)
         {
-            free(*tree);
-            *tree = NULL;
-            *flag = true;
+            freeNode(tree, flag);
             return;
         }
         else if ((*tree)->rightChild == NULL)
         {
             (*tree)->element = (*tree)->leftChild->element;
-            free((*tree)->leftChild);
-            (*tree)->leftChild = NULL;
-            *flag = true;
+            freeNode(&((*tree)->leftChild), flag);
             return;
         }
         else if ((*tree)->leftChild == NULL)
         {
             (*tree)->element = (*tree)->rightChild->element;
-            free((*tree)->rightChild);
-            (*tree)->rightChild = NULL;
-            *flag = true;
+            freeNode(&((*tree)->rightChild), flag);
             return;
         }
         else
