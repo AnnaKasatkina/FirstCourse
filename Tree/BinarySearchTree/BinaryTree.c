@@ -81,6 +81,7 @@ static Node* findNextElement(const Node* const tree)
 
 static void freeNode(Node** const tree, bool* const flag)
 {
+    free((*tree)->element);
     free(*tree);
     *tree = NULL;
     *flag = true;
