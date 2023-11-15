@@ -66,11 +66,7 @@ char* findElement(const Node* const tree, const int key)
 
 bool checkElement(const Node* const tree, const int key)
 {
-    if (findElement(tree, key) == NULL)
-    {
-        return false;
-    }
-    return true;
+    return findElement(tree, key) != NULL;
 }
 
 static Node* findNextElement(const Node* const tree)
