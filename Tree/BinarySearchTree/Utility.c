@@ -12,13 +12,10 @@ char* getString(ErrorCode* const errorCode)
     if (string == NULL)
     {
         *errorCode = outOfMemory;
-        return 0;
+        return NULL;
     }
 
-    getchar();
-    char character = getchar();
-
-    while (character != '\n')
+    for (char character = getchar(); character != '\n'; character = getchar())
     {
         string[length++] = character;
 
@@ -33,14 +30,10 @@ char* getString(ErrorCode* const errorCode)
             else
             {
                 *errorCode = outOfMemory;
-                return 0;
+                return NULL;
             }
         }
-
-        character = getchar();
-
     }
-
     string[length] = '\0';
 
     return string;

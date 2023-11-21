@@ -3,14 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Node
-{
-    Element* element;
-    struct Node* leftChild;
-    struct Node* rightChild;
-} Node;
+#define FREE_ELEMENT\
+        free((*tree)->element->value);\
+        free((*tree)->element);
 
-static Node* makeNewElement(const Element* const element)
+static Node* makeNewNode(const Element* const element)
 {
     Node* tree = (Node*)calloc(1, sizeof(Node));
     if (tree == NULL)
@@ -26,11 +23,12 @@ void addElement(Node** const tree, const Element* const element)
 {
     if (*tree == NULL)
     {
-        *tree = makeNewElement(element);
+        *tree = makeNewNode(element);
         return;
     }
     if ((*tree)->element->key == element->key)
     {
+        FREE_ELEMENT;
         (*tree)->element = element;
         return;
     }
@@ -72,68 +70,78 @@ bool checkElement(const Node* const tree, const int key)
 static Node* findNextElement(const Node* const tree)
 {
     Node* nextElement = tree->rightChild;
-    while (nextElement != NULL && nextElement->leftChild != NULL)
-    {
-        nextElement = nextElement->leftChild;
-    }
+    for (; nextElement->leftChild; nextElement = nextElement->leftChild);
     return nextElement;
 }
 
-static void freeNode(Node** const tree, bool* const flag)
+static void freeNode(Node** const tree)
 {
-    free((*tree)->element);
+    FREE_ELEMENT;
     free(*tree);
     *tree = NULL;
-    *flag = true;
 }
 
-void deleteElement(Node** const tree, const int key, bool* const flag)
+void deleteElement(Node** const tree, const int key)
 {
     if (*tree == NULL)
     {
-        *flag = true;
         return;
     }
+
     if (key > (*tree)->element->key)
     {
-        deleteElement(&((*tree)->rightChild), key, flag);
+        deleteElement(&((*tree)->rightChild), key);
+        return;
     }
     if (key < (*tree)->element->key)
     {
-        deleteElement(&((*tree)->leftChild), key, flag);
+        deleteElement(&((*tree)->leftChild), key);
+        return;
+    }
+
+    if ((*tree)->leftChild == NULL && (*tree)->rightChild == NULL)
+    {
+        freeNode(tree);
+        return;
+    }
+    if ((*tree)->rightChild == NULL)
+    {
+        Node* tmp = *tree;
+        *tree = (*tree)->leftChild;
+        freeNode(&tmp);
+        return;
+    }
+    if ((*tree)->leftChild == NULL)
+    {
+        Node* tmp = *tree;
+        *tree = (*tree)->rightChild;
+        freeNode(&tmp);
+        return;
     }
     else
     {
-        if (*flag)
+        Node* nextElement = findNextElement(*tree);
+        (*tree)->element->key = nextElement->element->key;
+        strcpy((*tree)->element->value, nextElement->element->value);
+
+        if (*tree != NULL)
         {
-            return;
+            deleteElement(&((*tree)->rightChild), nextElement->element->key);
         }
-        if ((*tree)->leftChild == NULL && (*tree)->rightChild == NULL)
-        {
-            freeNode(tree, flag);
-            return;
-        }
-        else if ((*tree)->rightChild == NULL)
-        {
-            (*tree)->element = (*tree)->leftChild->element;
-            freeNode(&((*tree)->leftChild), flag);
-            return;
-        }
-        else if ((*tree)->leftChild == NULL)
-        {
-            (*tree)->element = (*tree)->rightChild->element;
-            freeNode(&((*tree)->rightChild), flag);
-            return;
-        }
-        else
-        {
-            Node* nextElement = findNextElement(*tree);
-            (*tree)->element = nextElement->element;
-            deleteElement(&((*tree)->rightChild), nextElement->element->key, flag);
-        }
-        if (*flag)
-        {
-            return;
-        }
+    }
+}
+
+void deleteTree(Node** const tree)
+{
+    if (*tree == NULL)
+    {
+        return;
+    }
+
+    while (*tree)
+    {
+        deleteTree(&(*tree)->leftChild);
+        deleteTree(&(*tree)->rightChild);
+        freeNode(tree);
     }
 }

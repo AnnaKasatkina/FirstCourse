@@ -1,11 +1,20 @@
 ﻿#include "UserModule.h"
+#include "Tests.h"
 
 #include <stdbool.h>
 #include <locale.h>
 #include <stdio.h>
 
+#define ERROR 1
+
 int main(void)
 {
+    if (!testResult())
+    {
+        printf("Error!");
+        return ERROR;
+    }
+
     setlocale(LC_ALL, "Russian");
     printf("Добро пожаловать в Словарь!\n\n");
 
@@ -23,8 +32,9 @@ int main(void)
 
         if (scanf("%zd", &choice) != 1)
         {
+            deleteTree(&tree);
             printf("Ошибка ввода!");
-            return 1;
+            return ERROR;
         }
 
         printf("\n");

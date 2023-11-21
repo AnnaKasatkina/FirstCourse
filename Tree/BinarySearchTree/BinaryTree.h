@@ -17,7 +17,12 @@ typedef struct Element
     int key;
 } Element;
 
-typedef struct Node Node;
+typedef struct Node
+{
+    Element* element;
+    struct Node* leftChild;
+    struct Node* rightChild;
+} Node;
 
 // Добавить элемент в дерево
 void addElement(Node** const tree, const Element* const element);
@@ -29,4 +34,7 @@ char* findElement(const Node* const tree, const int key);
 bool checkElement(const Node* const tree, const int key);
 
 // Удаление элемента по ключу
-void deleteElement(Node** const tree, const int key, bool* const flag);
+void deleteElement(Node** const tree, const int key);
+
+// Удаление дерева
+void deleteTree(Node** const tree);
