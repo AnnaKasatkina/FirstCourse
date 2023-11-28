@@ -3,9 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FREE_ELEMENT\
-        free((*tree)->element->value);\
-        free((*tree)->element);
+static void freeElement(Node** const tree)
+{
+    free((*tree)->element->value);
+    free((*tree)->element);
+}
 
 static Node* makeNewNode(const Element* const element)
 {
@@ -28,7 +30,7 @@ void addElement(Node** const tree, const Element* const element)
     }
     if ((*tree)->element->key == element->key)
     {
-        FREE_ELEMENT;
+        freeElement(tree);
         (*tree)->element = element;
         return;
     }
@@ -76,7 +78,7 @@ static Node* findNextElement(const Node* const tree)
 
 static void freeNode(Node** const tree)
 {
-    FREE_ELEMENT;
+    freeElement(tree);
     free(*tree);
     *tree = NULL;
 }
@@ -138,10 +140,7 @@ void deleteTree(Node** const tree)
         return;
     }
 
-    while (*tree)
-    {
-        deleteTree(&(*tree)->leftChild);
-        deleteTree(&(*tree)->rightChild);
-        freeNode(tree);
-    }
+    deleteTree(&(*tree)->leftChild);
+    deleteTree(&(*tree)->rightChild);
+    freeNode(tree);
 }
