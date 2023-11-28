@@ -2,5 +2,12 @@
 
 #include <stdbool.h>
 
+typedef enum CodeBrackets
+{
+    correct, 
+    incorrect, 
+    memoryError
+} CodeBrackets;
+
 // Checking the bracket sequence
-bool isBracketsCorrect(const char* const string);
+CodeBrackets isBracketsCorrect(const char* const string);

@@ -10,9 +10,9 @@
 
 #define ERROR -1
 
-void printResult(bool result)
+void printResult(CodeBrackets result)
 {
-    if (result)
+    if (result == correct)
     {
         printf("Correct");
     }
@@ -40,7 +40,13 @@ int main(void)
         return ERROR;
     }
 
-    bool result = isBracketsCorrect(string);
+    CodeBrackets result = isBracketsCorrect(string);
+    if (result == memoryError)
+    {
+        printf("Out of memory");
+        return ERROR;
+    }
+
     printResult(result);
 
     free(string);

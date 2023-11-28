@@ -20,21 +20,21 @@ static bool testCorrectSequence(void)
 {
     char *testString = "[{(This is a test)}]";
 
-    return isBracketsCorrect(testString);
+    return isBracketsCorrect(testString) == correct;
 }
 
 static bool testIncorrectSequence(void)
 {
     char* testString = "This is a test )( }{ []";
 
-    return (!isBracketsCorrect(testString));
+    return isBracketsCorrect(testString) == incorrect;
 }
 
 static bool testWithoutBrackets(void)
 {
     char* testString = "This is a test";
 
-    return isBracketsCorrect(testString);
+    return isBracketsCorrect(testString) == correct;
 }
 
 bool resultTests(void)

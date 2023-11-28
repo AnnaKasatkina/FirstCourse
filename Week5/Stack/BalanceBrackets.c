@@ -5,9 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define ERROR_STR "Error!\n"
-
-bool isBracketsCorrect(const char* const string)
+CodeBrackets isBracketsCorrect(const char* const string)
 {
     ErrorCode errorCode = ok;
     Stack* brackets = NULL;
@@ -20,8 +18,7 @@ bool isBracketsCorrect(const char* const string)
             if (push(&brackets, *character) != ok)
             {
                 free(brackets);
-                printf(ERROR_STR);
-                return false;
+                return memoryError;
             }
         }
         else if (strchr(close, *character) != NULL)
@@ -30,13 +27,13 @@ bool isBracketsCorrect(const char* const string)
             if (errorCode != ok)
             {
                 free(brackets);
-                return false;
+                return incorrect;
             }
             pop(&brackets);
 
             if ((strchr(close, *character) - close) != (strchr(open, element) - open))
-                return false;
+                return incorrect;
         }
     }
-    return true;
+    return correct;
 }

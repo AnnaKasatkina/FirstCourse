@@ -2,9 +2,10 @@
 
 typedef enum ErrorCode
 {
-	ok,
-	stackIsEmpty,
-	outOfMemory
+    ok,
+    stackIsEmpty,
+    outOfMemory,
+    errorInput
 }ErrorCode;
 
 // Defeninition struct Stack

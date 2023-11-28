@@ -5,8 +5,8 @@
 
 char* getString(ErrorCode* const errorCode)
 {
-    int length = 0;
-    int capacity = 1;
+    size_t length = 0;
+    size_t capacity = 1;
 
     char* string = (char*)malloc(sizeof(char));
     if (string == NULL)
@@ -15,9 +15,7 @@ char* getString(ErrorCode* const errorCode)
         return NULL;
     }
 
-    char character = getchar();
-
-    while (character != '\n')
+    for (char character = getchar(); character != '\n'; character = getchar())
     {
         string[length++] = character;
 
@@ -35,7 +33,6 @@ char* getString(ErrorCode* const errorCode)
                 return NULL;
             }
         }
-        character = getchar();
     }
     string[length] = '\0';
 
