@@ -130,15 +130,18 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="PhoneBook.c" />
     <ClCompile Include="Tests.c" />
+    <ClCompile Include="UserModule.c" />
     <ClCompile Include="Utility.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhoneBook.h" />
     <ClInclude Include="Tests.h" />
+    <ClInclude Include="UserModule.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="PhoneBook.txt" />
+    <Text Include="Test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

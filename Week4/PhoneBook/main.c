@@ -5,14 +5,28 @@
 
 #include "PhoneBook.h"
 #include "Utility.h"
+#include "Tests.h"
+#include "UserModule.h"
+
+#define ERROR -1
 
 int main(void)
 {
+    if (!resultTests())
+    {
+        printf("Error tests!");
+        return ERROR;
+    }
+
     setlocale(LC_ALL, "Russian");
     printf("Добро пожаловать в телефонный справочник!\n\n");
 
     size_t length = 0;
     PhoneBookEntry* buffer = readPhoneBook("PhoneBook.txt", &length);
+    if (buffer == NULL)
+    {
+        return ERROR;
+    }
 
     while (true)
     {
@@ -25,7 +39,7 @@ int main(void)
         if (scanf("%d", &choice) != 1)
         {
             printf("Ошибка ввода!");
-            return 1;
+            return ERROR;
         }
 
         printf("\n");
