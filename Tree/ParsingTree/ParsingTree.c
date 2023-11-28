@@ -5,6 +5,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
+#define ERROR -1
+
 static void sizeOfTree(Node* tree, size_t* size)
 {
     if (tree)
@@ -81,7 +83,93 @@ char* getStringFromTree(Node* tree)
     return string;
 }
 
-int countResult(char* string)
+static int count(Stack** stack, ErrorCode* errorCode, char character)
 {
-    return 0;
+    int numberOne = top(*stack, errorCode);
+    if (*errorCode != ok)
+    {
+        return ERROR;
+    }
+    pop(stack);
+
+    int numberTwo = top(*stack, errorCode);
+    if (*errorCode != ok)
+    {
+        return ERROR;
+    }
+    pop(stack);
+
+    switch (character)
+    {
+    case '+':
+        return numberOne + numberTwo;
+    case '/':
+        return numberOne / numberTwo;
+    case '*':
+        return numberOne * numberTwo;
+    case '-':
+        return numberOne - numberTwo;
+    default:
+        *errorCode = error;
+        return ERROR;
+    }
+}
+
+static char* reverseString(const char* const string)
+{
+    size_t length = strlen(string);
+    char* character = (char*)malloc(sizeof(char) * length);
+
+    for (size_t i = 0; i < length; i++)
+    {
+        character[length - i - 1] = string[i];
+    }
+
+    character[length] = '\0';
+    return character;
+}
+
+int calculateResult(char* string, ErrorCode* errorCode)
+{
+    char* character = reverseString(string);
+    Stack* stack = NULL;
+
+    for (; *character != '\0'; ++character)
+    {
+        if (isdigit(*character))
+        {
+            push(&stack, *character - '0');
+        }
+        else
+        {
+            int result = count(&stack, errorCode, *character);
+            push(&stack, result);
+        }
+    }
+
+    int answer = top(stack, errorCode);
+    if (*errorCode != ok)
+    {
+        return ERROR;
+    }
+    pop(&stack);
+
+    if (!stackIsEmpty)
+    {
+        *errorCode = error;
+    }
+
+    return answer;
+}
+
+void deleteTree(Node** const tree)
+{
+    if (*tree == NULL)
+    {
+        return;
+    }
+    deleteTree(&(*tree)->leftChild);
+    deleteTree(&(*tree)->rightChild);
+    free(*tree);
+    *tree = NULL;
 }

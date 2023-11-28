@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Stack.h"
+
 typedef struct Node
 {
     char value;
@@ -11,4 +13,6 @@ Node* buildTree(char** string, Node** tree);
 
 char* getStringFromTree(Node* tree);
 
-int countResult(char* string);
+int calculateResult(char* string, ErrorCode* errorCode);
+
+void deleteTree(Node** const tree);

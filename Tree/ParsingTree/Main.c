@@ -1,5 +1,6 @@
 #include "Utility.h"
 #include "ParsingTree.h"
+#include "Tests.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,13 +10,12 @@
 
 int main(void)
 {
-    /*if (!resultTests())
+    if (!testResult())
     {
         printf("Test error!");
         return ERROR;
-    }*/
+    }
 
-    size_t length = 0;
     char* string = getStringFromFile(NAME);
 
     if (string == NULL)
@@ -27,7 +27,15 @@ int main(void)
     Node* tree = NULL;
 
     buildTree(&string, &tree);
-    printf(getStringFromTree(tree));
+    char* answer = getStringFromTree(tree);
+
+    printf(answer);
+    printf("\n");
+
+    ErrorCode errorCode = ok;
+    int result = calculateResult(answer, &errorCode);
+
+    addBrackets(&answer);
 
     return 0;
 }

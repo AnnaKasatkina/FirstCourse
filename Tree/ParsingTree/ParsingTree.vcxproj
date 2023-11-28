@@ -129,16 +129,22 @@
   <ItemGroup>
     <ClCompile Include="Main.c" />
     <ClCompile Include="ParsingTree.c" />
+    <ClCompile Include="Stack.c" />
     <ClCompile Include="Tests.c" />
     <ClCompile Include="Utility.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ParsingTree.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Expretion.txt" />
+    <Text Include="TestFiles\TestFour.txt" />
+    <Text Include="TestFiles\TestOne.txt" />
+    <Text Include="TestFiles\TestThree.txt" />
+    <Text Include="TestFiles\TestTwo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

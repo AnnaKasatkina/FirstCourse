@@ -6,3 +6,5 @@
 
 // —читывание строки из файла
 char* getStringFromFile(const char* const nameFile);
+
+void addBrackets(char** string);

@@ -46,14 +46,29 @@ char* getStringFromFile(const char* const nameFile)
     return string;
 }
 
-void printResult(char* string)
+void addBrackets(char** string)
 {
     printf("( ");
-    for (char* character = string; *character != '\0'; (*character)++)
+    size_t countDigits = 0;
+    for (char** character = string; countDigits != 2; (++(*character)))
     {
-        if (isdigit(*character) && )
-        {
+        printf("%c ", (*character)[0]);
 
+        if (isdigit((*character)[0]))
+        {
+            ++countDigits;
+        }
+
+        if (!isdigit((*character)[1]) && (*character)[1] != '\0')
+        {
+            (++(*character));
+            addBrackets(character);
+            ++countDigits;
+
+            if (countDigits == 1 && isdigit((*character)[0]))
+            {
+                (--(*character));
+            }
         }
     }
     printf(") ");
