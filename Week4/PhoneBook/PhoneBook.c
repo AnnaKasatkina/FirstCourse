@@ -4,25 +4,32 @@
 #include <string.h>
 
 #include "PhoneBook.h"
+#include "Utility.h"
 
-void addEntry(PhoneBookEntry* buffer, size_t length)
+#define ERROR "Ошибка!"
+
+static void addEntry(PhoneBookEntry* const buffer, const size_t length)
 {
     printf("Введите имя контакта: ");
-    if (scanf("%s", buffer[length].name) != 1)
+    buffer[length].name = getString();
+    if (buffer[length].name == NULL)
     {
-        printf("Ошибка!");
+        printf(ERROR);
+        return;
     }
 
     printf("Введите номер телефона: ");
-    if (scanf("%s", buffer[length].phone) != 1)
+    buffer[length].phone = getString();
+    if (buffer[length].phone == NULL)
     {
-        printf("Ошибка!");
+        printf(ERROR);
+        return;
     }
 
     printf("\n");
 }
 
-void printAllEntry(PhoneBookEntry* buffer, size_t length)
+static void printAllEntry(const PhoneBookEntry* const buffer, const size_t length)
 {
     for (size_t i = 0; i < length; ++i)
     {
@@ -31,13 +38,13 @@ void printAllEntry(PhoneBookEntry* buffer, size_t length)
     printf("\n");
 }
 
-void searchPhone(PhoneBookEntry* buffer, size_t length)
+static void searchPhone(const PhoneBookEntry* const buffer, const size_t length)
 {
     printf("Введите искомый номер: ");
-    char phone[LEN] = "";
-    if (scanf("%s", phone) != 1)
+    char* phone = getString();
+    if (phone == NULL)
     {
-        printf("Ошибка!");
+        printf(ERROR);
         return;
     }
 
@@ -51,16 +58,18 @@ void searchPhone(PhoneBookEntry* buffer, size_t length)
         }
     }
     if (flag)
+    {
         printf("Номер не найден.\n\n");
+    }
 }
 
-void searchName(PhoneBookEntry* buffer, size_t length)
+static void searchName(const PhoneBookEntry* const buffer, const size_t length)
 {
     printf("Введите искомое имя: ");
-    char name[LEN] = "";
-    if (scanf("%s", name) != 1)
+    char* name = getString();
+    if (name == NULL)
     {
-        printf("Ошибка!");
+        printf(ERROR);
         return;
     }
 
@@ -74,24 +83,12 @@ void searchName(PhoneBookEntry* buffer, size_t length)
         }
     }
     if (flag)
-        printf("Имя не найдено.\n\n");
-}
-
-void saveFile(PhoneBookEntry* buffer, size_t length)
-{
-    FILE* file = fopen("PhoneBook.txt", "w");
-
-    for (size_t i = 0; i < length; ++i)
     {
-        fprintf(file, "%s - %s", buffer[i].name, buffer[i].phone);
-        fprintf(file, "\n");
+        printf("Имя не найдено.\n\n");
     }
-
-    fclose(file);
-    printf("Файл записан.\n\n");
 }
 
-void choose(int choice, PhoneBookEntry* buffer, size_t length)
+void choose(const int choice, PhoneBookEntry* const buffer, const size_t length)
 {
     switch (choice)
     {
