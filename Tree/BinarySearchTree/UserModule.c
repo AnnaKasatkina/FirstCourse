@@ -5,7 +5,7 @@
 #include <string.h>
 
 #define PRINT_ERROR "Ошибка ввода!\n"
-#define PRINT_NOT_FOUND "Элемент не найден!"
+#define PRINT_NOT_FOUND "Элемент не найден!\n"
 
 enum Choise
 {
@@ -82,7 +82,6 @@ static void methodFind(const size_t choice, Node* const* const tree)
     char* result = findElement(*tree, key);
 
     result != NULL ? printf(result) : printf(PRINT_NOT_FOUND);
-    printf("\n");
 }
 
 static void methodCheck(const size_t choice, Node* const* const tree)
