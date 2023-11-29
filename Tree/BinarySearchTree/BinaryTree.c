@@ -56,11 +56,11 @@ char* findElement(const Node* const tree, const int key)
     }
     else if (tree->element->key > key)
     {
-        findElement(tree->leftChild, key);
+        return findElement(tree->leftChild, key);
     }
     else
     {
-        findElement(tree->rightChild, key);
+        return findElement(tree->rightChild, key);
     }
 }
 
