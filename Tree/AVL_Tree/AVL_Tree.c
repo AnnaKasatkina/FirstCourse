@@ -3,6 +3,61 @@
 #include <stdlib.h>
 #include <string.h>
 
+int height(Node* p)
+{
+    return p ? p->delta : 0;
+}
+
+int bfactor(Node* p)
+{
+    return height(p->rightChild) - height(p->leftChild);
+}
+
+void fixheight(Node* p)
+{
+    int hl = height(p->leftChild);
+    int hr = height(p->rightChild);
+    p->delta = (hl > hr ? hl : hr) + 1;
+}
+
+Node* rotateright(Node* p) // правый поворот вокруг p
+{
+    Node* q = p->leftChild;
+    p->leftChild = q->rightChild;
+    q->rightChild = p;
+    fixheight(p);
+    fixheight(q);
+    return q;
+}
+
+Node* rotateleft(Node* q) // левый поворот вокруг q
+{
+    Node* p = q->rightChild;
+    q->rightChild = p->leftChild;
+    p->leftChild = q;
+    fixheight(q);
+    fixheight(p);
+    return p;
+}
+
+Node* balance(Node* p) // балансировка узла p
+{
+    fixheight(p);
+    if (bfactor(p) == 2)
+    {
+        if (bfactor(p->rightChild) < 0)
+            p->rightChild = rotateright(p->rightChild);
+        return rotateleft(p);
+    }
+    if (bfactor(p) == -2)
+    {
+        if (bfactor(p->leftChild) > 0)
+            p->leftChild = rotateleft(p->leftChild);
+        return rotateright(p);
+    }
+    return p; // балансировка не нужна
+}
+
 static void freeElement(Node** const tree)
 {
     free((*tree)->element->value);
@@ -45,6 +100,8 @@ void addElement(Node** const tree, const Element* const element)
     {
         addElement(&((*tree)->rightChild), element);
     }
+
+    //return balance(*tree);
 }
 
 char* findElement(const Node* const tree, const char* const key)
@@ -150,38 +207,3 @@ void deleteTree(Node** const tree)
     deleteTree(&(*tree)->rightChild);
     freeNode(tree);
 }
-
-void copyValue(Node** const treeOne, Node** const treeTwo)
-{
-    strcpy((*treeOne)->element->key, (*treeTwo)->element->key);
-    strcpy((*treeOne)->element->value, (*treeTwo)->element->value);
-}
-
-void swapNodes(Node** const treeOne, Node** const treeTwo)
-{
-    Node* tmpNode = makeNewNode((*treeOne)->element);
-
-    copyValue(*treeOne, *treeTwo);
-    copyValue(*treeTwo, tmpNode);
-
-    freeNode(&tmpNode);
-}
-
-void rightRotateTree(Node** const tree)
-{
-    swapNodes(tree, &((*tree)->leftChild));
-
-    Node* tmpNode = makeNewNode((*tree)->rightChild);
-    copyValue((*tree)->rightChild, (*tree)->leftChild);
-    copyValue((*tree)->leftChild, (*tree)->leftChild);
-
-
-    freeNode(&tmpNode);
-
-}
-
-void balanceTree()
-{
-
-}
-
