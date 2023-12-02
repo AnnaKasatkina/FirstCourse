@@ -3,19 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-int getDelta(Node* tree)
+int getHeight(Node* tree)
 {
-    return tree == NULL ? -1 : tree->delta;
+    return tree == NULL ? -1 : tree->height;
 }
 
-void updateDelta(Node* tree)
+void updateHeight(Node* tree)
 {
-    tree->delta = max(getDelta(tree->leftChild), getDelta(tree->rightChild)) + 1;
+    tree->height = max(getHeight(tree->leftChild), getHeight(tree->rightChild)) + 1;
 }
 
 int getBalance(Node* tree)
 {
-    return tree == NULL ? 0 : getDelta(tree->rightChild) - getDelta(tree->leftChild);
+    return tree == NULL ? 0 : getHeight(tree->rightChild) - getHeight(tree->leftChild);
 }
 
 void swap(Node* treeOne, Node* treeTwo)
@@ -50,8 +50,8 @@ void rightRotate(Node* tree)
     tree->rightChild->leftChild = tree->rightChild->rightChild;
     tree->rightChild->rightChild = buffer;
 
-    updateDelta(tree->rightChild);
-    updateDelta(tree);
+    updateHeight(tree->rightChild);
+    updateHeight(tree);
 }
 
 void leftRotate(Node* tree)
@@ -63,8 +63,8 @@ void leftRotate(Node* tree)
     tree->leftChild->rightChild = tree->leftChild->leftChild;
     tree->leftChild->leftChild = buffer;
 
-    updateDelta(tree->leftChild);
-    updateDelta(tree);
+    updateHeight(tree->leftChild);
+    updateHeight(tree);
 }
 
 void balance(Node* tree)
@@ -103,7 +103,7 @@ static Node* makeNewNode(const Element* const element)
         return NULL;
     }
 
-    tree->delta = 0;
+    tree->height = 0;
     tree->element = element;
     return tree;
 }
@@ -127,7 +127,7 @@ void addElement(Node** const tree, const Element* const element)
             addElement(&((*tree)->leftChild), element);
         }
     }
-    else if (compare >= 0)
+    else if (compare > 0)
     {
         if ((*tree)->rightChild == NULL)
         {
@@ -138,8 +138,14 @@ void addElement(Node** const tree, const Element* const element)
             addElement(&((*tree)->rightChild), element);
         }
     }
+    else if (compare == 0)
+    {
+        freeElement(tree);
+        (*tree)->element = element;
+        return;
+    }
 
-    updateDelta(*tree);
+    updateHeight(*tree);
     balance(*tree);
 }
 
@@ -188,7 +194,7 @@ static void updateTree(Node* const tree)
 {
     if (tree != NULL)
     {
-        updateDelta(tree);
+        updateHeight(tree);
         balance(tree);
     }
 }

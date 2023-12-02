@@ -19,7 +19,7 @@ typedef struct Element
 
 typedef struct Node
 {
-    int delta;
+    int height;
     Element* element;
     struct Node* leftChild;
     struct Node* rightChild;
