@@ -13,12 +13,12 @@ static void updateHeight(Node* const tree)
     tree->height = max(getHeight(tree->leftChild), getHeight(tree->rightChild)) + 1;
 }
 
-int getBalance(const Node* const tree)
+static int getBalance(const Node* const tree)
 {
     return tree == NULL ? 0 : getHeight(tree->rightChild) - getHeight(tree->leftChild);
 }
 
-void swap(Node* treeOne, Node* treeTwo)
+static void swap(Node* treeOne, Node* treeTwo)
 {
     char* bufferKey = (char*)malloc(strlen(treeOne->element->key) * sizeof(char));
     if (bufferKey == NULL)
@@ -41,7 +41,7 @@ void swap(Node* treeOne, Node* treeTwo)
     strcpy(treeTwo->element->value, bufferValue);
 }
 
-void rightRotate(Node* const tree)
+static void rightRotate(Node* const tree)
 {
     swap(tree, tree->leftChild);
     Node* buffer = tree->rightChild;
@@ -54,7 +54,7 @@ void rightRotate(Node* const tree)
     updateHeight(tree);
 }
 
-void leftRotate(Node* const tree)
+static void leftRotate(Node* const tree)
 {
     swap(tree, tree->rightChild);
     Node* buffer = tree->leftChild;
@@ -67,7 +67,7 @@ void leftRotate(Node* const tree)
     updateHeight(tree);
 }
 
-void balance(Node* const tree)
+static void balance(Node* const tree)
 {
     int balance = getBalance(tree);
     if (balance == -2)
