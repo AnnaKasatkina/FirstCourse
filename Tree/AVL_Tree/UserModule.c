@@ -16,11 +16,11 @@ enum Choise
     deleteCommand
 };
 
-static void getValue(ErrorCode* const errorCode, const char* const nameValue, Element* element)
+static char* getValue(ErrorCode* const errorCode, const char* const nameValue)
 {
-    printf("Введите %s: ", nameValue);
     getchar();
-    element->value = getString(errorCode);
+    printf("Введите %s: ", nameValue);
+    return getString(errorCode);
 }
 
 static Element* getElement(ErrorCode* errorCode)
@@ -31,15 +31,15 @@ static Element* getElement(ErrorCode* errorCode)
         free(element);
         return NULL;
     }
-    
-    getValue(errorCode, "ключ", element);
+
+    element->key = getValue(errorCode, "ключ");
     if (*errorCode != ok)
     {
         free(element);
         return NULL;
     }
 
-    getValue(errorCode, "значение", element);
+    element->value = getValue(errorCode, "значение");
     if (*errorCode != ok)
     {
         free(element);
@@ -62,10 +62,10 @@ static void methodAdd(const size_t choice, Node** const tree)
     addElement(tree, element);
 }
 
-static void methodFind(const size_t choice, Node* const* const tree)
+static void methodFind(const size_t choice, Node** const tree)
 {
     ErrorCode errorCode = ok;
-    char* key = getString(&errorCode);
+    char* key = getValue(&errorCode, "ключ");
     if (errorCode != ok)
     {
         deleteTree(tree);
@@ -74,14 +74,14 @@ static void methodFind(const size_t choice, Node* const* const tree)
     }
     char* result = findElement(*tree, key);
 
-    printf (result != NULL ? result : PRINT_NOT_FOUND);
+    printf(result != NULL ? result : PRINT_NOT_FOUND);
     printf("\n");
 }
 
-static void methodCheck(const size_t choice, Node* const* const tree)
+static void methodCheck(const size_t choice, Node** const tree)
 {
     ErrorCode errorCode = ok;
-    char* key = getString(&errorCode);
+    char* key = getValue(&errorCode, "ключ");
     if (errorCode != ok)
     {
         deleteTree(tree);
@@ -100,7 +100,7 @@ static void methodCheck(const size_t choice, Node* const* const tree)
 static void methodDelete(const size_t choice, Node** const tree)
 {
     ErrorCode errorCode = ok;
-    char* key = getString(&errorCode);
+    char* key = getValue(&errorCode, "ключ");
     if (errorCode != ok)
     {
         deleteTree(tree);
