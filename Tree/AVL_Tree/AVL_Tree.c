@@ -3,17 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-int getHeight(Node* tree)
+static int getHeight(const Node* const tree)
 {
     return tree == NULL ? -1 : tree->height;
 }
 
-void updateHeight(Node* tree)
+static void updateHeight(Node* const tree)
 {
     tree->height = max(getHeight(tree->leftChild), getHeight(tree->rightChild)) + 1;
 }
 
-int getBalance(Node* tree)
+int getBalance(const Node* const tree)
 {
     return tree == NULL ? 0 : getHeight(tree->rightChild) - getHeight(tree->leftChild);
 }
@@ -41,7 +41,7 @@ void swap(Node* treeOne, Node* treeTwo)
     strcpy(treeTwo->element->value, bufferValue);
 }
 
-void rightRotate(Node* tree)
+void rightRotate(Node* const tree)
 {
     swap(tree, tree->leftChild);
     Node* buffer = tree->rightChild;
@@ -54,7 +54,7 @@ void rightRotate(Node* tree)
     updateHeight(tree);
 }
 
-void leftRotate(Node* tree)
+void leftRotate(Node* const tree)
 {
     swap(tree, tree->rightChild);
     Node* buffer = tree->leftChild;
@@ -67,7 +67,7 @@ void leftRotate(Node* tree)
     updateHeight(tree);
 }
 
-void balance(Node* tree)
+void balance(Node* const tree)
 {
     int balance = getBalance(tree);
     if (balance == -2)

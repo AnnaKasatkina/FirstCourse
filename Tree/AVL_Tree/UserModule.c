@@ -23,7 +23,7 @@ static char* getValue(ErrorCode* const errorCode, const char* const nameValue)
     return getString(errorCode);
 }
 
-static Element* getElement(ErrorCode* errorCode)
+static Element* getElement(ErrorCode* const errorCode)
 {
     Element* element = malloc(sizeof(Element));
     if (element == NULL)
