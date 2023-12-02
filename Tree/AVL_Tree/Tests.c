@@ -122,13 +122,18 @@ static bool testDeleteElement(Node* tree)
 bool testResult(void)
 {
     Node* tree = NULL;
+    int answerDelta1 = 1;
+    int answerDelta2 = 2;
 
     addElement(&tree, createElement("five", "5"));
     addElement(&tree, createElement("two", "2"));
     addElement(&tree, createElement("one", "1"));
+    bool testDelta1 = answerDelta1 == tree->delta;
+
     addElement(&tree, createElement("three", "3"));
     addElement(&tree, createElement("seven", "7"));
     addElement(&tree, createElement("six", "6"));
+    bool testDelta2 = answerDelta2 == tree->delta;
 
     bool result1 = testAddElement(tree);
     bool result2 = testFindElement(tree);
@@ -143,5 +148,5 @@ bool testResult(void)
 
     deleteTree(&tree);
 
-    return result1 && result2 && result3 && result4;
+    return result1 && result2 && result3 && result4 && testDelta1 && testDelta2;
 }

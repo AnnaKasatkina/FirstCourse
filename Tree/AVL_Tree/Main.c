@@ -9,11 +9,11 @@
 
 int main(void)
 {
-    //if (!testResult())
-    //{
-    //    printf("Error!");
-    //    return ERROR;
-    //}
+    if (!testResult())
+    {
+        printf("Error!");
+        return ERROR;
+    }
 
     setlocale(LC_ALL, "Russian");
     printf("Добро пожаловать в Словарь!\n\n");
