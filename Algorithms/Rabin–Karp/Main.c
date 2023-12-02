@@ -1,69 +1,34 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
+#include <locale.h>
+#include <Windows.h>
 
-#define BASE 31
-#define NUMBER 2147483647
+#include "Rabin–Karp.h"
+#include "Utility.h"
 
-bool compareString(const char* const string1, const char* const string2, const size_t length)
+#define NAME_FILE "Text.txt"
+#define ERROR_CODE -1
+
+int main(void)
 {
-    for (size_t i = 0; i < length; ++i)
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+    size_t lengthString = 0;
+    wchar_t* string = getStringFromFile(NAME_FILE, &lengthString);
+    if (string == NULL)
     {
-        if (string1[i] != string2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-size_t calculateHash(const char* const string, const size_t lengthString)
-{
-    size_t result = (int)string[0];
-
-    for (size_t i = 1; i < lengthString; ++i)
-    {
-        result = (BASE * result + string[i]) % NUMBER;
-    }
-    return result % NUMBER;
-}
-
-size_t searchPattern(const char* const string, const char* const pattern, const size_t lengthString)
-{
-    size_t lengthPattern = strlen(pattern);
-    size_t patternHash = calculateHash(pattern, lengthPattern);
-    size_t currentHash = calculateHash(string, lengthPattern);
-    size_t maxDegree = 1;
-
-    for (size_t i = 0; i < lengthPattern - 1; i++)
-    {
-        maxDegree = (maxDegree * BASE) % NUMBER;
+        return ERROR_CODE;
     }
 
-    for (size_t index = 0; index + lengthPattern <= lengthString; ++index)
-    {
-        if (patternHash == currentHash)
-        {
-            if (compareString(pattern, &(string[index]), lengthPattern))
-            {
-                return index;
-            }
-        }
-        currentHash = (BASE * (currentHash - string[index] * maxDegree) + string[index + lengthPattern]) % NUMBER;
-    }
+    printf("String: %ls\n", string);
 
-    return -1;
-}
+    printf("Pattern: ");
+    size_t lengthPattern = 0;
+    wchar_t* pattern = getString(&lengthPattern);
+    printf("\n");
 
-int main()
-{
-    char* string = "Hello World!";
-    printf("String: %s\n", string);
-    char* pattern = "llo";
-    printf("Pattern: %s\n", pattern);
-    size_t lengthString = strlen(string);
+    bool answer = searchPattern(string, pattern, lengthString, lengthPattern);
 
-    size_t answer = searchPattern(string, pattern, lengthString);
-
-    printf(answer == -1 ? "Not found" : "index: %d", answer);
+    printf(answer ? "Found!\n" : "Not found!\n");
 }
