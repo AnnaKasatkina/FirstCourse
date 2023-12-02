@@ -15,18 +15,6 @@ static void printResultTest(const bool result, const char* const nameTest)
     }
 }
 
-static bool compareLists(List* list1, List* list2)
-{
-    for (size_t i = 0; i < getSize(list1); i++)
-    {
-        if (strcmp(getAt(list1, i), getAt(list2, i)) != 0)
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 static bool testCase(const Criteria criteria, const char* const fileTest, const char* const fileAnswer)
 {
     List* listTest = 0;

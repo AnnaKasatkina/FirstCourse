@@ -2,8 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define BUFFERSIZE 30
+#define SIZE 100
+#define COUNT 2
 
 // List element
 typedef struct ListElement
@@ -19,6 +22,9 @@ typedef struct List
     ListElement* end;
     size_t size;
 } List;
+
+// Compare two Lists
+bool compareLists(List* list1, List* list2);
 
 // Print value of List
 void printList(const List* const list);
@@ -36,7 +42,7 @@ void initList(List** const list);
 void erase(List* const list, const size_t index);
 
 // Change the value at index
-void setAt(List* const list, const size_t index, const char* const value);
+void setAt(List* const list, const size_t index, const char* const * const value);
 
 // Return the value at index
 char* getAt(const List* const list, const size_t index);

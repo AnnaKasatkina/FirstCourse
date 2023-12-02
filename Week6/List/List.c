@@ -1,5 +1,34 @@
 ﻿#include "List.h"
 
+#include <string.h>
+
+bool compareLists(List* list1, List* list2)
+{
+    size_t length = getSize(list1);
+
+    ListElement* element1 = list1->begin;
+    ListElement* element2 = list2->begin;
+
+    for (size_t i = 0; i < length; i++)
+    {
+        if (element1 == list1->end->next || element2 == list2->end->next)
+        {
+            printf("Out of List");
+            break;
+        }
+
+        if (strcmp(element1->value[0], element2->value[0]) != 0 || strcmp(element1->value[1], element2->value[1]) != 0)
+        {
+            return false;
+        }
+
+        element1 = element1->next;
+        element2 = element2->next;
+    }
+
+    return true;
+}
+
 void printList(const List* const list)
 {
     for (size_t i = 0; i < getSize(list); i++)
