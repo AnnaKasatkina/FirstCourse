@@ -28,24 +28,8 @@ size_t** countComponents(const Graph* const graph)
     for (size_t i = 0; i < COUNT_EDGES; i++)
     {
         bool finded = false;
-        for (size_t indexComponent = 0; indexComponent < COUNT_EDGES && !finded; indexComponent++)
-        {
-            for (size_t indexNode = 0; indexNode < COUNT_NODES && !finded; indexNode++)
-            {
-                if (components[indexComponent][indexNode] == graph->edges[i]->nodeOne)
-                {
-                    components[indexComponent][indexNode + 1] = graph->edges[i]->nodeTwo;
-                    finded = true;
-                }
-
-                if (components[indexComponent][indexNode] == graph->edges[i]->nodeTwo)
-                {
-                    components[indexComponent][indexNode + 1] = graph->edges[i]->nodeOne;
-                    finded = true;
-                }
-            }
-        }
     }
+
     return components;
 }
 
