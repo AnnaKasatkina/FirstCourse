@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#define NOT_FOUND -1
+
 // Search pattern in text
-bool searchPattern(const wchar_t* const string, const wchar_t* const pattern, 
+size_t searchPattern(const wchar_t* const string, const wchar_t* const pattern, 
     const size_t lengthString, const size_t lengthPattern);

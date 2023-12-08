@@ -1,7 +1,6 @@
 ﻿#include <stdio.h>
 #include <string.h>
 #include <locale.h>
-#include <Windows.h>
 
 #include "Rabin–Karp.h"
 #include "Utility.h"
@@ -11,8 +10,7 @@
 
 int main(void)
 {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
+    setlocale(LC_ALL, ".1251");
 
     size_t lengthString = 0;
     wchar_t* string = getStringFromFile(NAME_FILE, &lengthString);
@@ -25,10 +23,10 @@ int main(void)
 
     printf("Pattern: ");
     size_t lengthPattern = 0;
-    wchar_t* pattern = getString(&lengthPattern);
+    wchar_t* pattern = getString(stdin, &lengthPattern);
     printf("\n");
 
-    bool answer = searchPattern(string, pattern, lengthString, lengthPattern);
+    size_t answer = searchPattern(string, pattern, lengthString, lengthPattern);
 
-    printf(answer ? "Found!\n" : "Not found!\n");
+    printf(answer == NOT_FOUND ? "Not found!\n" : "Found!\nPosition: %zd\n", answer);
 }

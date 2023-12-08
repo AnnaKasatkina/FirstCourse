@@ -1,22 +1,10 @@
 ﻿#include "Rabin–Karp.h"
 
 #include <string.h>
+#include <wchar.h>
 
 #define BASE 31
 #define NUMBER 2147483647
-
-static bool compareString(const wchar_t* const string1, const wchar_t* const string2, 
-    const size_t length)
-{
-    for (size_t i = 0; i < length; ++i)
-    {
-        if (string1[i] != string2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
 
 static size_t calculateHash(const wchar_t* const string, const size_t lengthString)
 {
@@ -29,7 +17,7 @@ static size_t calculateHash(const wchar_t* const string, const size_t lengthStri
     return result % NUMBER;
 }
 
-bool searchPattern(const wchar_t* const string, const wchar_t* const pattern, 
+size_t searchPattern(const wchar_t* const string, const wchar_t* const pattern, 
     const size_t lengthString, const size_t lengthPattern)
 {
     size_t patternHash = calculateHash(pattern, lengthPattern);
@@ -45,14 +33,14 @@ bool searchPattern(const wchar_t* const string, const wchar_t* const pattern,
     {
         if (patternHash == currentHash)
         {
-            if (compareString(pattern, &(string[index]), lengthPattern))
+            if (wmemcmp(pattern, string + index, lengthPattern) == 0)
             {
-                return true;
+                return index;
             }
         }
         currentHash = BASE * (currentHash - string[index] * maxDegree) % NUMBER;
         currentHash += string[index + lengthPattern] % NUMBER;
     }
 
-    return false;
+    return NOT_FOUND;
 }
