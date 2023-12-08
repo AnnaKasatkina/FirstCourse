@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
@@ -6,7 +6,7 @@
 #include "PhoneBook.h"
 #include "Utility.h"
 
-#define ERROR "Ошибка!"
+#define ERROR "РћС€РёР±РєР°!"
 
 enum Choise
 {
@@ -20,103 +20,102 @@ enum Choise
 
 static char* getElement(const char* const nameElement)
 {
-    printf("Введите %s контакта: ", nameElement);
-    char* string = getString();
+    printf("Р’РІРµРґРёС‚Рµ %s РєРѕРЅС‚Р°РєС‚Р°: ", nameElement);
+    getchar();
+    char* string = getString(stdin, '\n');
     return string;
 }
 
-static void methodEntryAdd(PhoneBookEntry* const buffer, const size_t length)
+static void menthodexitProgram(PhoneBook* const buffer)
 {
-    char* name = getElement("имя");
+    deletePhoneBook(buffer);
+    exit(EXIT_SUCCESS);
+}
+
+static void methodEntryAdd(PhoneBook* const buffer)
+{
+    char* name = getElement("РёРјСЏ");
     if (name == NULL)
     {
         return;
     }
 
-    char* phone = getElement("телефон");
+    char* phone = getElement("С‚РµР»РµС„РѕРЅ");
     if (phone == NULL)
     {
         return;
     }
 
-    addEntry(buffer, length, name, phone);
-}
-
-static void printAllEntry(const PhoneBookEntry* const buffer, const size_t length)
-{
-    for (size_t i = 0; i < length; ++i)
-    {
-        printf("%s - %s\n", buffer[i].name, buffer[i].phone);
-    }
+    addEntry(buffer, name, phone);
     printf("\n");
 }
 
-static void methodSearchPhone(const PhoneBookEntry* const buffer, const size_t length)
+static void methodSearchPhone(const PhoneBook* const buffer)
 {
-    char* name = getElement("имя");
+    char* name = getElement("РёРјСЏ");
     if (name == NULL)
     {
         return;
     }
 
-    size_t index = searchPhone(buffer, length, name);
-
-    if (index == -1)
+    char* phone = searchElement(buffer, name, compareName)->phone;
+    if (phone == NULL)
     {
-        printf("Имя не найден.\n\n");
+        printf("РРјСЏ РЅРµ РЅР°Р№РґРµРЅРѕ.\n\n");
         return;
     }
-    printf("%s - %s\n\n", buffer[index].name, buffer[index].phone);
+
+    printf("%s\n\n", phone);
 }
 
-static void methodSearchName(const PhoneBookEntry* const buffer, const size_t length)
+static void methodSearchName(const PhoneBook* const buffer)
 {
-    char* phone = getElement("телефон");
+    char* phone = getElement("С‚РµР»РµС„РѕРЅ");
     if (phone == NULL)
     {
         return;
     }
 
-    size_t index = searchName(buffer, length, phone);
-
-    if (index == -1)
+    char* name = searchElement(buffer, phone, comparePhone)->name;
+    if (name == NULL)
     {
-        printf("Номер не найден.\n\n");
+        printf("РќРѕРјРµСЂ РЅРµ РЅР°Р№РґРµРЅ.\n\n");
         return;
     }
-    printf("%s - %s\n\n", buffer[index].name, buffer[index].phone);
+
+    printf("%s\n\n", name);
 }
 
-void choose(const int choice, PhoneBookEntry* const buffer, const size_t length)
+void choose(const int choice, PhoneBook* const buffer)
 {
     switch (choice)
     {
     case exitProgram:
-        exit(EXIT_SUCCESS);
+        menthodexitProgram(buffer);
         break;
 
     case addCommand:
-        methodEntryAdd(buffer, length);
+        methodEntryAdd(buffer);
         break;
 
     case printCommand:
-        printAllEntry(buffer, length);
+        printAllEntry(buffer);
         break;
 
     case searchPhoneCommand:
-        methodSearchPhone(buffer, length);
+        methodSearchPhone(buffer);
         break;
 
     case searchNameCommand:
-        methodSearchName(buffer, length);
+        methodSearchName(buffer);
         break;
 
     case saveCommand:
-        saveFile(buffer, length);
+        saveFile(buffer);
         break;
 
     default:
-        printf("Введено неверное значение.\n");
+        printf("Р’РІРµРґРµРЅРѕ РЅРµРІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ.\n");
         break;
     }
 }

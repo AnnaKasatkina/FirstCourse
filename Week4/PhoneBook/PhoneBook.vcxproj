@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.c" />
+    <ClCompile Include="Main.c" />
     <ClCompile Include="PhoneBook.c" />
     <ClCompile Include="Tests.c" />
     <ClCompile Include="UserModule.c" />

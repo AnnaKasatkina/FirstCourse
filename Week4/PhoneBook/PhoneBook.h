@@ -1,16 +1,35 @@
 ﻿#pragma once
 
+#include <stdbool.h>
+
+#define SIZE 100
+
 typedef struct
 {
     char* name;
     char* phone;
 } PhoneBookEntry;
 
-void addEntry(PhoneBookEntry* const buffer, const size_t length,
-    const char* const name, const char* const phone);
+typedef struct
+{
+    PhoneBookEntry* entries[SIZE];
+    size_t length;
+} PhoneBook;
 
-size_t searchPhone(const PhoneBookEntry* const buffer,
-    const size_t length, const char* const name);
+typedef bool (*CompareFunc) (const PhoneBookEntry*, const char* const);
 
-size_t searchName(const PhoneBookEntry* const buffer,
-    const size_t length, const char* const phone);
+bool compareName(const PhoneBookEntry* const elementOne, const char* const elementTwo);
+
+bool comparePhone(const PhoneBookEntry* const elementOne, const char* const elementTwo);
+
+void addEntry(PhoneBook* const buffer, const char* const name, const char* const phone);
+
+PhoneBookEntry* searchElement(const PhoneBook* const buffer, const char* const name, CompareFunc compare);
+
+void deletePhoneBook(PhoneBook* const buffer);
+
+PhoneBook* readPhoneBook(const char* const nameFile);
+
+void saveFile(const PhoneBook* const buffer);
+
+void printAllEntry(const PhoneBook* const buffer);

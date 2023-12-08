@@ -2,15 +2,7 @@
 
 #include "PhoneBook.h"
 
-typedef enum ErrorCode
-{
-    ok,
-    stackIsEmpty,
-    outOfMemory
-} ErrorCode;
+#include <stdio.h>
 
-PhoneBookEntry* readPhoneBook(const char* const nameFile, size_t* length);
-
-char* getString(void);
-
-void saveFile(const PhoneBookEntry* const buffer, const size_t length);
+// Get string of an arbitrary string
+char* getString(FILE* file, const char separator);

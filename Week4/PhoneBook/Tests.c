@@ -18,54 +18,60 @@ static void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-static bool testAddEntry(PhoneBookEntry* const buffer, size_t* length)
+static bool testAddEntry(PhoneBook* const buffer)
 {
     const char* const name = "Derek Parlane Stein Jackson Hunter McCloy Kennedy";
     const char* const phone = "+7 (931) 884-66-69";
 
-    addEntry(buffer, *length, name, phone);
+    addEntry(buffer, name, phone);
+    size_t length = buffer->length;
 
-    return strcmp(buffer[*length].name, name) == 0 && strcmp(buffer[*length].phone, phone) == 0;
+    return strcmp(buffer->entries[length]->name, name) == 0 && strcmp(buffer->entries[length]->phone, phone) == 0;
 }
 
-static bool testSearchPhoneTrue(PhoneBookEntry* const buffer, const size_t length)
+static bool testSearchPhoneTrue(PhoneBook* const buffer)
 {
-    const char* const name = "Michael  ";
+    const char* const name = "Michael ";
+    const char* const phone = " +7 (924) 156-40-24";
 
-    return searchPhone(buffer, length, name) != -1;
+    return strcmp(searchElement(buffer, name, compareName)->phone, phone) == 0;
 }
 
-static bool testSearchPhoneFalse(PhoneBookEntry* const buffer, const size_t length)
+static bool testSearchPhoneFalse(PhoneBook* const buffer)
 {
-    const char* const name = "Anna";
+    const char* const name = "Anna ";
 
-    return searchPhone(buffer, length, name) == -1;
+    return searchElement(buffer, name, compareName) == NULL;
 }
 
-static bool testSearchNameTrue(PhoneBookEntry* const buffer, const size_t length)
+static bool testSearchNameTrue(PhoneBook* const buffer)
 {
-    const char* const phone = "  +7 (941) 284-22-18";
+    const char* const name = "James ";
+    const char* const phone = " +7 (941) 284-22-18";
 
-    return searchName(buffer, length, phone) != -1;
+    return strcmp(searchElement(buffer, phone, comparePhone)->name, name) == 0;
 }
 
-static bool testSearchNameFalse(PhoneBookEntry* const buffer, const size_t length)
+static bool testSearchNameFalse(PhoneBook* const buffer)
 {
-    const char* const phone = "800 - 555 - 355";
+    const char* const phone = " 800 - 555 - 355";
 
-    return searchName(buffer, length, phone) == -1;
+    return searchElement(buffer, phone, comparePhone) == NULL;
 }
 
 bool resultTests(void)
 {
-    size_t length = 0;
-    PhoneBookEntry* buffer = readPhoneBook("Test.txt", &length);
+    PhoneBook* buffer = readPhoneBook("Test.txt");
+    if (buffer == NULL)
+    {
+        return false;
+    }
 
-    const bool answer1 = testAddEntry(buffer, &length);
-    const bool answer2 = testSearchPhoneTrue(buffer, length);
-    const bool answer3 = testSearchPhoneFalse(buffer, length);
-    const bool answer4 = testSearchNameTrue(buffer, length);
-    const bool answer5 = testSearchNameFalse(buffer, length);
+    const bool answer1 = testAddEntry(buffer);
+    const bool answer2 = testSearchPhoneTrue(buffer);
+    const bool answer3 = testSearchPhoneFalse(buffer);
+    const bool answer4 = testSearchNameTrue(buffer);
+    const bool answer5 = testSearchNameFalse(buffer);
 
 
     printResultTest(answer1, "Add Entry");

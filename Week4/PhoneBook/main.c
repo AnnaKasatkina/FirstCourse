@@ -21,8 +21,7 @@ int main(void)
     setlocale(LC_ALL, "Russian");
     printf("Добро пожаловать в телефонный справочник!\n\n");
 
-    size_t length = 0;
-    PhoneBookEntry* buffer = readPhoneBook("PhoneBook.txt", &length);
+    PhoneBook* buffer = readPhoneBook("PhoneBook.txt");
     if (buffer == NULL)
     {
         return ERROR;
@@ -43,10 +42,10 @@ int main(void)
         }
 
         printf("\n");
-        choose(choice, buffer, length);
+        choose(choice, buffer);
         if (choice == 1)
         {
-            ++length;
+            ++buffer->length;
         }
     }
 

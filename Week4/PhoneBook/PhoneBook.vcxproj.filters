@@ -18,7 +18,7 @@
     <ClCompile Include="PhoneBook.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="Main.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Utility.c">
