@@ -3,7 +3,7 @@
 
 #include "GraphViz.h"
 
-int main() 
+int main(void) 
 {
     int graph[SIZE][SIZE] = 
     {
