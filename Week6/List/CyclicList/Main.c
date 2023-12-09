@@ -36,11 +36,12 @@ int main(void)
     fillList(amount, list, &errorCode);
     if (errorCode != ok)
     {
+        freeList(list);
         printf(MEMORY_ERROR);
         return ERROR;
     }
 
-    size_t answer = kill(amount, gap, list);
+    size_t answer = kill(gap, list);
     printf("Safe place if %zd", answer);
 
     freeList(list);

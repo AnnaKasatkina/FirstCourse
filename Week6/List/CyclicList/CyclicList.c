@@ -17,7 +17,7 @@ void fillList(const size_t amount, List* const list, ErrorCode* errorCode)
     }
 }
 
-size_t kill(const size_t amount, const size_t gap, List* const list)
+size_t kill(const size_t gap, List* const list)
 {
     ListElement* currentElement = list->begin;
     size_t index = 0;

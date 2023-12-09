@@ -30,7 +30,7 @@ ListElement* getSubsequentElement(ListElement* currentElement, size_t const inde
 void eraseNextElement(ListElement* const currentElement, List* const list);
 
 // Delete the List
-void freeList(List* list);
+void freeList(List* const list);
 
 // Add the element to the end
-void pushBack(List* const list, const size_t value, ErrorCode* errorCode);
+void pushBack(List* const list, const size_t value, ErrorCode* const errorCode);

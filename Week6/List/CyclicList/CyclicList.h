@@ -6,4 +6,4 @@
 void fillList(const size_t amount, List* const list, ErrorCode* errorCode);
 
 // Calculate a safe place
-size_t kill(const size_t amount, const size_t gap, List* const list);
+size_t kill(const size_t gap, List* const list);

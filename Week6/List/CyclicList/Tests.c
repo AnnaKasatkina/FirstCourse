@@ -29,10 +29,11 @@ static bool testCase(const size_t amount, const size_t gap, const size_t answer)
     fillList(amount, list, &errorCode);
     if (errorCode != ok)
     {
+        freeList(list);
         return false;
     }
 
-    size_t safePleace = kill(amount, gap, list);
+    size_t safePleace = kill(gap, list);
     bool result = safePleace == answer;
     freeList(list);
 
@@ -65,5 +66,5 @@ bool resultTests(void)
     printResultTest(answerThree, "Every second one dies");
     printf("\n");
 
-    return (answerOne && answerTwo && answerThree);
+    return answerOne && answerTwo && answerThree;
 }

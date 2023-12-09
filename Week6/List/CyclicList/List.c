@@ -33,7 +33,7 @@ void eraseNextElement(ListElement* const currentElement, List* const list)
     list->size--;
 }
 
-void pushBack(List* const list, const size_t value, ErrorCode* errorCode)
+void pushBack(List* const list, const size_t value, ErrorCode* const errorCode)
 {
     ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
     if (newElement == NULL)
@@ -58,7 +58,7 @@ void pushBack(List* const list, const size_t value, ErrorCode* errorCode)
     list->size++;
 }
 
-void freeList(List* list)
+void freeList(List* const list)
 {
     ListElement* currentElement = list->begin;
     size_t size = getSize(list);
