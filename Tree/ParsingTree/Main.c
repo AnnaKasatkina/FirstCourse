@@ -24,6 +24,11 @@ int main(void)
     }
 
     Node* tree = buildTree(file);
+    if (tree == NULL)
+    {
+        printf(STRING_ERROR);
+        return ERROR;
+    }
     fclose(file);
 
     printf("Tree: ");

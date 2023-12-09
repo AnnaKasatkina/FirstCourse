@@ -44,10 +44,16 @@ static bool treeCompare(const Node* const tree, const char* const string, size_t
             }
 
             ++(*index);
-            treeCompare(tree->leftChild, string, index);
+            if (!treeCompare(tree->leftChild, string, index))
+            {
+                return false;
+            }
 
             ++(*index);
-            treeCompare(tree->rightChild, string, index);
+            if (!treeCompare(tree->rightChild, string, index))
+            {
+                return false;
+            }
 
             if (string[(*index)++] != ')')
             {
