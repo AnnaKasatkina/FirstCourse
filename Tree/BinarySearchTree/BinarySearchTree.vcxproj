@@ -129,15 +129,23 @@
   <ItemGroup>
     <ClCompile Include="BinaryTree.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="Sourse\Source.c" />
     <ClCompile Include="Tests.c" />
     <ClCompile Include="UserModule.c" />
     <ClCompile Include="Utility.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.h" />
+    <ClInclude Include="Sourse\Source.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="UserModule.h" />
     <ClInclude Include="Utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sourse\BinatyTree.dot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Sourse\BinatyTree.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

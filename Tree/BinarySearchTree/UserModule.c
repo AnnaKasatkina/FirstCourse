@@ -1,8 +1,10 @@
 ﻿#include "UserModule.h"
 #include "Utility.h"
+#include "Sourse/Source.h"
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define PRINT_ERROR "Ошибка ввода!\n"
 #define PRINT_NOT_FOUND "Элемент не найден!"
@@ -69,7 +71,7 @@ static void methodAdd(const size_t choice, Node** const tree)
     addElement(tree, element);
 }
 
-static void methodFind(const size_t choice, Node* const* const tree)
+static void methodFind(const size_t choice, Node** const tree)
 {
     ErrorCode errorCode = ok;
     int key = getKey(&errorCode);
@@ -81,11 +83,11 @@ static void methodFind(const size_t choice, Node* const* const tree)
     }
     char* result = findElement(*tree, key);
 
-    printf (result != NULL ? result : PRINT_NOT_FOUND);
+    printf(result != NULL ? result : PRINT_NOT_FOUND);
     printf("\n");
 }
 
-static void methodCheck(const size_t choice, Node* const* const tree)
+static void methodCheck(const size_t choice, Node** const tree)
 {
     ErrorCode errorCode = ok;
     int key = getKey(&errorCode);
@@ -119,6 +121,24 @@ static void methodDelete(const size_t choice, Node** const tree)
 
 static void methodExit(const Node** const tree)
 {
+    FILE* file;
+    char name[] = "Sourse/BinatyTree.dot";
+    file = fopen(name, "w+");
+    printGraph(*tree, file);
+
+    fclose(file);
+
+    int result = system("dot -Tpng -o Sourse/BinatyTree.png Sourse/BinatyTree.dot");
+
+    if (result == 0)
+    {
+        system("start Sourse/BinatyTree.png");
+    }
+    else
+    {
+        printf("Ошибка выполнения команды.\n");
+    }
+
     deleteTree(tree);
     exit(EXIT_SUCCESS);
 }
