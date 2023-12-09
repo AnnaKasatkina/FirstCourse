@@ -1,4 +1,3 @@
-#include "Utility.h"
 #include "ParsingTree.h"
 #include "Tests.h"
 
@@ -6,36 +5,41 @@
 #include <stdlib.h>
 
 #define ERROR -1
-#define NAME "Expretion.txt"
+#define STRING_ERROR "Error!"
+#define NAME_FILE "Expretion.txt"
 
 int main(void)
 {
     if (!testResult())
     {
-        printf("Test error!");
+        printf(STRING_ERROR);
         return ERROR;
     }
 
-    char* string = getStringFromFile(NAME);
-
-    if (string == NULL)
+    FILE* file = fopen(NAME_FILE, "r");
+    if (file == NULL)
     {
-        printf("Error!");
+        printf(STRING_ERROR);
         return ERROR;
     }
 
-    Node* tree = NULL;
+    Node* tree = buildTree(file);
+    fclose(file);
 
-    buildTree(&string, &tree);
-    char* answer = getStringFromTree(tree);
-
-    printf(answer);
+    printf("Tree: ");
+    printTree(tree);
     printf("\n");
 
     ErrorCode errorCode = ok;
-    int result = calculateResult(answer, &errorCode);
+    int result = calculateResult(tree, &errorCode);
+    if (errorCode != ok)
+    {
+        printf(STRING_ERROR);
+        return ERROR;
+    }
+    printf("Result: %d\n", result);
 
-    addBrackets(&answer);
+    deleteTree(&tree);
 
     return 0;
 }

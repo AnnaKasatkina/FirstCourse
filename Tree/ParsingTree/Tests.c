@@ -1,12 +1,12 @@
 #include "Tests.h"
 #include "ParsingTree.h"
-#include "Utility.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 #define ERROR -1
+#define STRING_ERROR "Error!"
 
 static void printResultTest(const bool rezult, const char* const nameTest)
 {
@@ -24,78 +24,101 @@ static bool treeCompare(const Node* const tree, const char* const string, size_t
 {
     if (tree)
     {
-        treeCompare(tree->leftChild, string, index);
-        treeCompare(tree->rightChild, string, index);
-        if (string[*index] != tree->value)
+        if (tree->value)
         {
-            return false;
+            if (((int)string[(*index)++] - 48) != tree->value)
+            {
+                return false;
+            }
         }
-        ++(*index);
+        else
+        {
+            if (string[(*index)++] != '(')
+            {
+                return false;
+            }
+
+            if (string[(*index)++] != tree->operation)
+            {
+                return false;
+            }
+
+            ++(*index);
+            treeCompare(tree->leftChild, string, index);
+
+            ++(*index);
+            treeCompare(tree->rightChild, string, index);
+
+            if (string[(*index)++] != ')')
+            {
+                return false;
+            }
+        }
     }
     return true;
 }
 
-static bool testCase(const char* const name, const char* const rightStringFromTree, const char* const rightStringFromFile, const int answer)
+static bool testCase(const char* const nameFile, const char* const rightTree, const int answer)
 {
-    Node* tree = NULL;
+    FILE* file = fopen(nameFile, "r");
+    if (file == NULL)
+    {
+        printf(STRING_ERROR);
+        return false;
+    }
+
+    Node* tree = buildTree(file);
+    size_t index = 0;
+    bool answerOne = treeCompare(tree, rightTree, &index);
+
     ErrorCode errorCode = ok;
-
-    char* stringFromFile = getStringFromFile(name);
-    bool answerOne = strcmp(stringFromFile, rightStringFromFile) == 0;
-
-    buildTree(&stringFromFile, &tree);
-    size_t index[1] = { 0 };
-    bool answerTwo = treeCompare(tree, rightStringFromTree, index);
-
-    char* stringFromTree = getStringFromTree(tree);
-    bool answerThree = strcmp(stringFromTree, rightStringFromTree) == 0;
-
-    int result = calculateResult(stringFromTree, &errorCode);
-    bool answerFour = (result == answer);
+    int result = calculateResult(tree, &errorCode);
+    if (errorCode != ok)
+    {
+        printf(STRING_ERROR);
+        return false;
+    }
+    bool answerTwo = (result == answer);
 
     deleteTree(&tree);
-
-    return answerOne && answerTwo && answerThree && answerFour;
+    fclose(file);
+    return answerOne && answerTwo;
 }
 
 static bool testOne()
 {
     const char* const name = "TestFiles/TestOne.txt";
-    const char* const rightStringFromTree = "*+112";
-    const char* const rightStringFromFile = "(*(+11)2)";
+    const char* const rightTree = "(* (+ 1 1) 2)";
     const int answer = 4;
 
-    return testCase(name, rightStringFromTree, rightStringFromFile, answer);
+    return testCase(name, rightTree, answer);
 }
 
 static bool testTwo()
 {
     const char* const name = "TestFiles/TestTwo.txt";
-    const char* const rightStringFromTree = "/8*2-51";
-    const char* const rightStringFromFile = "(/8(*2(-51)))";
+    const char* const rightTree = "(/ 8 (* 2 (- 5 1)))";
     const int answer = 1;
 
-    return testCase(name, rightStringFromTree, rightStringFromFile, answer);
+    return testCase(name, rightTree, answer);
 }
 
 static bool testThree()
 {
     const char* const name = "TestFiles/TestThree.txt";
-    const char* const rightStringFromTree = "+*24/82";
-    const char* const rightStringFromFile = "(+(*24)(/82))";
+    const char* const rightTree = "(+ (* 2 4) (/ 8 2))";
     const int answer = 12;
 
-    return testCase(name, rightStringFromTree, rightStringFromFile, answer);
+    return testCase(name, rightTree, answer);
 }
 
 static bool testFour()
 {
     const char* const name = "TestFiles/TestFour.txt";
-    const char* const rightStringFromTree = "*+52/+624";
-    const char* const rightStringFromFile = "(*(+52)(/(+62)4))";
+    const char* const rightTree = "(* (+ 5 2) (/ (+ 6 2) 4))";
     const int answer = 14;
 
-    return testCase(name, rightStringFromTree, rightStringFromFile, answer);
+    return testCase(name, rightTree, answer);
 }
 
 bool testResult(void)

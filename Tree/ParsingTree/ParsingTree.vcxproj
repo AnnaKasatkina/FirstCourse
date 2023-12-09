@@ -129,15 +129,11 @@
   <ItemGroup>
     <ClCompile Include="Main.c" />
     <ClCompile Include="ParsingTree.c" />
-    <ClCompile Include="Stack.c" />
     <ClCompile Include="Tests.c" />
-    <ClCompile Include="Utility.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ParsingTree.h" />
-    <ClInclude Include="Stack.h" />
     <ClInclude Include="Tests.h" />
-    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Expretion.txt" />

@@ -2,103 +2,54 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <stdio.h>
 
 #define ERROR -1
 
-static void sizeOfTree(Node* tree, size_t* size)
+Node* buildTree(FILE* file) 
 {
-    if (tree)
-    {
-        sizeOfTree(tree->leftChild, size);
-        sizeOfTree(tree->rightChild, size);
-        ++(*size);
-    }
-}
-
-static Node* makeNewNode(const char value)
-{
-    Node* tree = (Node*)malloc(sizeof(Node));
-    if (tree == NULL)
+    char token = ' ';
+    if (fscanf(file, " %c", &token) != 1)
     {
         return NULL;
     }
 
-    tree->value = value;
-    tree->leftChild = (Node*)calloc(1, sizeof(Node));
-    tree->rightChild = (Node*)calloc(1, sizeof(Node));
-
-    return tree;
-}
-
-Node* buildTree(char** string, Node** tree)
-{
-    for (const char** character = string; **(character) != ')'; (*character)++)
+    Node* newNode = (Node*)calloc(1, sizeof(Node));
+    if (newNode == NULL)
     {
-        if (**character == '(')
+        return NULL;
+    }
+
+    if (token == '(') 
+    {
+        if (fscanf(file, " %c", &token) != 1)
         {
-            ++(*character);
-            *tree = makeNewNode(**character);
-            (*tree)->leftChild = buildTree(character, &((*tree)->leftChild));
-            (*tree)->rightChild = buildTree(character, &((*tree)->rightChild));
-            ++(*character);
-            return *tree;
+            return NULL;
         }
 
-        if (isdigit((*character)[0]))
+        newNode->operation = token;
+        newNode->leftChild = buildTree(file);
+        newNode->rightChild = buildTree(file);
+
+        if (fscanf(file, " %c", &token) != 1)
         {
-            (*tree)->value = (*character)[0];
-            ++(*character);
-            return *tree;
+            return NULL;
         }
     }
-    return *tree;
-}
-
-static void treeTraversal(Node* tree, char* string, size_t* index)
-{
-    if (tree)
+    else 
     {
-        while (string[*index] != '\0')
+        ungetc(token, file);
+        if (fscanf(file, "%d", &newNode->value) != 1)
         {
-            (*index)++;
+            return NULL;
         }
-        string[*index] = tree->value;
-        string[*index + 1] = '\0';
-        treeTraversal(tree->leftChild, string, index);
-        treeTraversal(tree->rightChild, string, index);
     }
+
+    return newNode;
 }
 
-char* getStringFromTree(Node* tree)
+static int count(ErrorCode* const errorCode, const char character, 
+    const int numberOne, const int numberTwo)
 {
-    size_t size = 0;
-    size_t index = 0;
-    sizeOfTree(tree, &size);
-
-    char* string = (char*)calloc(size + 1, sizeof(char));
-    treeTraversal(tree, string, &index);
-
-    return string;
-}
-
-static int count(Stack** stack, ErrorCode* errorCode, char character)
-{
-    int numberOne = top(*stack, errorCode);
-    if (*errorCode != ok)
-    {
-        return ERROR;
-    }
-    pop(stack);
-
-    int numberTwo = top(*stack, errorCode);
-    if (*errorCode != ok)
-    {
-        return ERROR;
-    }
-    pop(stack);
-
     switch (character)
     {
     case '+':
@@ -115,51 +66,45 @@ static int count(Stack** stack, ErrorCode* errorCode, char character)
     }
 }
 
-static char* reverseString(const char* const string)
+int calculateResult(const Node* const tree, ErrorCode* const errorCode)
 {
-    size_t length = strlen(string);
-    char* character = (char*)malloc(sizeof(char) * length);
-
-    for (size_t i = 0; i < length; i++)
+    if (tree) 
     {
-        character[length - i - 1] = string[i];
-    }
+        if (tree->value) 
+        {
+            return tree->value;
+        }
+        else 
+        {
+            int leftValue = calculateResult(tree->leftChild, errorCode);
+            int rightValue = calculateResult(tree->rightChild, errorCode);
 
-    character[length] = '\0';
-    return character;
+            return count(errorCode, tree->operation, leftValue, rightValue);
+            if (*errorCode != ok)
+            {
+                return ERROR;
+            }
+        }
+    }
+    return 0;
 }
 
-int calculateResult(char* string, ErrorCode* errorCode)
+void printTree(const Node* const tree)
 {
-    char* character = reverseString(string);
-    Stack* stack = NULL;
-
-    for (; *character != '\0'; ++character)
+    if (tree) 
     {
-        if (isdigit(*character))
+        if (tree->value) 
         {
-            push(&stack, *character - '0');
+            printf("%d ", tree->value);
         }
-        else
+        else 
         {
-            int result = count(&stack, errorCode, *character);
-            push(&stack, result);
+            printf("(%c ", tree->operation);
+            printTree(tree->leftChild);
+            printTree(tree->rightChild);
+            printf(") ");
         }
     }
-
-    int answer = top(stack, errorCode);
-    if (*errorCode != ok)
-    {
-        return ERROR;
-    }
-    pop(&stack);
-
-    if (!stackIsEmpty)
-    {
-        *errorCode = error;
-    }
-
-    return answer;
 }
 
 void deleteTree(Node** const tree)
