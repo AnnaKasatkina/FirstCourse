@@ -26,7 +26,7 @@ int main(void)
     wchar_t* pattern = getString(stdin, &lengthPattern);
     printf("\n");
 
-    size_t answer = searchPattern(string, pattern, lengthString, lengthPattern);
+    long answer = searchPattern(string, pattern, lengthString, lengthPattern);
 
-    printf(answer == NOT_FOUND ? "Not found!\n" : "Found!\nPosition: %zd\n", answer);
+    printf(answer == NOT_FOUND ? "Not found!\n" : "Found!\nPosition: %ld\n", answer);
 }

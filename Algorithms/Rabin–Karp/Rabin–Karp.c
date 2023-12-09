@@ -17,7 +17,7 @@ static size_t calculateHash(const wchar_t* const string, const size_t lengthStri
     return result % NUMBER;
 }
 
-size_t searchPattern(const wchar_t* const string, const wchar_t* const pattern, 
+long searchPattern(const wchar_t* const string, const wchar_t* const pattern, 
     const size_t lengthString, const size_t lengthPattern)
 {
     size_t patternHash = calculateHash(pattern, lengthPattern);
@@ -29,7 +29,7 @@ size_t searchPattern(const wchar_t* const string, const wchar_t* const pattern,
         maxDegree = (maxDegree * BASE) % NUMBER;
     }
 
-    for (size_t index = 0; index + lengthPattern <= lengthString; ++index)
+    for (long index = 0; index + lengthPattern <= lengthString; ++index)
     {
         if (patternHash == currentHash)
         {
