@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "LexerRealNumbers.h"
 #include "Tests.h"
@@ -32,5 +33,6 @@ int main()
         printf("This is not a real number\n");
     }
 
+    free(string);
     return 0;
 }

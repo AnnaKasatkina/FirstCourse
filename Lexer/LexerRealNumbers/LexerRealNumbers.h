@@ -1,12 +1,6 @@
 #pragma once
 
-enum State {
-    START,
-    INTEGER,
-    DECIMAL,
-    EXPONENT_SIGN,
-    EXPONENT_DIGIT
-};
+#include <stdbool.h>
 
 // Perform a lexical analysis
-int lexer(const char* string);
+bool lexer(const char* string);

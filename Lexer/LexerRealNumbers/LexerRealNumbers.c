@@ -1,7 +1,19 @@
 ﻿#include "LexerRealNumbers.h"
 
-#include <stdbool.h>
 #include <ctype.h>
+
+enum State {
+    START,
+    INTEGER,
+    DECIMAL,
+    EXPONENT_SIGN,
+    EXPONENT_DIGIT
+};
+
+static bool isExpSign(const char character)
+{
+    return character == 'e' || character == 'E';
+}
 
 static bool startMethod(const char* const string, enum State* state)
 {
@@ -18,38 +30,35 @@ static bool startMethod(const char* const string, enum State* state)
 
 static bool integerMethod(const char* const string, enum State* state)
 {
-    if (!isdigit(*string))
+    if (isdigit(*string))
     {
-        if (*string == '.')
-        {
-            *state = DECIMAL;
-        }
-        else if (*string == 'e' || *string == 'E')
-        {
-            *state = EXPONENT_SIGN;
-        }
-        else
-        {
-            return false;
-        }
+        return true;
     }
-    return true;
+    if (*string == '.')
+    {
+        *state = DECIMAL;
+        return true;
+    }
+    if (isExpSign(*string))
+    {
+        *state = EXPONENT_SIGN;
+        return true;
+    }
+    return false;
 }
 
 static bool decimalMethod(const char* const string, enum State* state)
 {
-    if (!isdigit(*string))
+    if (isdigit(*string))
     {
-        if (*string == 'e' || *string == 'E')
-        {
-            *state = EXPONENT_SIGN;
-        }
-        else
-        {
-            return false;
-        }
+        return true;
     }
-    return true;
+    if (isExpSign(*string))
+    {
+        *state = EXPONENT_SIGN;
+        return true;
+    }
+    return false;
 }
 
 static bool exponentSignMethod(const char* const string, enum State* state)
@@ -69,7 +78,7 @@ static bool exponentSignMethod(const char* const string, enum State* state)
     return true;
 }
 
-int lexer(const char* string)
+bool lexer(const char* string)
 {
     enum State state = START;
 
@@ -78,7 +87,6 @@ int lexer(const char* string)
         switch (state)
         {
         case START:
-
             if (!startMethod(string, &state))
             {
                 return false;
@@ -86,7 +94,6 @@ int lexer(const char* string)
             break;
 
         case INTEGER:
-
             if (!integerMethod(string, &state))
             {
                 return false;
@@ -94,7 +101,6 @@ int lexer(const char* string)
             break;
 
         case DECIMAL:
-
             if (!decimalMethod(string, &state))
             {
                 return false;
@@ -102,7 +108,6 @@ int lexer(const char* string)
             break;
 
         case EXPONENT_SIGN:
-
             if (!exponentSignMethod(string, &state))
             {
                 return false;
