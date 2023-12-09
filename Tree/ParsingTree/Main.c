@@ -6,7 +6,7 @@
 
 #define ERROR -1
 #define STRING_ERROR "Error!"
-#define NAME_FILE "Expretion.txt"
+#define NAME_FILE "Expression.txt"
 
 int main(void)
 {

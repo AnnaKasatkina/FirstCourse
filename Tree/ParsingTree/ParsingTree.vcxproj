@@ -136,7 +136,7 @@
     <ClInclude Include="Tests.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Expretion.txt" />
+    <Text Include="Expression.txt" />
     <Text Include="TestFiles\TestFour.txt" />
     <Text Include="TestFiles\TestOne.txt" />
     <Text Include="TestFiles\TestThree.txt" />
