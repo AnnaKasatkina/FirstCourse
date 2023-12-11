@@ -5,7 +5,12 @@
 
 #define ERROR -1
 
-Node* buildTree(FILE* file) 
+static int fromCharToInt(const char character)
+{
+    return (int)character - (int)'0';
+}
+
+Node* buildTree(FILE* file)
 {
     char token = ' ';
     if (fscanf(file, " %c", &token) != 1)
@@ -19,26 +24,35 @@ Node* buildTree(FILE* file)
         return NULL;
     }
 
-    if (token == '(') 
+    if (token == '(')
     {
         if (fscanf(file, " %c", &token) != 1)
         {
             return NULL;
         }
 
-        newNode->operation = token;
+        newNode->value = token;
         newNode->leftChild = buildTree(file);
+        if (newNode->leftChild == NULL)
+        {
+            return NULL;
+        }
+
         newNode->rightChild = buildTree(file);
+        if (newNode->rightChild == NULL)
+        {
+            return NULL;
+        }
 
         if (fscanf(file, " %c", &token) != 1)
         {
             return NULL;
         }
     }
-    else 
+    else
     {
         ungetc(token, file);
-        if (fscanf(file, "%d", &newNode->value) != 1)
+        if (fscanf(file, "%c", &newNode->value) != 1)
         {
             return NULL;
         }
@@ -47,64 +61,97 @@ Node* buildTree(FILE* file)
     return newNode;
 }
 
-static int count(ErrorCode* const errorCode, const char character, 
+static int calculate(ErrorCode* const errorCode, const char character,
     const int numberOne, const int numberTwo)
 {
+    *errorCode = ok;
     switch (character)
     {
     case '+':
         return numberOne + numberTwo;
     case '/':
+        if (numberTwo == 0)
+        {
+            *errorCode = divisionByZero;
+            return ERROR;
+        }
         return numberOne / numberTwo;
     case '*':
         return numberOne * numberTwo;
     case '-':
         return numberOne - numberTwo;
     default:
-        *errorCode = error;
+        *errorCode = wrongOperation;
         return ERROR;
     }
 }
 
-int calculateResult(const Node* const tree, ErrorCode* const errorCode)
+char calculateResult(const Node* const tree, ErrorCode* const errorCode)
 {
-    if (tree) 
+    *errorCode = ok;
+    if (tree == NULL)
     {
-        if (tree->value) 
-        {
-            return tree->value;
-        }
-        else 
-        {
-            int leftValue = calculateResult(tree->leftChild, errorCode);
-            int rightValue = calculateResult(tree->rightChild, errorCode);
-
-            return count(errorCode, tree->operation, leftValue, rightValue);
-            if (*errorCode != ok)
-            {
-                return ERROR;
-            }
-        }
+        *errorCode = treeIsEmpty;
+        return ERROR;
     }
-    return 0;
+    if (tree->leftChild == NULL)
+    {
+        return tree->value;
+    }
+
+    char leftValue = calculateResult(tree->leftChild, errorCode);
+    if (*errorCode != ok)
+    {
+        return ERROR;
+    }
+
+    char rightValue = calculateResult(tree->rightChild, errorCode);
+    if (*errorCode != ok)
+    {
+        return ERROR;
+    }
+
+    char result = calculate(errorCode, tree->value, 
+        fromCharToInt(leftValue), fromCharToInt(rightValue)) + (int)'0';
+    if (*errorCode != ok)
+    {
+        return ERROR;
+    }
+
+    return result;
 }
 
-void printTree(const Node* const tree)
+void printTree(const Node* const tree, ErrorCode* const errorCode)
 {
-    if (tree) 
+    if (tree == NULL)
     {
-        if (tree->value) 
-        {
-            printf("%d ", tree->value);
-        }
-        else 
-        {
-            printf("(%c ", tree->operation);
-            printTree(tree->leftChild);
-            printTree(tree->rightChild);
-            printf(") ");
-        }
+        *errorCode = treeIsEmpty;
+        return;
     }
+    if (tree->leftChild == NULL)
+    {
+        int number = (int)tree->value - (int)'0';
+        printf("%d ", number);
+    }
+    else
+    {
+        printf("(%c ", tree->value);
+
+        printTree(tree->leftChild, errorCode);
+        if (*errorCode != ok)
+        {
+            return;
+        }
+
+        printTree(tree->rightChild, errorCode);
+        if (*errorCode != ok)
+        {
+            return;
+        }
+
+        printf(") ");
+    }
+
 }
 
 void deleteTree(Node** const tree)

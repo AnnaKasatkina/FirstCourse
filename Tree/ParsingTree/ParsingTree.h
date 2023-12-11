@@ -5,13 +5,15 @@
 typedef enum ErrorCode
 {
     ok,
-    error
+    error,
+    divisionByZero,
+    wrongOperation,
+    treeIsEmpty
 }ErrorCode;
 
 typedef struct Node
 {
-    char operation;
-    int value;
+    char value;
     struct Node* leftChild;
     struct Node* rightChild;
 } Node;
@@ -20,10 +22,10 @@ typedef struct Node
 Node* buildTree(FILE* file);
 
 // Print the tree
-void printTree(const Node* const root);
+void printTree(const Node* const root, ErrorCode* const errorCode);
 
 // Calculatt the value of an expression
-int calculateResult(const Node* const tree, ErrorCode* const errorCode);
+char calculateResult(const Node* const tree, ErrorCode* const errorCode);
 
 // Delete tree
 void deleteTree(Node** const tree);

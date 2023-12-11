@@ -26,19 +26,27 @@ int main(void)
     Node* tree = buildTree(file);
     if (tree == NULL)
     {
+        fclose(file);
         printf(STRING_ERROR);
         return ERROR;
     }
     fclose(file);
 
-    printf("Tree: ");
-    printTree(tree);
-    printf("\n");
-
     ErrorCode errorCode = ok;
-    int result = calculateResult(tree, &errorCode);
+    printf("Tree: ");
+    printTree(tree, &errorCode);
     if (errorCode != ok)
     {
+        deleteTree(&tree);
+        printf(STRING_ERROR);
+        return ERROR;
+    }
+    printf("\n");
+
+    int result = (int)calculateResult(tree, &errorCode) - (int)'0';
+    if (errorCode != ok)
+    {
+        deleteTree(&tree);
         printf(STRING_ERROR);
         return ERROR;
     }

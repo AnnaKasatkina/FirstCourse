@@ -22,49 +22,50 @@ static void printResultTest(const bool rezult, const char* const nameTest)
 
 static bool treeCompare(const Node* const tree, const char* const string, size_t* const index)
 {
-    if (tree)
+    if (tree == NULL)
     {
-        if (tree->value)
+        return false;
+    }
+    if (tree->value)
+    {
+        if (string[++(*index)] != tree->value)
         {
-            if (((int)string[(*index)++] - 48) != tree->value)
-            {
-                return false;
-            }
+            return false;
         }
-        else
-        {
-            if (string[(*index)++] != '(')
-            {
-                return false;
-            }
+        return true;
+    }
+    if (string[(*index)++] != '(')
+    {
+        return false;
+    }
 
-            if (string[(*index)++] != tree->operation)
-            {
-                return false;
-            }
+    if (string[(*index)++] != tree->value)
+    {
+        return false;
+    }
 
-            ++(*index);
-            if (!treeCompare(tree->leftChild, string, index))
-            {
-                return false;
-            }
+    ++(*index);
+    if (!treeCompare(tree->leftChild, string, index))
+    {
+        return false;
+    }
 
-            ++(*index);
-            if (!treeCompare(tree->rightChild, string, index))
-            {
-                return false;
-            }
+    ++(*index);
+    if (!treeCompare(tree->rightChild, string, index))
+    {
+        return false;
+    }
 
-            if (string[(*index)++] != ')')
-            {
-                return false;
-            }
-        }
+    if (string[(*index)++] != ')')
+    {
+        return false;
+
     }
     return true;
 }
 
-static bool testCase(const char* const nameFile, const char* const rightTree, const int answer)
+static bool testCase(const char* const nameFile, const char* const rightTree, 
+    const int answer, const char* const nameTest)
 {
     FILE* file = fopen(nameFile, "r");
     if (file == NULL)
@@ -74,21 +75,30 @@ static bool testCase(const char* const nameFile, const char* const rightTree, co
     }
 
     Node* tree = buildTree(file);
+    if (buildTree == NULL)
+    {
+        return false;
+    }
+
     size_t index = 0;
     bool answerOne = treeCompare(tree, rightTree, &index);
 
     ErrorCode errorCode = ok;
-    int result = calculateResult(tree, &errorCode);
+    int result = (int)calculateResult(tree, &errorCode) - (int)'0';
     if (errorCode != ok)
     {
+        deleteTree(&tree);
+        fclose(file);
         printf(STRING_ERROR);
         return false;
     }
-    bool answerTwo = (result == answer);
+    answerOne &= (result == answer);
 
     deleteTree(&tree);
     fclose(file);
-    return answerOne && answerTwo;
+
+    printResultTest(answerOne, nameTest);
+    return answerOne;
 }
 
 static bool testOne()
@@ -97,7 +107,7 @@ static bool testOne()
     const char* const rightTree = "(* (+ 1 1) 2)";
     const int answer = 4;
 
-    return testCase(name, rightTree, answer);
+    return testCase(name, rightTree, answer, "Test One");
 }
 
 static bool testTwo()
@@ -106,7 +116,7 @@ static bool testTwo()
     const char* const rightTree = "(/ 8 (* 2 (- 5 1)))";
     const int answer = 1;
 
-    return testCase(name, rightTree, answer);
+    return testCase(name, rightTree, answer, "Test Two");
 }
 
 static bool testThree()
@@ -115,7 +125,7 @@ static bool testThree()
     const char* const rightTree = "(+ (* 2 4) (/ 8 2))";
     const int answer = 12;
 
-    return testCase(name, rightTree, answer);
+    return testCase(name, rightTree, answer, "Test Three");
 }
 
 static bool testFour()
@@ -124,7 +134,7 @@ static bool testFour()
     const char* const rightTree = "(* (+ 5 2) (/ (+ 6 2) 4))";
     const int answer = 14;
 
-    return testCase(name, rightTree, answer);
+    return testCase(name, rightTree, answer, "Test Four");
 }
 
 bool testResult(void)
@@ -133,11 +143,6 @@ bool testResult(void)
     bool result2 = testTwo();
     bool result3 = testThree();
     bool result4 = testFour();
-
-    printResultTest(result1, "Test One");
-    printResultTest(result2, "Test Two");
-    printResultTest(result3, "Test Three");
-    printResultTest(result4, "Test Four");
     printf("\n");
 
     return result1 && result2 && result3 && result4;
