@@ -34,6 +34,7 @@ static void menthodexitProgram(PhoneBook* const buffer)
 
 static void methodEntryAdd(PhoneBook* const buffer)
 {
+    ErrorCode errorCode = ok;
     char* name = getElement("имя");
     if (name == NULL)
     {
@@ -46,7 +47,11 @@ static void methodEntryAdd(PhoneBook* const buffer)
         return;
     }
 
-    addEntry(buffer, name, phone);
+    addEntry(buffer, name, phone, &errorCode);
+    if (errorCode != ok)
+    {
+        return;
+    }
     printf("\n");
 }
 

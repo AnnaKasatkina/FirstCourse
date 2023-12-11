@@ -4,6 +4,14 @@
 
 #define SIZE 100
 
+typedef enum
+{
+    ok,
+    error,
+    outOfMemory,
+    fileError
+} ErrorCode;
+
 typedef struct
 {
     char* name;
@@ -22,7 +30,7 @@ bool compareName(const PhoneBookEntry* const elementOne, const char* const eleme
 
 bool comparePhone(const PhoneBookEntry* const elementOne, const char* const elementTwo);
 
-void addEntry(PhoneBook* const buffer, const char* const name, const char* const phone);
+void addEntry(PhoneBook* const buffer, const char* const name, const char* const phone, ErrorCode* errorCode);
 
 PhoneBookEntry* searchElement(const PhoneBook* const buffer, const char* const name, CompareFunc compare);
 
