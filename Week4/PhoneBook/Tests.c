@@ -18,7 +18,7 @@ static void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-static bool testCaseSearch(PhoneBook* const buffer, const char* const string, CompareFunc compare, bool result)
+static bool testsCaseSearch(PhoneBook* const buffer, const char* const string, CompareFunc compare, bool result)
 {
     if (searchElement(buffer, string, compare) == NULL)
     {
@@ -34,7 +34,15 @@ static bool testAddEntry(PhoneBook* const buffer)
     const char* const phone = "+7 (931) 884-66-69";
 
     char* copyName = _strdup(name);
+    if (copyName == NULL)
+    {
+        return false;
+    }
     char* copyPhone = _strdup(phone);
+    if (copyPhone == NULL)
+    {
+        return false;
+    }
 
     addEntry(buffer, copyName, copyPhone, &errorCode);
     if (errorCode != ok)
@@ -46,34 +54,6 @@ static bool testAddEntry(PhoneBook* const buffer)
     return strcmp(buffer->entries[length]->name, name) == 0 && strcmp(buffer->entries[length]->phone, phone) == 0;
 }
 
-static bool testSearchPhoneTrue(PhoneBook* const buffer)
-{
-    const char* const name = "Michael ";
-
-    return testCaseSearch(buffer, name, compareName, true);
-}
-
-static bool testSearchPhoneFalse(PhoneBook* const buffer)
-{
-    const char* const name = "Anna ";
-
-    return testCaseSearch(buffer, name, compareName, false);
-}
-
-static bool testSearchNameTrue(PhoneBook* const buffer)
-{
-    const char* const phone = " +7 (941) 284-22-18";
-
-    return testCaseSearch(buffer, phone, comparePhone, true);
-}
-
-static bool testSearchNameFalse(PhoneBook* const buffer)
-{
-    const char* const phone = " 800 - 555 - 355";
-
-    return testCaseSearch(buffer, phone, comparePhone, false);
-}
-
 bool resultTests(void)
 {
     PhoneBook* buffer = readPhoneBook("Test.txt");
@@ -83,10 +63,10 @@ bool resultTests(void)
     }
 
     const bool answer1 = testAddEntry(buffer);
-    const bool answer2 = testSearchPhoneTrue(buffer);
-    const bool answer3 = testSearchPhoneFalse(buffer);
-    const bool answer4 = testSearchNameTrue(buffer);
-    const bool answer5 = testSearchNameFalse(buffer);
+    const bool answer2 = testsCaseSearch(buffer, "Michael ", compareName, true);
+    const bool answer3 = testsCaseSearch(buffer, "Anna ", compareName, false);
+    const bool answer4 = testsCaseSearch(buffer, " +7 (941) 284-22-18", comparePhone, true);
+    const bool answer5 = testsCaseSearch(buffer, " 800 - 555 - 355", comparePhone, false);
 
 
     printResultTest(answer1, "Add Entry");

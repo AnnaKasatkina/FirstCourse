@@ -78,7 +78,7 @@ PhoneBook* readPhoneBook(const char* const nameFile)
     {
         if (length > SIZE)
         {
-            free(buffer);
+            deletePhoneBook(buffer);
             return NULL;
         }
         buffer->entries[length] = (PhoneBookEntry*)calloc(1, sizeof(PhoneBook));
@@ -86,7 +86,7 @@ PhoneBook* readPhoneBook(const char* const nameFile)
         char* stringName = getString(file, '-');
         if (stringName == NULL)
         {
-            free(buffer);
+            deletePhoneBook(buffer);
             return NULL;
         }
         buffer->entries[length]->name = stringName;
@@ -94,7 +94,7 @@ PhoneBook* readPhoneBook(const char* const nameFile)
         char* stringPhone = getString(file, '\n');
         if (stringPhone == NULL)
         {
-            free(buffer);
+            deletePhoneBook(buffer);
             return NULL;
         }
         buffer->entries[length]->phone = stringPhone;

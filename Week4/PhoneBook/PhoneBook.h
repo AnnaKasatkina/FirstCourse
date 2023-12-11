@@ -38,6 +38,6 @@ void deletePhoneBook(PhoneBook* const buffer);
 
 PhoneBook* readPhoneBook(const char* const nameFile);
 
-void saveFile(const PhoneBook* const buffer);
+void saveFile(const PhoneBook* const buffer, ErrorCode* errorCode);
 
 void printAllEntry(const PhoneBook* const buffer);

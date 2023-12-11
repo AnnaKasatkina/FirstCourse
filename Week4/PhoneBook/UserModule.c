@@ -91,6 +91,16 @@ static void methodSearchName(const PhoneBook* const buffer)
     printf("%s\n\n", name);
 }
 
+static void methodSaveFile(const PhoneBook* const buffer)
+{
+    ErrorCode errorCode = ok;
+    saveFile(buffer, &errorCode);
+    if (errorCode != ok)
+    {
+        printf("File save error!");
+    }
+}
+
 void choose(const int choice, PhoneBook* const buffer)
 {
     switch (choice)
@@ -116,7 +126,7 @@ void choose(const int choice, PhoneBook* const buffer)
         break;
 
     case saveCommand:
-        saveFile(buffer);
+        methodSaveFile(buffer);
         break;
 
     default:
