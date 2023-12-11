@@ -1,10 +1,38 @@
 ﻿#include "HashTable.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 #define BASE 31
 
-size_t calculateHash(const char* const string, const size_t lengthString, const size_t number)
+HashTable* initializeHashTable(const size_t sizeOfTable) 
+{
+    HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
+    if (hashTable == NULL)
+    {
+        return NULL;
+    }
+
+    hashTable->data = (List**)calloc(sizeOfTable, sizeof(List*));
+    if (hashTable->data == NULL)
+    {
+        return NULL;
+    }
+    hashTable->sizeOfTable = sizeOfTable;
+
+    for (size_t i = 0; i < sizeOfTable; ++i) 
+    {
+        hashTable->data[i] = (List*)calloc(1, sizeof(List));
+        if (hashTable->data[i] == NULL)
+        {
+            return NULL;
+        }
+    }
+
+    return hashTable;
+}
+
+static size_t calculateHash(const char* const string, const size_t lengthString, const size_t number)
 {
     size_t result = (int)string[0];
 
@@ -15,76 +43,59 @@ size_t calculateHash(const char* const string, const size_t lengthString, const 
     return result % number;
 }
 
-List** makeHashTable(const List* const list)
+HashTable* makeHashTable(const List* const list, size_t sizeOfTable)
 {
-    size_t sizeOfTable = list->size;
+    ErrorCode errorCode = ok;
     ListElement* currentElement = list->begin;
-    List** hashTable = (List**)calloc(sizeOfTable, sizeof(List));
+    HashTable* hashTable = initializeHashTable(sizeOfTable);
 
-    for (size_t i = 0; i < sizeOfTable; i++)
+    for (size_t i = 0; i < list->size; i++)
     {
         size_t hash = calculateHash(currentElement->value, currentElement->length, sizeOfTable);
-        if (hashTable[hash] == NULL)
+        countDuplicates(hashTable->data[hash], currentElement->value, currentElement->length, &errorCode);
+        if (errorCode != ok)
         {
-            hashTable[hash] = initList();
+            return NULL;
         }
-        pushBack(hashTable[hash], currentElement->value, currentElement->length);
-
-        if (currentElement->next != NULL)
-        {
-            currentElement = currentElement->next;
-        }
+        currentElement = currentElement->next;
     }
-
     return hashTable;
 }
 
-void countHashTableStatus(const List* const* const hashTable, const size_t sizeOfTable,
-    float* const fillFactor, size_t* const maxLength, size_t* const averageLength)
+void countHashTableStatus(HashTable* hashTable, float* const fillFactor,
+    size_t* const maxLength, size_t* const averageLength)
 {
     size_t countNotEmpty = 0;
     size_t sumLength = 0;
 
-    for (size_t i = 0; i < sizeOfTable; i++)
+    for (size_t i = 0; i < hashTable->sizeOfTable; i++)
     {
-        if (hashTable[i] != NULL)
+        if (hashTable->data[i] != NULL)
         {
             ++countNotEmpty;
-            sumLength += hashTable[i]->size;
-            *maxLength = max(*maxLength, hashTable[i]->size);
+            sumLength += hashTable->data[i]->size;
+            *maxLength = max(*maxLength, hashTable->data[i]->size);
         }
     }
 
-    *fillFactor = (float)countNotEmpty / sizeOfTable; 
-    *averageLength = sumLength / sizeOfTable;
+    *fillFactor = (float)countNotEmpty / hashTable->sizeOfTable;
+    *averageLength = sumLength / hashTable->sizeOfTable;
 }
 
-size_t* countHashTableElements(const List* const* const hashTable, const List * const list)
+void deleteHashTable(HashTable* hashTable)
 {
-    size_t sizeOfTable = list->size;
-    ListElement* currentElement = list->begin;
-    size_t* count = (size_t*)calloc(sizeOfTable, sizeof(size_t));
-
-    for (size_t i = 0; i < sizeOfTable; i++)
+    for (size_t i = 0; i < hashTable->sizeOfTable; ++i) 
     {
-        size_t hash = calculateHash(currentElement->value, currentElement->length, sizeOfTable);
-
-        if (hashTable[hash] == NULL)
+        ListElement* currentElement = hashTable->data[i]->begin;
+        while (currentElement != NULL)
         {
-            break;
+            ListElement* nextElement = currentElement->next;
+            free(currentElement->value);
+            free(currentElement);
+            currentElement = nextElement;
         }
-
-        ListElement* cmpElement = hashTable[hash]->begin;
-
-        while (cmpElement != NULL)
-        {
-            if (strcmp(cmpElement->value, currentElement->value) == 0)
-            {
-                ++count[i];
-            }
-            cmpElement = cmpElement->next;
-        }
-        currentElement = currentElement->next;
+        free(hashTable->data[i]);
     }
-    return count;
+    free(hashTable->data);
+    free(hashTable);
 }
