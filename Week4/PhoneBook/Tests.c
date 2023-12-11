@@ -41,12 +41,15 @@ static bool testAddEntry(PhoneBook* const buffer)
     char* copyPhone = _strdup(phone);
     if (copyPhone == NULL)
     {
+        free(copyName);
         return false;
     }
 
     addEntry(buffer, copyName, copyPhone, &errorCode);
     if (errorCode != ok)
     {
+        free(copyName);
+        free(copyPhone);
         return false;
     }
     size_t length = buffer->length;
