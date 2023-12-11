@@ -5,11 +5,6 @@
 
 #define ERROR -1
 
-static int fromCharToInt(const char character)
-{
-    return (int)character - (int)'0';
-}
-
 Node* buildTree(FILE* file)
 {
     char token = ' ';
@@ -28,6 +23,7 @@ Node* buildTree(FILE* file)
     {
         if (fscanf(file, " %c", &token) != 1)
         {
+            deleteTree(&newNode);
             return NULL;
         }
 
@@ -35,25 +31,29 @@ Node* buildTree(FILE* file)
         newNode->leftChild = buildTree(file);
         if (newNode->leftChild == NULL)
         {
+            deleteTree(&newNode);
             return NULL;
         }
 
         newNode->rightChild = buildTree(file);
         if (newNode->rightChild == NULL)
         {
+            deleteTree(&newNode);
             return NULL;
         }
 
         if (fscanf(file, " %c", &token) != 1)
         {
+            deleteTree(&newNode);
             return NULL;
         }
     }
     else
     {
         ungetc(token, file);
-        if (fscanf(file, "%c", &newNode->value) != 1)
+        if (fscanf(file, "%d", &newNode->value) != 1)
         {
+            deleteTree(&newNode);
             return NULL;
         }
     }
@@ -86,7 +86,7 @@ static int calculate(ErrorCode* const errorCode, const char character,
     }
 }
 
-char calculateResult(const Node* const tree, ErrorCode* const errorCode)
+int calculateResult(const Node* const tree, ErrorCode* const errorCode)
 {
     *errorCode = ok;
     if (tree == NULL)
@@ -99,20 +99,19 @@ char calculateResult(const Node* const tree, ErrorCode* const errorCode)
         return tree->value;
     }
 
-    char leftValue = calculateResult(tree->leftChild, errorCode);
+    int leftValue = calculateResult(tree->leftChild, errorCode);
     if (*errorCode != ok)
     {
         return ERROR;
     }
 
-    char rightValue = calculateResult(tree->rightChild, errorCode);
+    int rightValue = calculateResult(tree->rightChild, errorCode);
     if (*errorCode != ok)
     {
         return ERROR;
     }
 
-    char result = calculate(errorCode, tree->value, 
-        fromCharToInt(leftValue), fromCharToInt(rightValue)) + (int)'0';
+    int result = calculate(errorCode, tree->value, leftValue, rightValue);
     if (*errorCode != ok)
     {
         return ERROR;
@@ -130,7 +129,7 @@ void printTree(const Node* const tree, ErrorCode* const errorCode)
     }
     if (tree->leftChild == NULL)
     {
-        int number = (int)tree->value - (int)'0';
+        int number = tree->value;
         printf("%d ", number);
     }
     else

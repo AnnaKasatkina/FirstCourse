@@ -43,7 +43,7 @@ int main(void)
     }
     printf("\n");
 
-    int result = (int)calculateResult(tree, &errorCode) - (int)'0';
+    int result = calculateResult(tree, &errorCode);
     if (errorCode != ok)
     {
         deleteTree(&tree);

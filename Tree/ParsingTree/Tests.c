@@ -28,7 +28,7 @@ static bool treeCompare(const Node* const tree, const char* const string, size_t
     }
     if (tree->value)
     {
-        if (string[++(*index)] != tree->value)
+        if ((int)string[++(*index)] != tree->value)
         {
             return false;
         }
@@ -77,25 +77,25 @@ static bool testCase(const char* const nameFile, const char* const rightTree,
     Node* tree = buildTree(file);
     if (buildTree == NULL)
     {
+        fclose(file);
         return false;
     }
+    fclose(file);
 
     size_t index = 0;
     bool answerOne = treeCompare(tree, rightTree, &index);
 
     ErrorCode errorCode = ok;
-    int result = (int)calculateResult(tree, &errorCode) - (int)'0';
+    int result = calculateResult(tree, &errorCode);
     if (errorCode != ok)
     {
         deleteTree(&tree);
-        fclose(file);
         printf(STRING_ERROR);
         return false;
     }
     answerOne &= (result == answer);
 
     deleteTree(&tree);
-    fclose(file);
 
     printResultTest(answerOne, nameTest);
     return answerOne;
@@ -104,8 +104,8 @@ static bool testCase(const char* const nameFile, const char* const rightTree,
 static bool testOne()
 {
     const char* const name = "TestFiles/TestOne.txt";
-    const char* const rightTree = "(* (+ 1 1) 2)";
-    const int answer = 4;
+    const char* const rightTree = "(* (+ 1 12) 2)";
+    const int answer = 26;
 
     return testCase(name, rightTree, answer, "Test One");
 }
@@ -113,8 +113,8 @@ static bool testOne()
 static bool testTwo()
 {
     const char* const name = "TestFiles/TestTwo.txt";
-    const char* const rightTree = "(/ 8 (* 2 (- 5 1)))";
-    const int answer = 1;
+    const char* const rightTree = "(/ 80 (* 2 (- 5 1)))";
+    const int answer = 10;
 
     return testCase(name, rightTree, answer, "Test Two");
 }
@@ -122,8 +122,8 @@ static bool testTwo()
 static bool testThree()
 {
     const char* const name = "TestFiles/TestThree.txt";
-    const char* const rightTree = "(+ (* 2 4) (/ 8 2))";
-    const int answer = 12;
+    const char* const rightTree = "(+ (* 2 14) (/ 8 2))";
+    const int answer = 32;
 
     return testCase(name, rightTree, answer, "Test Three");
 }
