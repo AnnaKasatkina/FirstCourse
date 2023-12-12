@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #define ERROR -1
 #define STRING_ERROR "Error!"
@@ -20,15 +21,30 @@ static void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
+static int readValue(const char* const string, size_t* const index)
+{
+    int value = 0;
+    if (sscanf(&string[*index], "%d", &value) != 1)
+    {
+        return false;
+    }
+    while (isdigit(string[*index]) || string[*index] == '-')
+    {
+        (*index)++;
+    }
+    return value;
+}
+
 static bool treeCompare(const Node* const tree, const char* const string, size_t* const index)
 {
     if (tree == NULL)
     {
         return false;
     }
-    if (tree->value)
+    if (tree->leftChild == NULL)
     {
-        if ((int)string[++(*index)] != tree->value)
+        int nodeValue = readValue(string, index);
+        if (nodeValue != tree->value)
         {
             return false;
         }
@@ -64,7 +80,7 @@ static bool treeCompare(const Node* const tree, const char* const string, size_t
     return true;
 }
 
-static bool testCase(const char* const nameFile, const char* const rightTree, 
+static bool testCase(const char* const nameFile, const char* const rightTree,
     const int answer, const char* const nameTest)
 {
     FILE* file = fopen(nameFile, "r");
@@ -93,7 +109,7 @@ static bool testCase(const char* const nameFile, const char* const rightTree,
         printf(STRING_ERROR);
         return false;
     }
-    answerOne &= (result == answer);
+    answerOne = answerOne && (result == answer);
 
     deleteTree(&tree);
 
