@@ -18,6 +18,8 @@ for /D %%i in (*) do (
             ) else (
                 echo "Тесты прошли успешно для проекта !project_name!"
             )
+        ) else (
+            echo "Отсутствует файл теста для проекта !project_name! Программа прекращает работу в данной подпапке."
         )
 
         popd > nul
@@ -33,7 +35,7 @@ goto :eof
 
 :run_tests
 msbuild /t:build /p:Configuration=Release /p:MainFile=Tests.c > nul 2>&1
-if exist Tests.exe (
-    Tests.exe
-    exit /b %errorlevel%
+if not exist Tests.c (
+    echo "Отсутствует файл теста. Программа прекращает выполнение тестов."
+    exit /b 1
 )
