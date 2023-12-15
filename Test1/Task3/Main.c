@@ -21,6 +21,7 @@ int main(void)
         return ERROR;
     }
     printf(string);
+    free(string);
 
     return 0;
 }

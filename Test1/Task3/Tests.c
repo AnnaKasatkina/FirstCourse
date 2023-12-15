@@ -24,7 +24,10 @@ static bool testCase(const char* const nameFile, const char* const answer)
     {
         return false;
     }
-    return strcmp(string, answer) == 0;
+    bool result = strcmp(string, answer) == 0;
+    free(string);
+
+    return result;
 }
 
 bool testResult(void)

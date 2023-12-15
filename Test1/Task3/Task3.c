@@ -41,7 +41,7 @@ char* getStringFromFile(const char* const nameFile)
         previousCharacter = character;
     }
 
+    fclose(file);
     string[length] = '\0';
-
     return string;
 }
