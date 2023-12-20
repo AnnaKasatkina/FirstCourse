@@ -2,6 +2,7 @@
 
 #include "Task3.h"
 #include "Tests.h"
+#include "Utility.h"
 
 #define ERROR -1
 
@@ -12,8 +13,16 @@ int main(void)
         printf("Error!");
         return ERROR;
     }
-    char* testString = "Abc123_xyz";
 
-    printf(processString(testString) ? "Ok\n" : "Error\n");
+    printf("Enter the string: ");
+    char* string = getString();
+    if (string == NULL)
+    {
+        printf("Error!");
+        return ERROR;
+    }
+
+    printf(processString(string) ? "Correct!\n" : "Wrong!\n");
+    free(string);
     return 0;
 }
