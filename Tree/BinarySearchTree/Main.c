@@ -4,15 +4,19 @@
 #include <stdbool.h>
 #include <locale.h>
 #include <stdio.h>
+#include <string.h>
 
 #define ERROR 1
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    if (!testResult())
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
     {
-        printf("Error!");
-        return ERROR;
+        if (!testResult())
+        {
+            return ERROR;
+        }
+        return 0;
     }
 
     setlocale(LC_ALL, "Russian");

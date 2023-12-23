@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <locale.h>
+#include <string.h>
 #include <stdlib.h>
 
 #define ERROR -1
@@ -15,14 +16,17 @@ void printArray(char const* const array, size_t length)
     printf("\n");
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "Rus");
 
-    if (!resultTests())
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
     {
-        printf("Test error!");
-        return ERROR;
+        if (!resultTests())
+        {
+            return ERROR;
+        }
+        return 0;
     }
 
     printf("Введите 2 числа: ");

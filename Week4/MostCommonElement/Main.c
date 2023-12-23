@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ERROR -1
 #define NAME "Array.txt"
@@ -16,12 +17,15 @@ void printArray(int const* const array, const size_t length)
     printf("\n\n");
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    if (!resultTests())
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
     {
-        printf("Test error!");
-        return ERROR;
+        if (!resultTests())
+        {
+            return ERROR;
+        }
+        return 0;
     }
 
     size_t length = 0;
