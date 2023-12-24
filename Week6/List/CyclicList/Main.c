@@ -4,16 +4,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ERROR -1
 #define MEMORY_ERROR "Memory Error!"
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    if (!resultTests())
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
     {
-        printf("Error!");
-        return ERROR;
+        if (!resultTests())
+        {
+            return ERROR;
+        }
+        return 0;
     }
 
     printf("Enter the number of wars and kill rate: ");

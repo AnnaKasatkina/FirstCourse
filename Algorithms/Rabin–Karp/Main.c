@@ -8,8 +8,13 @@
 #define NAME_FILE "Text.txt"
 #define ERROR_CODE -1
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
+    {
+        return 0;
+    }
+
     setlocale(LC_ALL, ".1251");
 
     size_t lengthString = 0;

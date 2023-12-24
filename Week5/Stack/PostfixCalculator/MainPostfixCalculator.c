@@ -9,12 +9,15 @@
 
 #define ERROR -1
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    if (!resultTests())
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
     {
-        printf("Error!");
-        return ERROR;
+        if (!resultTests())
+        {
+            return ERROR;
+        }
+        return 0;
     }
 
     printf("Enter an arithmetic expression: ");
