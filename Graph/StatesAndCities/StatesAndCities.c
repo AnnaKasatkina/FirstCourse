@@ -27,6 +27,20 @@ struct InputData
     State* states;
 };
 
+void deleteInputData(InputData** const inputData)
+{
+    for (int i = 0; i < (*inputData)->numberStates; i++)
+    {
+        free((*inputData)->states[i].cities);
+    }
+
+    free((*inputData)->unassignedCities);
+    free((*inputData)->roads);
+    free((*inputData)->states);
+    free(*inputData);
+    *inputData = NULL;
+}
+
 InputData* readDataFromFile(const char* const fileName)
 {
     FILE* file = fopen(fileName, "r");
@@ -66,8 +80,7 @@ InputData* readDataFromFile(const char* const fileName)
     if (inputData->roads == NULL)
     {
         fclose(file);
-        free(inputData->unassignedCities);
-        free(inputData);
+        deleteInputData(&inputData);
         return NULL;
     }
 
@@ -76,9 +89,7 @@ InputData* readDataFromFile(const char* const fileName)
         if (fscanf(file, "%d %d %zd\n", &inputData->roads[i].from, &inputData->roads[i].to, &inputData->roads[i].length) != 3)
         {
             fclose(file);
-            free(inputData->unassignedCities);
-            free(inputData->roads);
-            free(inputData);
+            deleteInputData(&inputData);
             return NULL;
         }
     }
@@ -86,9 +97,7 @@ InputData* readDataFromFile(const char* const fileName)
     if (fscanf(file, "%d\n", &inputData->numberStates) != 1)
     {
         fclose(file);
-        free(inputData->unassignedCities);
-        free(inputData->roads);
-        free(inputData);
+        deleteInputData(&inputData);
         return NULL;
     }
 
@@ -96,9 +105,7 @@ InputData* readDataFromFile(const char* const fileName)
     if (inputData->states == NULL)
     {
         fclose(file);
-        free(inputData->unassignedCities);
-        free(inputData->roads);
-        free(inputData);
+        deleteInputData(&inputData);
         return NULL;
     }
 
@@ -108,10 +115,7 @@ InputData* readDataFromFile(const char* const fileName)
         if (fscanf(file, "%d ", &capital) != 1)
         {
             fclose(file);
-            free(inputData->unassignedCities);
-            free(inputData->roads);
-            free(inputData->states);
-            free(inputData);
+            deleteInputData(&inputData);
             return NULL;
         }
 
@@ -119,10 +123,14 @@ InputData* readDataFromFile(const char* const fileName)
         if (inputData->states[i].cities == NULL)
         {
             fclose(file);
-            free(inputData->unassignedCities);
-            free(inputData->roads);
-            free(inputData->states);
-            free(inputData);
+            deleteInputData(&inputData);
+            return NULL;
+        }
+
+        if (capital <= 0)
+        {
+            fclose(file);
+            deleteInputData(&inputData);
             return NULL;
         }
         inputData->states[i].cities[0] = capital;
@@ -134,7 +142,7 @@ InputData* readDataFromFile(const char* const fileName)
     return inputData;
 }
 
-static int findClosestCity(InputData* inputData, size_t index)
+static int findClosestCity(const InputData* const inputData, const size_t index)
 {
     int closestCity = 0;
     size_t minDistance = SIZE_MAX;
@@ -175,7 +183,7 @@ static int findClosestCity(InputData* inputData, size_t index)
     return closestCity;
 }
 
-void distributeCities(InputData* inputData)
+void distributeCities(InputData* const inputData)
 {
     int countFreeCity = inputData->numberCities - inputData->numberStates;
 
@@ -194,7 +202,7 @@ void distributeCities(InputData* inputData)
     }
 }
 
-void printResult(InputData* inputData)
+void printResult(const InputData* const  inputData)
 {
     for (int i = 0; i < inputData->numberStates; i++)
     {
@@ -207,36 +215,26 @@ void printResult(InputData* inputData)
     }
 }
 
-void deleteInputData(InputData** inputData)
-{
-    for (int i = 0; i < (*inputData)->numberStates; i++)
-    {
-        free((*inputData)->states[i].cities);
-    }
-
-    free((*inputData)->unassignedCities);
-    free((*inputData)->roads);
-    free((*inputData)->states);
-    free(*inputData);
-    *inputData = NULL;
-}
-
 int* convertToArray(const InputData* const inputData)
 {
     size_t numberCities = inputData->numberCities;
-    int* array = (int*)malloc(numberCities * sizeof(int));
+    size_t numberStates = inputData->numberStates;
+
+    int* array = (int*)malloc((numberCities + numberStates) * sizeof(int));
     if (array == NULL)
     {
         return NULL;
     }
 
-    for (size_t i = 0; i < inputData->numberStates; ++i)
+    for (size_t i = 0; i < numberStates; ++i)
     {
         size_t sizeStates = inputData->states[i].numberCities;
+        array[i * (sizeStates + 1)] = -1;
         for (size_t j = 0; j < sizeStates; ++j)
         {
-            array[i * sizeStates + j] = inputData->states[i].cities[j];
+            array[i * (sizeStates + 1) + j + 1] = inputData->states[i].cities[j];
         }
+
     }
 
     return array;

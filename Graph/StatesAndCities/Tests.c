@@ -1,27 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "StatesAndCities.h"
 #include "Tests.h"
-
-static bool compareArrays(const int* const array1, const int* const array2, const size_t length)
-{
-    for (size_t i = 0; i < length; ++i)
-    {
-        if (array1[i] != array2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
 
 static void printResultTest(const bool result, const char* const nameTest)
 {
     printf(result ? "Test %s is OK\n" : "Test %s failed with an error\n", nameTest);
 }
 
-static bool testsCase(const char* const fileName, const int* const expectedResults, size_t length)
+static bool testsCase(const char* const fileName, const int* const expectedResults, const size_t length)
 {
     InputData* inputData = readDataFromFile(fileName);
     if (inputData == NULL)
@@ -36,7 +25,7 @@ static bool testsCase(const char* const fileName, const int* const expectedResul
         deleteInputData(&inputData);
         return false;
     }
-    bool result = compareArrays(array, expectedResults, length);
+    bool result = memcmp(array, expectedResults, length) == 0;
 
     free(array);
     deleteInputData(&inputData);
@@ -45,23 +34,23 @@ static bool testsCase(const char* const fileName, const int* const expectedResul
 
 static bool testOne(void)
 {
-    const int expectedResults[] = { 1, 2, 5, 4, 3, 6 };
+    const int expectedResults[] = { -1, 1, 2, 5, -1, 4, 3, 6 };
 
-    return testsCase("TestOne.txt", expectedResults, 6);
+    return testsCase("TestOne.txt", expectedResults, 8);
 }
 
 static bool testTwo(void)
 {
-    const int expectedResults[] = { 1 };
+    const int expectedResults[] = { -1, 1 };
 
-    return testsCase("TestTwo.txt", expectedResults, 1);
+    return testsCase("TestTwo.txt", expectedResults, 2);
 }
 
 static bool testThree(void)
 {
-    const int expectedResults[] = { 1, 2, 3, 4, 5, 6 };
+    const int expectedResults[] = { -1, 1, -1, 2, -1, 3, -1, 4, -1, 5, -1, 6 };
 
-    return testsCase("TestThree.txt", expectedResults, 6);
+    return testsCase("TestThree.txt", expectedResults, 12);
 }
 
 bool testResult(void)
