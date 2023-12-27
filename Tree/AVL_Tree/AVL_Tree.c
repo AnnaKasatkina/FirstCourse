@@ -286,6 +286,7 @@ void deleteTree(Node** const tree)
     deleteTree(&(*tree)->leftChild);
     deleteTree(&(*tree)->rightChild);
     freeNode(tree);
+    *tree = NULL;
 }
 
 bool treeTraversal(Node* tree, char** array, size_t* index)
