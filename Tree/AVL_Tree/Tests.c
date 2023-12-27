@@ -103,7 +103,7 @@ bool testResult(void)
     printResultTest(result1, "Add Element");
     printResultTest(result2, "Find Element");
     printResultTest(result3, "Check Element");
-    //printResultTest(result4, "Delete Element");
+    printResultTest(result4, "Delete Element");
     printResultTest(result5, "Height test");
     printf("\n");
 
