@@ -3,21 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-typedef enum ErrorCode
-{
-    ok,
-    stackIsEmpty,
-    outOfMemory,
-    error,
-    inputError
-}ErrorCode;
-
-typedef struct Node
-{
-    int value;
-    struct Node* leftChild;
-    struct Node* rightChild;
-} Node;
+typedef struct Node Node;
 
 // Add element in tree
 void addElement(Node** const tree, const int value);

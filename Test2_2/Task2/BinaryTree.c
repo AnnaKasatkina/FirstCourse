@@ -2,6 +2,13 @@
 
 #include <string.h>
 
+struct Node
+{
+    int value;
+    struct Node* leftChild;
+    struct Node* rightChild;
+};
+
 static Node* makeNewNode(const int value)
 {
     Node* tree = (Node*)calloc(1, sizeof(Node));
