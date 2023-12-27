@@ -70,6 +70,7 @@ int main(void)
     Node* tree = makeTreeFromArray(array, length);
     if (tree == NULL)
     {
+        free(array);
         printf(ERROR_STRING);
         return ERROR;
     }
