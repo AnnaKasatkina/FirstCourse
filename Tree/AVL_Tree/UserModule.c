@@ -23,43 +23,13 @@ static char* getValue(ErrorCode* const errorCode, const char* const nameValue)
     return getString(errorCode);
 }
 
-static Element* getElement(ErrorCode* const errorCode)
-{
-    Element* element = malloc(sizeof(Element));
-    if (element == NULL)
-    {
-        free(element);
-        return NULL;
-    }
-
-    element->key = getValue(errorCode, "ключ");
-    if (*errorCode != ok)
-    {
-        free(element);
-        return NULL;
-    }
-
-    element->value = getValue(errorCode, "значение");
-    if (*errorCode != ok)
-    {
-        free(element);
-        return NULL;
-    }
-
-    return element;
-}
-
 static void methodAdd(const size_t choice, Node** const tree)
 {
     ErrorCode errorCode = ok;
-    Element* element = getElement(&errorCode);
-    if (element == NULL)
-    {
-        deleteTree(tree);
-        printf(PRINT_ERROR);
-        return;
-    }
-    addElement(tree, element);
+    char* key = getValue(&errorCode, "key");
+    char* value = getValue(&errorCode, "value");
+
+    addElement(tree, value, key);
 }
 
 static void methodFind(const size_t choice, Node** const tree)

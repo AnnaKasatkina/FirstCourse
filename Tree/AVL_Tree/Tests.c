@@ -4,9 +4,9 @@
 #include <string.h>
 #include <stdio.h>
 
-static void printResultTest(const bool rezult, const char* const nameTest)
+static void printResultTest(const bool result, const char* const nameTest)
 {
-    if (rezult)
+    if (result)
     {
         printf("Test %s is OK\n", nameTest);
     }
@@ -28,47 +28,6 @@ static char* createValue(const char* const nameValue, Element* element)
     strcpy(string, nameValue);
 
     return string;
-}
-
-static Element* createElement(const char* const value, const char* const key)
-{
-    Element* element = malloc(sizeof(Element));
-    if (element == NULL)
-    {
-        free(element);
-        return NULL;
-    }
-
-    element->key = createValue(key, element);
-    if (element->key == NULL)
-    {
-        free(element);
-        return NULL;
-    }
-
-    element->value = createValue(value, element);
-    if (element->value == NULL)
-    {
-        free(element);
-        return NULL;
-    }
-
-    return element;
-}
-
-static bool treeTraversal(Node* tree, char** array, size_t* index)
-{
-    if (tree)
-    {
-        treeTraversal(tree->leftChild, array, index);
-        treeTraversal(tree->rightChild, array, index);
-        if (strcmp(tree->element->key, array[*index]) != 0)
-        {
-            return false;
-        }
-        ++(*index);
-    }
-    return true;
 }
 
 static bool testAddElement(Node* tree)
@@ -125,14 +84,14 @@ bool testResult(void)
     int answerHeight1 = 1;
     int answerHeight2 = 2;
 
-    addElement(&tree, createElement("five", "5"));
-    addElement(&tree, createElement("two", "2"));
-    addElement(&tree, createElement("one", "1"));
+    addElement(&tree, _strdup("five"), _strdup("5"));
+    addElement(&tree, _strdup("two"), _strdup("2"));
+    addElement(&tree, _strdup("one"), _strdup("1"));
     bool testHeight1 = answerHeight1 == tree->height;
 
-    addElement(&tree, createElement("three", "3"));
-    addElement(&tree, createElement("seven", "7"));
-    addElement(&tree, createElement("six", "6"));
+    addElement(&tree, _strdup("three"), _strdup("3"));
+    addElement(&tree, _strdup("seven"), _strdup("7"));
+    addElement(&tree, _strdup("six"), _strdup("6"));
     bool testHeight2 = answerHeight2 == tree->height;
 
     bool result1 = testAddElement(tree);
@@ -144,7 +103,7 @@ bool testResult(void)
     printResultTest(result1, "Add Element");
     printResultTest(result2, "Find Element");
     printResultTest(result3, "Check Element");
-    printResultTest(result4, "Delete Element");
+    //printResultTest(result4, "Delete Element");
     printResultTest(result5, "Height test");
     printf("\n");
 

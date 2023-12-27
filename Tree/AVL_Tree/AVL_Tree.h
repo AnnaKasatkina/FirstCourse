@@ -11,11 +11,7 @@ typedef enum ErrorCode
     inputError
 }ErrorCode;
 
-typedef struct Element
-{
-    char* value;
-    char* key;
-} Element;
+typedef struct Element Element;
 
 typedef struct Node
 {
@@ -26,7 +22,7 @@ typedef struct Node
 } Node;
 
 // Добавить элемент в дерево
-void addElement(Node** const tree, const Element* const element);
+void addElement(Node** const tree, const char* const value, const char* const key);
 
 // Вывод элемента по ключу
 char* findElement(const Node* const tree, const char* const key);
@@ -39,3 +35,6 @@ void deleteElement(Node** const tree, const char* const key);
 
 // Удаление дерева
 void deleteTree(Node** const tree);
+
+// Обход дерева
+bool treeTraversal(Node* tree, char** array, size_t* index);

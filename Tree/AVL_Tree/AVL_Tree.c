@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct Element
+{
+    char* value;
+    char* key;
+};
+
 static int getHeight(const Node* const tree)
 {
     return tree == NULL ? -1 : tree->height;
@@ -26,9 +32,9 @@ static void swap(Node* treeOne, Node* treeTwo)
         return;
     }
 
-    strcpy(bufferKey, treeOne->element->key);
-    strcpy(treeOne->element->key, treeTwo->element->key);
-    strcpy(treeTwo->element->key, bufferKey);
+    bufferKey = treeOne->element->key;
+    treeOne->element->key = treeTwo->element->key;
+    treeTwo->element->key = bufferKey;
 
     char* bufferValue = (char*)malloc(strlen(treeOne->element->value) * sizeof(char));
     if (bufferValue == NULL)
@@ -36,9 +42,9 @@ static void swap(Node* treeOne, Node* treeTwo)
         return;
     }
 
-    strcpy(bufferValue, treeOne->element->value);
-    strcpy(treeOne->element->value, treeTwo->element->value);
-    strcpy(treeTwo->element->value, bufferValue);
+    bufferValue = treeOne->element->value;
+    treeOne->element->value = treeTwo->element->value;
+    treeTwo->element->value = bufferValue;
 }
 
 static void rightRotate(Node* const tree)
@@ -108,8 +114,22 @@ static Node* makeNewNode(const Element* const element)
     return tree;
 }
 
-void addElement(Node** const tree, const Element* const element)
+static Element* getElement(const char* const key, const char* const value)
 {
+    Element* element = malloc(sizeof(Element));
+    if (element == NULL)
+    {
+        return NULL;
+    }
+    element->key = key;
+    element->value = value;
+
+    return element;
+}
+
+void addElement(Node** const tree, const char* const value, const char* const key)
+{
+    Element* element = getElement(key, value);
     if (*tree == NULL)
     {
         *tree = makeNewNode(element);
@@ -124,7 +144,7 @@ void addElement(Node** const tree, const Element* const element)
         }
         else
         {
-            addElement(&((*tree)->leftChild), element);
+            addElement(&((*tree)->leftChild), value, key);
         }
     }
     else if (compare > 0)
@@ -135,7 +155,7 @@ void addElement(Node** const tree, const Element* const element)
         }
         else
         {
-            addElement(&((*tree)->rightChild), element);
+            addElement(&((*tree)->rightChild), value, key);
         }
     }
     else if (compare == 0)
@@ -266,4 +286,19 @@ void deleteTree(Node** const tree)
     deleteTree(&(*tree)->leftChild);
     deleteTree(&(*tree)->rightChild);
     freeNode(tree);
+}
+
+bool treeTraversal(Node* tree, char** array, size_t* index)
+{
+    if (tree)
+    {
+        treeTraversal(tree->leftChild, array, index);
+        treeTraversal(tree->rightChild, array, index);
+        if (strcmp(tree->element->key, array[*index]) != 0)
+        {
+            return false;
+        }
+        ++(*index);
+    }
+    return true;
 }

@@ -30,6 +30,7 @@ char* getString(ErrorCode* const errorCode)
             else
             {
                 *errorCode = outOfMemory;
+                free(string);
                 return NULL;
             }
         }

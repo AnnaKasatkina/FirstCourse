@@ -4,4 +4,5 @@
 
 #include "AVL_Tree.h"
 
+// Print tests result
 bool testResult(void);
