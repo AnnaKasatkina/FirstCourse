@@ -17,6 +17,7 @@ HashTable* initializeHashTable(const size_t sizeOfTable)
     hashTable->data = (List**)calloc(sizeOfTable, sizeof(List*));
     if (hashTable->data == NULL)
     {
+        free(hashTable);
         return NULL;
     }
     hashTable->sizeOfTable = sizeOfTable;
@@ -26,6 +27,7 @@ HashTable* initializeHashTable(const size_t sizeOfTable)
         hashTable->data[i] = (List*)calloc(1, sizeof(List));
         if (hashTable->data[i] == NULL)
         {
+            deleteHashTable(&hashTable);
             return NULL;
         }
     }
@@ -93,7 +95,6 @@ void deleteHashTable(HashTable** hashTable)
     for (size_t i = 0; i < (*hashTable)->sizeOfTable; ++i)
     {
         freeList(&((*hashTable)->data[i]));
-        (*hashTable)->data[i] = NULL;
     }
     free((*hashTable)->data);
     free(*hashTable);
@@ -114,14 +115,7 @@ bool findElement(HashTable* hashTable, const char* value, const size_t count)
         {
             if (strcmp(current->value, value) == 0)
             {
-                if (current->count == count)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return current->count == count;
             }
             current = current->next;
         }

@@ -6,9 +6,9 @@
 #include <string.h>
 #include <stdio.h>
 
-static void printResultTest(const bool rezult, const char* const nameTest)
+static void printResultTest(const bool result, const char* const nameTest)
 {
-    if (rezult)
+    if (result)
     {
         printf("Test %s is OK\n", nameTest);
     }
@@ -44,9 +44,7 @@ static bool testIncorrectCount(HashTable* hashTable)
 
 bool testResult(void)
 {
-    FILE* file = fopen("Tests/testText.txt", "r");
-
-    List* list = getStringFromFile("Text.txt");
+    List* list = getStringFromFile("Tests/testText.txt");
     if (list == NULL)
     {
         return false;
@@ -55,6 +53,7 @@ bool testResult(void)
     HashTable* hashTable = makeHashTable(list, list->size);
     if (hashTable == NULL)
     {
+        freeList(&list);
         return false;
     }
 
