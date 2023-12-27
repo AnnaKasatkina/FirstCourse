@@ -24,14 +24,15 @@ int main(void)
     HashTable* hashTable = makeHashTable(list, list->size);
     if (hashTable == NULL)
     {
+        free(list);
         printf(ERROR_STRING);
         return ERROR;
     }
 
     printHashTable(hashTable);
 
-    freeList(list);
-    deleteHashTable(hashTable);
+    freeList(&list);
+    deleteHashTable(&hashTable);
 
     return 0;
 }

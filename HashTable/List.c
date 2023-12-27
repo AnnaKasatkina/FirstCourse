@@ -5,6 +5,11 @@
 void pushBack(List* const list, char* const value, const size_t length, ErrorCode* const errorCode)
 {
     ListElement* newElement = (ListElement*)calloc(1, sizeof(ListElement));
+    if (newElement == NULL)
+    {
+        *errorCode = outOfMemory;
+        return;
+    }
     newElement->value = value;
     newElement->count = 1;
     newElement->length = length;
@@ -43,16 +48,21 @@ void countDuplicates(List* const list, char* const value, const size_t length, E
     }
 
     pushBack(list, value, length, errorCode);
+    if (*errorCode != ok)
+    {
+        return;
+    }
 }
 
-void freeList(List* const list)
+void freeList(List** const list)
 {
-    ListElement* currentElement = list->begin;
+    ListElement* currentElement = (*list)->begin;
     while (currentElement != NULL)
     {
         ListElement* next = currentElement->next;
         free(currentElement);
         currentElement = next;
     }
-    free(list);
+    free(*list);
+    *list = NULL;
 }

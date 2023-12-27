@@ -18,55 +18,57 @@ static void printResultTest(const bool rezult, const char* const nameTest)
     }
 }
 
-static bool compareArrays(const size_t* const array1, const size_t* const array2, const size_t length)
+static bool testCorrectValues(HashTable* hashTable)
 {
-    for (size_t i = 0; i < length; ++i)
-    {
-        if (array1[i] != array2[i])
-        {
-            return false;
-        }
-    }
-    return true;
+    char* string = "to";
+    size_t count = 4;
+
+    return findElement(hashTable, string, count);
 }
 
-static bool testCase(const char* const nameFile, const float fillFactorAnswer,
-    const size_t maxLengthAnswer, const size_t averageLengthAnswer, const size_t* const countAnswer)
+static bool testIncorrectValues(HashTable* hashTable)
 {
-    return true;
+    char* string = "Anna";
+    size_t count = 1;
+
+    return !findElement(hashTable, string, count);
 }
 
-static bool testTextColumn(void)
+static bool testIncorrectCount(HashTable* hashTable)
 {
-    char* nameFile = "Tests/testTextColumn.txt";
+    char* string = "skills";
+    size_t count = 2;
 
-    return true;
-}
-
-static bool testTextLine(void)
-{
-    char* nameFile = "Tests/testTextLine.txt";
-
-    return true;
-}
-
-static bool testOneWord(void)
-{
-    char* nameFile = "Tests/testOneWord.txt";
-
-    return true;
+    return !findElement(hashTable, string, count);
 }
 
 bool testResult(void)
 {
-    bool result1 = testTextColumn();
-    bool result2 = testTextLine();
-    bool result3 = testOneWord();
+    FILE* file = fopen("Tests/testText.txt", "r");
 
-    printResultTest(result1, "Text Column");
-    printResultTest(result2, "Text Line");
-    printResultTest(result3, "One Word");
+    List* list = getStringFromFile("Text.txt");
+    if (list == NULL)
+    {
+        return false;
+    }
+
+    HashTable* hashTable = makeHashTable(list, list->size);
+    if (hashTable == NULL)
+    {
+        return false;
+    }
+
+    bool result1 = testCorrectValues(hashTable);
+    bool result2 = testIncorrectValues(hashTable);
+    bool result3 = testIncorrectCount(hashTable);
+
+    printResultTest(result1, "Correct Values");
+    printResultTest(result2, "Incorrect Values");
+    printResultTest(result3, "Incorrect Count");
     printf("\n");
+
+    freeList(&list);
+    deleteHashTable(&hashTable);
 
     return result1 && result2 && result3;
 }

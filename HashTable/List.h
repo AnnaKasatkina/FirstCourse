@@ -29,7 +29,7 @@ typedef struct List
 }List;
 
 // Delete the List
-void freeList(List* const list);
+void freeList(List** const list);
 
 // Add the element to the end
 void pushBack(List* const list, char* const value, const size_t length, ErrorCode* const errorCode);

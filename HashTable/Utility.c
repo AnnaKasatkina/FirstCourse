@@ -60,13 +60,13 @@ List* getStringFromFile(const char* const nameFile)
         char* value = getString(file, &length);
         if (value == NULL)
         {
-            freeList(list);
+            freeList(&list);
             return NULL;
         }
         pushBack(list, value, length, &errorCode);
         if (errorCode != ok)
         {
-            freeList(list);
+            freeList(&list);
             return NULL;
         }
     }

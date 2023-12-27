@@ -21,4 +21,8 @@ HashTable* makeHashTable(const List* const list, size_t sizeOfTable);
 void countHashTableStatus(HashTable* hashTable, float* const fillFactor, 
     size_t* const maxLength, size_t* const averageLength);
 
-void deleteHashTable(HashTable* hashTable);
+// Delete HashTable
+void deleteHashTable(HashTable** hashTable);
+
+// Find element in HashTable
+bool findElement(HashTable* hashTable, const char* value, const size_t count);

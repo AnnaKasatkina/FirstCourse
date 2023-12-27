@@ -1,11 +1,12 @@
 ﻿#include "HashTable.h"
+#include "List.h"
 
 #include <string.h>
 #include <stdlib.h>
 
 #define BASE 31
 
-HashTable* initializeHashTable(const size_t sizeOfTable) 
+HashTable* initializeHashTable(const size_t sizeOfTable)
 {
     HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
     if (hashTable == NULL)
@@ -20,7 +21,7 @@ HashTable* initializeHashTable(const size_t sizeOfTable)
     }
     hashTable->sizeOfTable = sizeOfTable;
 
-    for (size_t i = 0; i < sizeOfTable; ++i) 
+    for (size_t i = 0; i < sizeOfTable; ++i)
     {
         hashTable->data[i] = (List*)calloc(1, sizeof(List));
         if (hashTable->data[i] == NULL)
@@ -82,20 +83,49 @@ void countHashTableStatus(HashTable* hashTable, float* const fillFactor,
     *averageLength = sumLength / hashTable->sizeOfTable;
 }
 
-void deleteHashTable(HashTable* hashTable)
+void deleteHashTable(HashTable** hashTable)
 {
-    for (size_t i = 0; i < hashTable->sizeOfTable; ++i) 
+    if (*hashTable == NULL)
     {
-        ListElement* currentElement = hashTable->data[i]->begin;
-        while (currentElement != NULL)
-        {
-            ListElement* nextElement = currentElement->next;
-            free(currentElement->value);
-            free(currentElement);
-            currentElement = nextElement;
-        }
-        free(hashTable->data[i]);
+        return;
     }
-    free(hashTable->data);
-    free(hashTable);
+
+    for (size_t i = 0; i < (*hashTable)->sizeOfTable; ++i)
+    {
+        freeList(&((*hashTable)->data[i]));
+        (*hashTable)->data[i] = NULL;
+    }
+    free((*hashTable)->data);
+    free(*hashTable);
+    *hashTable = NULL;
+}
+
+bool findElement(HashTable* hashTable, const char* value, const size_t count)
+{
+    if (hashTable == NULL || value == NULL)
+    {
+        return false;
+    }
+
+    for (size_t i = 0; i < hashTable->sizeOfTable; i++)
+    {
+        ListElement* current = hashTable->data[i]->begin;
+        while (current != NULL)
+        {
+            if (strcmp(current->value, value) == 0)
+            {
+                if (current->count == count)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            current = current->next;
+        }
+    }
+
+    return false;
 }
