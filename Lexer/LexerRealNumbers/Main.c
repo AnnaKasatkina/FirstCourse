@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "LexerRealNumbers.h"
 #include "Tests.h"
@@ -8,16 +9,19 @@
 #define ERROR -1
 #define ERROR_STRING "Error!"
 
-int main() 
+int main(int argc, char *argv[])
 {
-    if (!testResult())
+    if (argc > 1 && strcmp(argv[1], "RunTests") == 0)
     {
-        printf(ERROR_STRING);
-        return ERROR;
+        if (!testResult())
+        {
+            return ERROR;
+        }
+        return 0;
     }
 
     printf("Enter the number: ");
-    char* string = getString();
+    char *string = getString();
     if (string == NULL)
     {
         printf(ERROR_STRING);
@@ -28,7 +32,7 @@ int main()
     {
         printf("This is a real number\n");
     }
-    else 
+    else
     {
         printf("This is not a real number\n");
     }
