@@ -1,0 +1,5 @@
+digraph {
+ node [fontname="Arial"];
+ c -> a;
+ c -> d;
+}
