@@ -59,7 +59,7 @@
 
     static void Main()
     {
-        var inputString = "PANAMABANANA";
+        var inputString = "pneumonoultramicroscopicsilicovolcanoconiosis";
 
         var result = BWTransform(inputString);
 
