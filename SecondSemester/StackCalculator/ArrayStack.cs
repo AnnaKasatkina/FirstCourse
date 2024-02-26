@@ -2,11 +2,13 @@
 {
     private double[] array;
     private int top;
+
     public ArrayStack(int size)
     {
         array = new double[size];
         top = -1;
     }
+
     public void Push(double element)
     {
         if (top == array.Length - 1)

@@ -12,7 +12,6 @@
         PrintResult("with Single Number", withSingleNumber);
 
         Console.WriteLine();
-
         return withNegativeNumbers && withZero && withSingleNumber;
     }
 
