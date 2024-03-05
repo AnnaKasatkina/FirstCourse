@@ -1,25 +1,40 @@
-﻿public class ListStack : IStack
+﻿/// <summary>
+/// Represents a stack data structure implemented using a list.
+/// </summary>
+public class ListStack : IStack
 {
     private List<double> list;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ListStack"/> class.
+    /// </summary>
     public ListStack()
     {
-        list = new List<double>();
+        this.list = [];
     }
 
+    /// <summary>
+    /// Adds an element to the top of the stack.
+    /// </summary>
+    /// <param name="element">The element to be added to the stack.</param>
     public void Push(double element)
     {
-        list.Add(element);
+        this.list.Add(element);
     }
 
+    /// <summary>
+    /// Removes and returns the element from the top of the stack.
+    /// </summary>
+    /// <returns>The element removed from the top of the stack.</returns>
     public double Pop()
     {
-        if (list.Count == 0)
+        if (this.list.Count == 0)
         {
             throw new InvalidOperationException("Stack is empty");
         }
-        double element = list[^1];
-        list.RemoveAt(list.Count - 1);
+
+        double element = this.list[^1];
+        this.list.RemoveAt(this.list.Count - 1);
         return element;
     }
 }

@@ -1,6 +1,9 @@
-﻿class Program
+﻿/// <summary>
+/// The main program class for the StackCalculator application.
+/// </summary>
+internal class Program
 {
-    static void Main()
+    private static void Main()
     {
         if (!StackTests.RunTests())
         {
@@ -14,6 +17,7 @@
             Console.WriteLine("Error: The input expression is null!");
             return;
         }
+
         try
         {
             var calculatorWithArrayStack = new StackCalculator(new ArrayStack(expression.Split(' ').Length));
