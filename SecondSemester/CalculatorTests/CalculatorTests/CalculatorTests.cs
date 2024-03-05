@@ -11,7 +11,6 @@ public class CalculatorTests
     public void TestArrayStackCalculatorWithValidExpression()
     {
         var calculator = new StackCalculator(new ArrayStack(10));
-
         double result = calculator.Calculate("2 3 + 4 *");
 
         Assert.AreEqual(20, result, 1e-10);
@@ -24,7 +23,6 @@ public class CalculatorTests
     public void TestListStackCalculatorWithValidExpression()
     {
         var calculator = new StackCalculator(new ListStack());
-
         double result = calculator.Calculate("5 2 * 7 +");
 
         Assert.AreEqual(17, result, 1e-10);
