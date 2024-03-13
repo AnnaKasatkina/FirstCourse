@@ -1,12 +1,9 @@
-﻿class Program
+﻿/// <summary>
+/// The main program class.
+/// </summary>
+internal class Program
 {
-    static void Main()
+    private static void Main()
     {
-        if (!TrieTests.RunTests())
-        {
-            return;
-        }
-
-        TrieUserInterface.Run();
     }
 }
