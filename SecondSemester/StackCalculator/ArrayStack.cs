@@ -16,31 +16,31 @@ public class ArrayStack : IStack
         this.top = -1;
     }
 
-    /// <summary>
-    /// Adds an element to the top of the stack.
-    /// </summary>
-    /// <param name="element">The element to be added to the stack.</param>
+    /// <inheritdoc/>
     public void Push(double element)
     {
         if (this.top == this.array.Length - 1)
         {
-            throw new StackOverflowException("Stack overflow");
+            Array.Resize(ref this.array, this.array.Length * 2);
         }
 
         this.array[++this.top] = element;
     }
 
-    /// <summary>
-    /// Removes and returns the element from the top of the stack.
-    /// </summary>
-    /// <returns>The element removed from the top of the stack.</returns>
+    /// <inheritdoc/>
     public double Pop()
     {
-        if (this.top == -1)
+        if (this.IsEmpty())
         {
             throw new InvalidOperationException("Stack is empty!");
         }
 
         return this.array[this.top--];
+    }
+
+    /// <inheritdoc/>
+    public bool IsEmpty()
+    {
+        return this.top == -1;
     }
 }

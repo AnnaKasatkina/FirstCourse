@@ -14,4 +14,12 @@ public interface IStack
     /// </summary>
     /// <returns>The element removed from the top of the stack.</returns>
     double Pop();
+
+    /// <summary>
+    /// Determines whether the stack is empty.
+    /// </summary>
+    /// <returns>
+    ///   <c>true</c> if the stack is empty; otherwise, <c>false</c>.
+    /// </returns>
+    bool IsEmpty();
 }

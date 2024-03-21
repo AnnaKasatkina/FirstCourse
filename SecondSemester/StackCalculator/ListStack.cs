@@ -13,22 +13,16 @@ public class ListStack : IStack
         this.list = [];
     }
 
-    /// <summary>
-    /// Adds an element to the top of the stack.
-    /// </summary>
-    /// <param name="element">The element to be added to the stack.</param>
+    /// <inheritdoc/>
     public void Push(double element)
     {
         this.list.Add(element);
     }
 
-    /// <summary>
-    /// Removes and returns the element from the top of the stack.
-    /// </summary>
-    /// <returns>The element removed from the top of the stack.</returns>
+    /// <inheritdoc/>
     public double Pop()
     {
-        if (this.list.Count == 0)
+        if (this.IsEmpty())
         {
             throw new InvalidOperationException("Stack is empty");
         }
@@ -36,5 +30,11 @@ public class ListStack : IStack
         double element = this.list[^1];
         this.list.RemoveAt(this.list.Count - 1);
         return element;
+    }
+
+    /// <inheritdoc/>
+    public bool IsEmpty()
+    {
+        return this.list.Count == 0;
     }
 }
