@@ -1,5 +1,12 @@
-﻿public class TrieTests
-{ 
+﻿/// <summary>
+/// Provides methods to run tests on the Trie data structure.
+/// </summary>
+public class TrieTests
+{
+    /// <summary>
+    /// Runs tests on the Trie data structure.
+    /// </summary>
+    /// <returns>True if all tests pass, otherwise false.</returns>
     public static bool RunTests()
     {
         Trie trie = new();

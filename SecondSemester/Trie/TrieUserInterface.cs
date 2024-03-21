@@ -1,7 +1,13 @@
-﻿public class TrieUserInterface
+﻿/// <summary>
+/// Provides a user interface to interact with a Trie data structure.
+/// </summary>
+public class TrieUserInterface
 {
     private static Trie trie = new();
 
+    /// <summary>
+    /// Runs the user interface for interacting with the Trie.
+    /// </summary>
     public static void Run()
     {
         while (true)
@@ -103,7 +109,6 @@
         if (trie.Remove(removeElement))
         {
             Console.WriteLine($"Element '{removeElement}' removed from Trie.");
-
         }
         else
         {
@@ -129,5 +134,4 @@
     {
         Console.WriteLine($"Trie Size: {trie.Size}");
     }
-
 }

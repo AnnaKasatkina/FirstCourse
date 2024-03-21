@@ -1,6 +1,9 @@
-﻿class Program
+﻿/// <summary>
+/// Entry point class for the program.
+/// </summary>
+internal class Program
 {
-    static void Main()
+    private static void Main()
     {
         if (!TrieTests.RunTests())
         {
