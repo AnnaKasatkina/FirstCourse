@@ -1,27 +1,9 @@
 ---
 engines:
-  roslyn:
-    exclude_paths:
-      - "FirstSemester/**"
-    base_sub_dir: "SecondSemester"
-  code-quality:
-    exclude_paths:
-      - "FirstSemester/**"
-    base_sub_dir: "SecondSemester"
   duplication:
-    exclude_paths:
-      - "FirstSemester/**"
-    base_sub_dir: "SecondSemester"
-  security:
-    exclude_paths:
-      - "FirstSemester/**"
-    base_sub_dir: "SecondSemester"
-  performance:
-    exclude_paths:
-      - "FirstSemester/**"
     base_sub_dir: "SecondSemester"
 exclude_paths:
-  - "FirstSemester/**"
+  - "**"
 languages:
   csharp:
     exclude_paths:
