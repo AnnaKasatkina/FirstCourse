@@ -1,17 +1,4 @@
 ---
-engines:
-  roslyn:
-    base_sub_dir: "SecondSemester"
-  code-quality:
-    base_sub_dir: "SecondSemester"
-  duplication:
-    base_sub_dir: "SecondSemester"
-  security:
-    base_sub_dir: "SecondSemester"
-  performance:
-    base_sub_dir: "SecondSemester"
-exclude_paths:
-  - "FirstSemester/**"
 languages:
   csharp:
     include_paths:
