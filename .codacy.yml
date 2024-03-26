@@ -12,6 +12,7 @@ engines:
     base_sub_dir: "SecondSemester"
 exclude_paths:
   - "**"
+  - "FirstSemester/**"
 languages:
   csharp:
     exclude_paths:
