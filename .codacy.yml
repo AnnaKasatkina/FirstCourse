@@ -1,8 +1,3 @@
 ---
-languages:
-  csharp:
-    include_paths:
-      - "SecondSemester/**"
-  c:
-    exclude_paths:
-      - "FirstSemester/**"
+exclude_paths:
+  - "FirstSemester/**"
