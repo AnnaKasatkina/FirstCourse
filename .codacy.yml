@@ -1,2 +1,10 @@
+---
+engines:
+  duplication:
+    base_sub_dir: "SecondSemester"
 exclude_paths:
-  - "SecondSemester/**"
+  - "**"
+languages:
+  csharp:
+    exclude_paths:
+      - "**/*"
