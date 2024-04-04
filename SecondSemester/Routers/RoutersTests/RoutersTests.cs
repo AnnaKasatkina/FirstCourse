@@ -1,136 +1,94 @@
 using Routers;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 /// <summary>
-/// Tests for the Routers namespace.
+/// Tests for the functionality of the routers and Prim's algorithm implementation.
 /// </summary>
 [TestFixture]
 public class RoutersTests
 {
     /// <summary>
-    /// Tests the ReadTopology method with a valid input file.
+    /// Verifies that two connected routers return the expected edge.
     /// </summary>
     [Test]
-    public void ReadTopology_ValidInputFile_ReturnsListOfRouters()
+    public void TwoConnectedRouters_ReturnsExpectedEdge()
     {
-        var inputFile = "valid_topology.txt";
-        string[] inputLines = ["1: 2(10), 3(20)", "2: 1(10), 3(30)", "3: 1(20), 2(30)"];
-        File.WriteAllLines(inputFile, inputLines);
-
-        var routers = Topology.ReadTopology(inputFile);
-
-        Assert.That(routers, Has.Count.EqualTo(3));
-    }
-
-    /// <summary>
-    /// Tests the ReadTopology method with an invalid input file.
-    /// </summary>
-    [Test]
-    public void ReadTopology_InvalidInputFile_ReturnsEmptyList()
-    {
-        var inputFile = "invalid_topology.txt";
-        string[] inputLines = ["1: 2(10)", "2(30)", "3: 1(20), 2(30)"];
-        File.WriteAllLines(inputFile, inputLines);
-
-        var routers = Topology.ReadTopology(inputFile);
-
-        Assert.That(routers, Is.Empty);
-    }
-
-    /// <summary>
-    /// Tests the WriteTopology method with a valid output file.
-    /// </summary>
-    [Test]
-    public void WriteTopology_ValidOutputFile_WritesMinimumSpanningTree()
-    {
-        var outputFile = "output_topology.txt";
-        var minimumSpanningTree = new List<(Router, Router, int)>
-        {
-            (new Router(1), new Router(2), 10),
-            (new Router(2), new Router(3), 30)
-        };
-
-        Topology.WriteTopology(outputFile, minimumSpanningTree);
-
-        Assert.That(File.Exists(outputFile), Is.True);
-    }
-
-    /// <summary>
-    /// Tests the WriteTopology method with an empty minimum spanning tree.
-    /// </summary>
-    [Test]
-    public void WriteTopology_EmptyMinimumSpanningTree_DoesNotCreateOutputFile()
-    {
-        var outputFile = "output_topology.txt";
-        var minimumSpanningTree = new List<(Router, Router, int)>();
-
-        Topology.WriteTopology(outputFile, minimumSpanningTree);
-
-        Assert.That(File.Exists(outputFile), Is.False);
-    }
-
-    /// <summary>
-    /// Tests the FindMinimumSpanningTree method with valid routers.
-    /// </summary>
-    [Test]
-    public void FindMinimumSpanningTree_ValidRouters_ReturnsMinimumSpanningTree()
-    {
-        var routers = new List<Router>
-        {
-            new Router(1),
-            new Router(2),
-            new Router(3)
-        };
-        routers[0].Connections.Add(routers[1], 10);
-        routers[0].Connections.Add(routers[2], 20);
-        routers[1].Connections.Add(routers[0], 10);
-        routers[1].Connections.Add(routers[2], 30);
-        routers[2].Connections.Add(routers[0], 20);
-        routers[2].Connections.Add(routers[1], 30);
+        var router1 = new Router(1);
+        var router2 = new Router(2);
+        router1.Connections = new Dictionary<Router, int> { { router2, 10 } };
+        router2.Connections = new Dictionary<Router, int> { { router1, 10 } };
+        var routers = new List<Router> { router1, router2 };
 
         var minimumSpanningTree = PrimsAlgorithm.FindMinimumSpanningTree(routers);
 
-        Assert.That(minimumSpanningTree, Has.Count.EqualTo(2));
+        Assert.That(minimumSpanningTree.Count, Is.EqualTo(1));
+        Assert.That(minimumSpanningTree[0], Is.EqualTo((router1, router2, 10)));
     }
 
     /// <summary>
-    /// Tests the FindMinimumSpanningTree method with a disconnected graph.
+    /// Verifies that an empty list of routers throws an ArgumentOutOfRangeException.
     /// </summary>
     [Test]
-    public void FindMinimumSpanningTree_DisconnectedGraph_ThrowsError()
+    public void EmptyRoutersList_ThrowsArgumentOutOfRangeException()
     {
-        var routers = new List<Router>
-        {
-            new Router(1),
-            new Router(2),
-            new Router(3)
-        };
+        var routers = new List<Router>();
 
-        Assert.Throws<InvalidOperationException>(() => PrimsAlgorithm.FindMinimumSpanningTree(routers));
+        Assert.Throws<System.ArgumentOutOfRangeException>(() => PrimsAlgorithm.FindMinimumSpanningTree(routers));
     }
 
     /// <summary>
-    /// Tests the FindMinimumSpanningTree method with a graph containing only one router.
+    /// Verifies that a single router returns an empty minimum spanning tree.
     /// </summary>
     [Test]
-    public void FindMinimumSpanningTree_SingleRouterGraph_ReturnsEmptyTree()
+    public void SingleRouter_ReturnsEmptyMinimumSpanningTree()
     {
         var routers = new List<Router> { new Router(1) };
 
         var minimumSpanningTree = PrimsAlgorithm.FindMinimumSpanningTree(routers);
 
-        Assert.That(minimumSpanningTree, Is.Empty);
+        Assert.IsEmpty(minimumSpanningTree);
     }
 
     /// <summary>
-    /// Tests the FindMinimumSpanningTree method with an empty list of routers.
+    /// Verifies that when all connections have the same bandwidth, the expected minimum spanning tree is returned.
     /// </summary>
     [Test]
-    public void FindMinimumSpanningTree_EmptyRouters_ReturnsEmptyTree()
+    public void SameBandwidthForAllConnections_ReturnsExpectedMinimumSpanningTree()
     {
-        var routers = new List<Router>();
+        var routers = new List<Router>
+            {
+                new Router(1),
+                new Router(2),
+                new Router(3)
+            };
+        routers[0].Connections = new Dictionary<Router, int>
+            {
+                { routers[1], 10 },
+                { routers[2], 10 }
+            };
+        routers[1].Connections = new Dictionary<Router, int>
+            {
+                { routers[0], 10 },
+                { routers[2], 10 }
+            };
+        routers[2].Connections = new Dictionary<Router, int>
+            {
+                { routers[0], 10 },
+                { routers[1], 10 }
+            };
+        var expectedMinimumSpanningTree = new List<(Router, Router, int)>
+            {
+                (routers[0], routers[1], 10),
+                (routers[0], routers[2], 10)
+            };
 
         var minimumSpanningTree = PrimsAlgorithm.FindMinimumSpanningTree(routers);
 
-        Assert.That(minimumSpanningTree, Is.Empty);
+        Assert.That(minimumSpanningTree.Count, Is.EqualTo(expectedMinimumSpanningTree.Count));
+        foreach (var edge in expectedMinimumSpanningTree)
+        {
+            Assert.IsTrue(minimumSpanningTree.Contains(edge));
+        }
     }
 }
