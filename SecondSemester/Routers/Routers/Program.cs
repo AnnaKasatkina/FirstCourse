@@ -1,5 +1,12 @@
-﻿namespace Routers;
+﻿// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
+namespace Routers;
+
+/// <summary>
+/// Represents the main program class.
+/// </summary>
 internal static class Program
 {
     private static void Main(string[] args)
@@ -13,9 +20,9 @@ internal static class Program
         var inputFile = args[0];
         var outputFile = args[1];
 
-        List<Router> routers = Topology.ReadTopology(inputFile);
+        var routers = Topology.ReadTopology(inputFile);
         var minimumSpanningTree = PrimsAlgorithm.FindMinimumSpanningTree(routers);
-        
+
         Topology.WriteTopology(outputFile, minimumSpanningTree);
     }
 }
