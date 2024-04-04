@@ -20,21 +20,39 @@ public static class Topology
 
         foreach (var line in File.ReadLines(inputFile))
         {
-            var parts = line.Split(':');
+            var parts = line.Trim().Split(':');
+            if (parts.Length == 0 || parts.Length != 2)
+            {
+                continue;
+            }
+
             var id = int.Parse(parts[0]);
-            var router = new Router(id);
-            routers.Add(router);
+            var router = routers.FirstOrDefault(r => r.Id == id);
+            if (router == null)
+            {
+                router = new Router(id);
+                routers.Add(router);
+            }
 
             foreach (var connection in parts[1].Split(','))
             {
                 var subparts = connection.Trim().Split('(');
+                if (subparts.Length != 2)
+                {
+                    continue;
+                }
+
                 var connectedId = int.Parse(subparts[0]);
                 var bandwidth = int.Parse(subparts[1].Trim(')'));
+
                 var connectedRouter = routers.FirstOrDefault(r => r.Id == connectedId);
-                if (connectedRouter != null)
+                if (connectedRouter == null)
                 {
-                    router.Connections.Add(connectedRouter, bandwidth);
+                    connectedRouter = new Router(connectedId);
+                    routers.Add(connectedRouter);
                 }
+
+                router.Connections.Add(connectedRouter, bandwidth);
             }
         }
 
