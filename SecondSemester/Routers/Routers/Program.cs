@@ -1,24 +1,21 @@
-﻿internal class Program
+﻿namespace Routers;
+
+internal static class Program
 {
-    private static void Main()
+    private static void Main(string[] args)
     {
-        var router1 = new Router(1);
-        var router2 = new Router(2);
-        var router3 = new Router(3);
+        if (args.Length != 2)
+        {
+            Console.WriteLine("Usage: program input_file output_file");
+            return;
+        }
 
-        router1.Connections.Add(router2, 10);
-        router1.Connections.Add(router3, 5);
+        var inputFile = args[0];
+        var outputFile = args[1];
 
-        router2.Connections.Add(router3, 1);
-
-        List<Router?> routers = [router1, router2, router3];
-
+        List<Router> routers = Topology.ReadTopology(inputFile);
         var minimumSpanningTree = PrimsAlgorithm.FindMinimumSpanningTree(routers);
         
-        Console.WriteLine("Minimum spanning tree:");
-        foreach (var edge in minimumSpanningTree)
-        {
-            Console.WriteLine($"{edge.Item1.Id}: {edge.Item2.Id} ({edge.Item3})");
-        }
+        Topology.WriteTopology(outputFile, minimumSpanningTree);
     }
 }

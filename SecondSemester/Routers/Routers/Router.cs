@@ -1,3 +1,5 @@
+namespace Routers;
+
 public class Router(int id)
 {
     public int Id { get; set; } = id;

@@ -1,8 +1,10 @@
+namespace Routers;
+
 public static class PrimsAlgorithm
 {
-    public static List<(Router, Router, int)> FindMinimumSpanningTree(List<Router?> routers)
+    public static List<(Router, Router, int)> FindMinimumSpanningTree(List<Router> routers)
     {
-        var visited = new HashSet<Router?>();
+        var visited = new HashSet<Router>();
         var minimumSpanningTree = new List<(Router, Router, int)>();
 
         var startRouter = routers[0];
@@ -16,7 +18,6 @@ public static class PrimsAlgorithm
 
             foreach (var router in visited)
             {
-                if (router == null) continue;
                 foreach (var connection in router.Connections)
                 {
                     if (!visited.Contains(connection.Key) && connection.Value < minWeight)
@@ -28,7 +29,7 @@ public static class PrimsAlgorithm
                 }
             }
 
-            if (minTo != null)
+            if (minTo != null && minFrom != null)
             {
                 minimumSpanningTree.Add((minFrom, minTo, minWeight));
                 visited.Add(minTo);
