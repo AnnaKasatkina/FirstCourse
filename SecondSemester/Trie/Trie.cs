@@ -1,14 +1,21 @@
-﻿/// <summary>
+﻿// <copyright file="Trie.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+/// <summary>
 /// Represents a trie data structure, which is a tree-like data structure used to store a dynamic set of strings.
 /// </summary>
 public class Trie
 {
     private class TrieNode(char character)
     {
-        public char Value = character;
-        public bool IsEndOfWord = false;
-        public List<TrieNode> Children = [];
-        public int WordsWithPrefix = 0;
+        public char Value { get; private set; } = character;
+
+        public bool IsEndOfWord { get; set; } = false;
+
+        public List<TrieNode> Children { get; private set; } = new List<TrieNode>();
+
+        public int WordsWithPrefix { get; set; } = 0;
     }
 
     private readonly TrieNode root;
@@ -132,10 +139,7 @@ public class Trie
     /// <summary>
     /// Gets returns the number of elements in the trie.
     /// </summary>
-    public int Size
-    {
-        get { return this.size; }
-    }
+    public int Size => this.size;
 
     /// <summary>
     /// Returns the number of elements with the specified prefix.
