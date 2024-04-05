@@ -1,4 +1,4 @@
-namespace Calculator
+namespace CalculatorApp
 {
     public partial class CalculatorForm : Form
     {
