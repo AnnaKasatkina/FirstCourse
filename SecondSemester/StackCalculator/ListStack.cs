@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Represents a stack data structure implemented using a list.
+/// Represents a stack data structure implemented using a list
 /// </summary>
 public class ListStack : IStack
 {
