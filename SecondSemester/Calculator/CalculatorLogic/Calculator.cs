@@ -1,78 +1,107 @@
-﻿namespace CalculatorApp
+﻿// <copyright file="Calculator.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace CalculatorApp
 {
+    /// <summary>
+    /// Represents a simple calculator.
+    /// </summary>
     public class Calculator
     {
         private bool isNewNumber = true;
-
         private string currentNumber = string.Empty;
+        private char currentOperator = ' ';
         private int currentValue = 0;
         private int storedValue = 0;
-        private char currentOperator = ' ';
 
-        public int CurrentValue => currentValue;
-        public char CurrentOperator => currentOperator;
+        /// <summary>
+        /// Gets the current value in the calculator.
+        /// </summary>
+        public int CurrentValue => this.currentValue;
 
+        /// <summary>
+        /// Gets the current operator in the calculator.
+        /// </summary>
+        public char CurrentOperator => this.currentOperator;
+
+        /// <summary>
+        /// Inputs a new number into the calculator.
+        /// </summary>
+        /// <param name="newNumber">The new number to input.</param>
         public void InputNumber(char newNumber)
         {
-            if (isNewNumber)
+            if (this.isNewNumber)
             {
-                currentNumber = string.Empty;
-                isNewNumber = false;
+                this.currentNumber = string.Empty;
+                this.isNewNumber = false;
             }
-            currentNumber += newNumber;
+
+            this.currentNumber += newNumber;
         }
 
+        /// <summary>
+        /// Inputs a new operator into the calculator.
+        /// </summary>
+        /// <param name="newOperator">The new operator to input.</param>
         public void InputOperator(char newOperator)
         {
-            isNewNumber = true;
-            if (!int.TryParse(currentNumber, out currentValue))
+            this.isNewNumber = true;
+            if (!int.TryParse(this.currentNumber, out this.currentValue))
             {
-                throw new ArgumentException("Invalid input format", nameof(currentNumber));
+                throw new ArgumentException("Invalid input format", nameof(this.currentNumber));
             }
 
-            CalculateResult();
+            this.CalculateResult();
 
             if (newOperator != '=')
             {
-                currentOperator = newOperator;
+                this.currentOperator = newOperator;
             }
         }
 
+        /// <summary>
+        /// Calculates the result based on the current operator.
+        /// </summary>
         public void CalculateResult()
         {
-            switch (currentOperator)
+            switch (this.currentOperator)
             {
                 case '+':
-                    currentValue = storedValue + currentValue;
+                    this.currentValue = this.storedValue + this.currentValue;
                     break;
                 case '-':
-                    currentValue = storedValue - currentValue;
+                    this.currentValue = this.storedValue - this.currentValue;
                     break;
                 case '×':
-                    currentValue = storedValue * currentValue;
+                    this.currentValue = this.storedValue * this.currentValue;
                     break;
                 case '÷':
-                    if (currentValue != 0)
+                    if (this.currentValue != 0)
                     {
-                        currentValue = storedValue / currentValue;
+                        this.currentValue = this.storedValue / this.currentValue;
                     }
                     else
                     {
                         throw new DivideByZeroException("Error: Division by zero");
                     }
+
                     break;
                 default:
                     break;
             }
 
-            storedValue = currentValue;
+            this.storedValue = this.currentValue;
         }
 
+        /// <summary>
+        /// Clears the calculator, resetting its values.
+        /// </summary>
         public void Clear()
         {
-            currentValue = 0;
-            storedValue = 0;
-            currentOperator = ' ';
+            this.currentValue = 0;
+            this.storedValue = 0;
+            this.currentOperator = ' ';
         }
     }
 }

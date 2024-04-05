@@ -1,50 +1,61 @@
+// <copyright file="CalculatorForm.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace CalculatorApp
 {
+    /// <summary>
+    /// Partial class for the calculator form.
+    /// </summary>
     public partial class CalculatorForm : Form
     {
         private Calculator calculator = new Calculator();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalculatorForm"/> class.
+        /// Constructor for the calculator form.
+        /// </summary>
         public CalculatorForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void NumberButtonClick(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            textOutput.AppendText(button.Text);
+            this.textOutput.AppendText(button.Text);
 
-            calculator.InputNumber(button.Text[0]);
+            this.calculator.InputNumber(button.Text[0]);
         }
 
         private void OperationButtonClick(object sender, EventArgs e)
         {
             Button button = (Button)sender;
 
-            if (calculator.CurrentOperator != ' ')
+            if (this.calculator.CurrentOperator != ' ')
             {
-                calculator.InputOperator(button.Text[0]);
-                textOutput.Text = calculator.CurrentValue.ToString();
-                textOutput.AppendText(button.Text);
+                this.calculator.InputOperator(button.Text[0]);
+                this.textOutput.Text = this.calculator.CurrentValue.ToString();
+                this.textOutput.AppendText(button.Text);
                 return;
             }
 
-            calculator.InputOperator(button.Text[0]);
-            textOutput.AppendText(button.Text);
+            this.calculator.InputOperator(button.Text[0]);
+            this.textOutput.AppendText(button.Text);
         }
 
         private void EqualsButtonClick(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            calculator.InputOperator(button.Text[0]);
+            this.calculator.InputOperator(button.Text[0]);
 
-            textOutput.Text = calculator.CurrentValue.ToString();
+            this.textOutput.Text = this.calculator.CurrentValue.ToString();
         }
 
         private void ClearButtonClick(object sender, EventArgs e)
         {
-            textOutput.Clear();
-            calculator.Clear();
+            this.textOutput.Clear();
+            this.calculator.Clear();
         }
     }
 }
