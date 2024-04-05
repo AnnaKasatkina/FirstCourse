@@ -23,8 +23,10 @@ namespace Calculator
 
             if (calculator.CurrentOperator != ' ')
             {
-                calculator.InputOperator('=');
+                calculator.InputOperator(button.Text[0]);
                 textOutput.Text = calculator.CurrentValue.ToString();
+                textOutput.AppendText(button.Text);
+                return;
             }
 
             calculator.InputOperator(button.Text[0]);
