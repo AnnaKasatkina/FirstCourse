@@ -1,3 +1,7 @@
+// <copyright file="ListBase.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 /// <summary>
 /// Represents a base class for managing a list of integers.
 /// </summary>

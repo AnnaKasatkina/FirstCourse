@@ -1,3 +1,7 @@
+// <copyright file="UniqueList.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 /// <summary>
 /// Represents a list of integers that only allows unique elements.
 /// </summary>

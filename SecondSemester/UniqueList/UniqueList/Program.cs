@@ -1,4 +1,8 @@
-﻿/// <summary>
+﻿// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+/// <summary>
 /// Represents the main entry point for the program.
 /// </summary>
 internal class Program

@@ -1,3 +1,7 @@
+// <copyright file="Exception.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 /// <summary>
 /// Represents an exception that is thrown when attempting to add a duplicate element to a list.
 /// </summary>
