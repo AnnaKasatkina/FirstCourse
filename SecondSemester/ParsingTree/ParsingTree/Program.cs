@@ -33,6 +33,7 @@ internal class Program
                 Console.WriteLine("Error: Unable to build parsing tree");
             }
         }
+
         catch (Exception ex)
         {
             Console.WriteLine("Error: " + ex.Message);
