@@ -398,3 +398,27 @@ FodyWeavers.xsd
 *.sln.iml
 
 *.exe
+
+# Rider
+.idea/
+
+# Compiled Object files
+*.suo
+*.cache
+*.class
+*.pdb
+
+# Compiled Dynamic Link Libraries
+*.dll
+*.so
+*.dylib
+
+# Executables
+*.exe
+*.com
+*.out
+*.app
+
+# NuGet
+*.nupkg
+*.dll
