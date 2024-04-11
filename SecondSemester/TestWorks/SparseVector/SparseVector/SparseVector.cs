@@ -1,8 +1,18 @@
 namespace SparseVector;
 
+/// <summary>
+/// Represents a sparse vector with integer elements.
+/// </summary>
 public class SparseVector
 {
-    private readonly Dictionary<int, int> elements;
+    /// <summary>
+    /// Gets the elements of the sparse vector represented as key-value pairs, where the key is the index and the value is the element value.
+    /// </summary>
+    public readonly Dictionary<int, int> Elements;
+
+    /// <summary>
+    /// Gets the size of the sparse vector.
+    /// </summary>
     public int Size { get; }
     public SparseVector(int size)
     {
@@ -10,7 +20,7 @@ public class SparseVector
         {
             throw new ArgumentException("The size of the vector must be a positive number");
         }
-        elements = new Dictionary<int, int>();
+        Elements = new Dictionary<int, int>();
         Size = size;
     }
 
@@ -22,7 +32,7 @@ public class SparseVector
         }
         if (value != 0)
         {
-            elements[index] = value;
+            Elements[index] = value;
         }
     }
 
@@ -34,20 +44,20 @@ public class SparseVector
         }
         SparseVector result = new SparseVector(this.Size);
 
-        foreach (var item in elements)
+        foreach (var item in Elements)
         {
             result.AddElement(item.Key, item.Value);
         }
 
-        foreach (var item in secondVector.elements)
+        foreach (var item in secondVector.Elements)
         {
-            if (result.elements.ContainsKey(item.Key))
+            if (result.Elements.ContainsKey(item.Key))
             {
-                result.elements[item.Key] += item.Value;
+                result.Elements[item.Key] += item.Value;
             }
             else
             {
-                result.elements[item.Key] = item.Value;
+                result.Elements[item.Key] = item.Value;
             }
         }
 
@@ -56,9 +66,9 @@ public class SparseVector
 
     public SparseVector Subtract(SparseVector secondVector)
     {
-        foreach (var item in secondVector.elements)
+        foreach (var item in secondVector.Elements)
         {
-            secondVector.elements[item.Key] = -item.Value;
+            secondVector.Elements[item.Key] = -item.Value;
         }
 
         return Add(secondVector);
@@ -72,11 +82,11 @@ public class SparseVector
         }
         
         int result = 0;
-        foreach (var item in secondVector.elements)
+        foreach (var item in secondVector.Elements)
         {
-            if (elements.ContainsKey(item.Key))
+            if (Elements.ContainsKey(item.Key))
             {
-                result += item.Value * elements[item.Key];
+                result += item.Value * Elements[item.Key];
             }
         }
 
@@ -85,7 +95,7 @@ public class SparseVector
 
     public bool IsZeroVector()
     {
-        foreach (var item in elements)
+        foreach (var item in Elements)
         {
             if (item.Value != 0)
             {
@@ -98,7 +108,7 @@ public class SparseVector
 
     public void PrintVector()
     {
-        foreach (var item in elements)
+        foreach (var item in Elements)
         {
             Console.WriteLine($"Index: {item.Key}, Value: {item.Value}");
         }
