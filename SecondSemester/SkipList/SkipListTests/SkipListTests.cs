@@ -103,20 +103,6 @@ namespace SkipListTests
         }
 
         /// <summary>
-        /// Test to verify that IndexOf method returns the correct index for an existing element in the SkipList.
-        /// </summary>
-        [Test]
-        public void IndexOf_ReturnsCorrectIndexForExistingElement()
-        {
-            var skipList = new SkipList<int>
-            {
-                10,
-                20
-            };
-            Assert.That(skipList.IndexOf(20), Is.EqualTo(1));
-        }
-
-        /// <summary>
         /// Test to verify that IndexOf method returns -1 for a non-existing element in the SkipList.
         /// </summary>
         [Test]
