@@ -60,8 +60,8 @@ namespace BubbleSortTests
             },
             new object[]
             {
-                new List<string> { "C", "B", "d", "a", "e" },
-                new List<string> { "B", "C", "a", "d", "e" },
+                new List<string> { "a", "B", "c", "D", "e" },
+                new List<string> { "B", "D", "a", "c", "e" },
                 new StringComparer(),
             }
 
