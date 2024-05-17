@@ -9,11 +9,8 @@ namespace BubbleSortTests
     /// </summary>
     public class BubbleSortTests
     {
-        /// <summary>
-        /// Test data for sorting integer lists.
-        /// </summary>
         private static readonly object[] IntTestData =
-        {
+        [
             new object[]
             {
                 new List<int> { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 },
@@ -43,14 +40,12 @@ namespace BubbleSortTests
                 new List<int> { 5, 5, 5, 5, 5 },
                 new List<int> { 5, 5, 5, 5, 5 },
                 new IntComparer(),
-            },
-        };
+            }
 
-        /// <summary>
-        /// Test data for sorting string lists.
-        /// </summary>
+        ];
+
         private static readonly object[] StringTestData =
-        {
+        [
             new object[]
             {
                 new List<string> { "apple", "orange", "banana", "grape", "pear" },
@@ -66,10 +61,11 @@ namespace BubbleSortTests
             new object[]
             {
                 new List<string> { "C", "B", "d", "a", "e" },
-                new List<string> { "a", "B", "C", "d", "e" },
+                new List<string> { "B", "C", "a", "d", "e" },
                 new StringComparer(),
-            },
-        };
+            }
+
+        ];
 
         /// <summary>
         /// Tests sorting of a list of integers.
@@ -130,7 +126,7 @@ namespace BubbleSortTests
         {
             public int Compare(string? x, string? y)
             {
-                return string.Compare(x, y);
+                return string.CompareOrdinal(x, y);
             }
         }
     }

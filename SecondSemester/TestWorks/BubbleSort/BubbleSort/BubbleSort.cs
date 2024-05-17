@@ -7,7 +7,7 @@ namespace BubbleSort
     /// <summary>
     /// Provides a method for sorting a list of elements using the bubble sort algorithm.
     /// </summary>
-    public class BubbleSort
+    public static class BubbleSort
     {
         /// <summary>
         /// Sort the list of items using the bubble sorting method.
